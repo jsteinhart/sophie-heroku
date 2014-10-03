@@ -1,7 +1,36 @@
 {
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://devserver.symbic.de/projects/sfw/composer-repository/"
+        }
+    ],
     "require": {
         "silex/silex": "~1.1",
-        "monolog/monolog": "~1.7"
+        "monolog/monolog": "~1.7",
+        "symfony/process": "2.5.*@dev",
+        "symbic/sfw-lib": "~0.0.1",
+        "symbic/sfw-mvcmodules-sfwinstaller": "~0.0.1",
+        "symbic/sfw-mvcmodules-sfwassets": "~0.0.1",
+        "symbic/sfw-mvcmodules-sfwlogin": "~0.0.1",
+        "symbic/sfw-mvcmodules-sfwdashboard": "~0.0.1",
+        "symbic/sfw-mvcmodules-sfwdefault": "~0.0.1",
+        "symbic/sfw-phpexcel": "~1.7",
+        "symbic/sfw-mvcmodules-sfwsystem": "~0.0.1",
+        "symbic/sfw-mvcmodules-sfwuserprofile": "~0.0.1",
+        "symbic/sfw-mvcmodules-sfwsysadmin": "~0.0.1",
+        "itbz/fpdi": "~1.5",
+        "itbz/fpdf": "~1.7",
+        "toopay/assetic-minifier": "~1.3",
+        "leafo/lessphp": "0.4.0",
+        "nikic/php-parser": "1.0.*@dev",
+        "mrclay/minify": "~2.2",
+        "kriswallsmith/assetic": "1.1.*@dev",
+        "ptachoire/cssembed": "~1.0",
+        "mustache/mustache":"~2.7",
+        "psr/log": "1.0.*@dev",
+        "seld/jsonlint": "~1.3",
+        "gregwar/captcha": "~1.0"
     },
     "require-dev": {
         "heroku/heroku-buildpack-php": "*"
