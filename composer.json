@@ -6,6 +6,7 @@
         }
     ],
     "require": {
+        "ext-gd": "*",
         "silex/silex": "~1.1",
         "monolog/monolog": "~1.7",
         "symfony/process": "2.5.*@dev",
