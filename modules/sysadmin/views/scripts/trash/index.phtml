@@ -1,0 +1,115 @@
+<?php
+$module = 'sysadmin';
+$this->headTitle('System Administration', 'PREPEND');
+$this->headTitle('SoPHIE Trash', 'PREPEND');
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+?>
+<h1>SoPHIE Trash</h1>
+<?php
+if (sizeof($this->deletedExperiments) > 0 || sizeof($this->deletedTreatments) > 0 || sizeof($this->deletedSessions) > 0)
+{
+
+if (sizeof($this->deletedExperiments) > 0)
+{
+?>
+<div id="trashDeletedExperiments">
+<h2>Deleted Experiments</h2>
+<?php
+echo '<a href="javascript:sysadmin.trashErase(\'experiment\', \'all\')">Erase all permanently</a>';
+echo ' | <a href="javascript:sysadmin.trashRestore(\'experiment\', \'all\')">Restore all</a>';
+?>
+<table class="table table-striped table-hover">
+<tr>
+	<th>Experiment Name</th>
+	<th></th>
+</tr>
+<?php
+foreach ($this->deletedExperiments as $object)
+{
+	echo '<tr id="experimentListRow' . $object['id'] . '">';
+		echo '<td>';
+			echo $object['name'] . ' (System ID ' . $object['id'] . ')';
+		echo '</td>';
+		echo '<td>';
+			echo '<a href="javascript:sysadmin.trashErase(\'experiment\', ' . $object['id'] . ')">Erase permanently</a>';
+			echo ' | <a href="javascript:sysadmin.trashRestore(\'experiment\', ' . $object['id'] . ')">Restore</a>';
+		echo '</td>';
+	echo '</tr>';
+}
+?>
+</table>
+</div>
+<?php
+}
+
+if (sizeof($this->deletedTreatments) > 0)
+{
+?>
+<div id="trashDeletedTreatments">
+<h2>Deleted Treatments</h2>
+<?php
+echo '<a href="javascript:sysadmin.trashErase(\'treatment\', \'all\')">Erase all permanently</a>';
+echo ' | <a href="javascript:sysadmin.trashRestore(\'treatment\', \'all\')">Restore all</a>';
+?>
+<table class="table table-striped table-hover">
+<tr>
+	<th>Treatment Name</th>
+	<th></th>
+</tr>
+<?php
+foreach ($this->deletedTreatments as $object)
+{
+	echo '<tr id="treatmentListRow' . $object['id'] . '">';
+		echo '<td>';
+			echo $object['name'] . ' (System ID ' . $object['id'] . ')';
+		echo '</td>';
+		echo '<td>';
+			echo '<a href="javascript:sysadmin.trashErase(\'treatment\', ' . $object['id'] . ')">Erase permanently</a>';
+			echo ' | <a href="javascript:sysadmin.trashRestore(\'treatment\', ' . $object['id'] . ')">Restore</a>';
+		echo '</td>';
+	echo '</tr>';
+}
+?>
+</table>
+</div>
+<?php
+}
+
+if (sizeof($this->deletedSessions) > 0)
+{
+?>
+<div id="trashDeletedSessions">
+<h2>Deleted Sessions</h2>
+<?php
+echo '<a href="javascript:sysadmin.trashErase(\'session\', \'all\')">Erase all permanently</a>';
+echo ' | <a href="javascript:sysadmin.trashRestore(\'session\', \'all\')">Restore all</a>';
+?>
+<table class="table table-striped table-hover">
+<tr>
+	<th>Session Name</th>
+	<th></th>
+</tr>
+<?php
+foreach ($this->deletedSessions as $object)
+{
+	echo '<tr id="sessionListRow' . $object['id'] . '">';
+		echo '<td>';
+			echo $object['name'] . ' (System ID ' . $object['id'] . ')';
+		echo '</td>';
+		echo '<td>';
+			echo '<a href="javascript:sysadmin.trashErase(\'session\', ' . $object['id'] . ')">Erase permanently</a>';
+			echo ' | <a href="javascript:sysadmin.trashRestore(\'session\', ' . $object['id'] . ')">Restore</a>';
+		echo '</td>';
+	echo '</tr>';
+}
+?>
+</table>
+</div>
+<?php
+}
+
+} else {
+?>
+No deleted objects in trash
+<?php } ?>

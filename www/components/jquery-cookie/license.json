@@ -1,0 +1,13 @@
+{
+    "name": "Jquery-cookie",
+    "version": {
+        "2": "1.4.0"
+    },
+    "homepage": "https://github.com/carhartl/jquery-cookie",
+    "authors": [
+        "Klaus Hartl"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "name": "Jquery-pnotify",
+    "version": {
+        "2": "1.2.0"
+    },
+    "homepage": "http://sciactive.github.io/pnotify",
+    "authors": [
+        "SciActive"
+    ],
+    "license": [
+        "GPL", "LGPL" , "MPL"
+    ]
+}

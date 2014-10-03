@@ -1,0 +1,13 @@
+{
+    "name": "Jquery-ui-touch-punch",
+    "version": {
+        "2": "0.2.2"
+    },
+    "homepage": "http://touchpunch.furf.com",
+    "authors": [
+        "David Furfero"
+    ],
+    "license": [
+        "MIT", "GPL"
+    ]
+}

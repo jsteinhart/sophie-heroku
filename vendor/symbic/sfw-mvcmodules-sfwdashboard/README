@@ -1,0 +1,19 @@
+Howto add the module to a project:
+
+1. install by adding the module to the projects composer file
+
+...
+	"require": {
+	...
+		"symbic/sfw-mvcmodules-sfwdashboard": "*",
+	...
+	}
+...
+
+2. register the module with the frontcontroller within the application config
+
+	<controllerdirectory>
+		...
+		<sfwdashboard><zf:const zf:name="VENDOR_PATH"/>/symbic/sfw-mvcmodules-sfwdashboard/modules/sfwdashboard/controllers</sfwdashboard>
+		...
+	</controllerdirectory>

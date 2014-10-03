@@ -1,0 +1,13 @@
+{
+    "name": "Jquery-handsontable",
+    "version": {
+        "2": "0.10.2"
+    },
+    "homepage": "http://handsontable.com",
+    "authors": [
+        "Marcin Warpechowski and contributors"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

@@ -1,0 +1,131 @@
+<?php
+$module = 'expadmin';
+$this->headTitle('Sessions', 'PREPEND');
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+if (isset($this->treatment) && isset($this->treatment['id']))
+{
+	$treatmentId = $this->treatment['id'];
+}
+else
+{
+	$treatmentId = null;
+}
+?>
+<h1>Sessions</h1>
+
+<?php
+if (!$this->hasTreatment)
+{
+?>
+<div class="alert alert-info">
+		<p><strong>No experiment found.</strong></p>
+		<p>Please go to the Designer and add an Experiment to conduct a Session.</p>
+</div>
+<?php
+	return;
+}
+?>
+
+<div id="actionMainNav">
+	<ul>
+		<li><a href="<?php echo $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'add', 'treatmentId'=>$treatmentId), 'default', true); ?>"><img src="/_media/Icons/book_add.png" border="0" alt="" title=""> Create Session</a></li>
+		<?php if ($this->adminRight): ?>
+		<li class="sub"><?php
+		$title = ($this->adminMode) ? 'Disable Admin Mode' : 'Enable Admin Mode';
+		$icon = ($this->adminMode) ? '/_media/Icons.inactive/key.png' : '/_media/Icons/key.png';
+		echo '<a href="' . $this->url(array (
+			'adminMode' => ($this->adminMode) ? 0 : 1,
+		), 'default') . '"><img src="' . $icon . '" border="0" alt="' . $title . '" title="' . $title . '"> ' . $title . '</a>';
+		?></li>
+		<?php endif; ?>
+	</ul>
+</div>
+
+<?php
+if (sizeof($this->sessions) == 0)
+{
+?>
+<div class="alert alert-info">
+		<p><strong>No session found.</strong></p>
+		<p>Please click the corresponding button above to add your first session.</p>
+</div>
+<?php
+	return;
+}
+?>
+
+<?php
+$this->jsOnLoad()->appendScript('expadmin.initSessionList();');
+?>
+<div class="table-responsive">
+<table id="sessionList" class="table table-striped table-hover">
+<thead>
+	<tr>
+		<th>Experiment</th>
+		<th>Treatment</th>
+		<th>Sessiontype</th>
+		<th>Name</th>
+		<th>Created</th>
+		<th>State</th>
+		<th>Options</th>
+	</tr>
+</thead>
+<tbody>
+<?php
+foreach ($this->sessions as $session)
+{
+	echo '<tr class="sessionListRow" id="sessionListRow'.$session['id'].'" data-pk="'.$session['id'].'">';
+		echo '<td>' . $this->escape($session['experiment_name']) . '</td>';
+		echo '<td>' . $this->escape($session['treatment_name']) . '</td>';
+		echo '<td>';
+		if (isset($session['sessiontype_name']) && $session['sessiontype_name'] != '')
+		{
+			echo $this->escape($session['sessiontype_name']);
+		}
+		else
+		{
+			echo 'Dynamic Session';
+		}
+		echo '</td>';
+		echo '<td>' . $this->escape($session['name']) . '</td>';
+		echo '<td>' . $this->escape($session['created']) . '</td>';
+		echo '<td>';
+		$img = false;
+		switch ($session['state'])
+		{
+			case 'finished':
+				$img = 'door';
+				break;
+			case 'created':
+				$img = 'door_open';
+				break;
+			case 'running':
+				$img = 'control_play_blue';
+				break;
+			case 'paused':
+				$img = 'control_pause_blue';
+				break;
+			case 'archived':
+				$img = 'compress';
+				break;
+			case 'deleted':
+				$img = 'bin_closed';
+				break;
+		}
+		if ($img)
+		{
+			echo '<img src="/_media/Icons/' . $img . '.png" /> ';
+		}
+		echo $this->escape($session['state']) . '</td>';
+		echo '<td>';
+			echo '<button class="btn btn-default btn-xs" onclick="window.location.href=\'' . $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'details', 'sessionId'=>$session['id']), 'default', true) . '\'"><img src="/_media/Icons/book_open.png" border="0" alt="Show Details" title="Show Details"></button>';
+			echo ' <button class="btn btn-default btn-xs" onclick="expadmin.deleteSession('.$session['id'].');"><img src="/_media/Icons/book_delete.png" border="0" alt="Delete Session" title="Delete Session"></button>';
+		echo '</td>';
+	echo '</tr>';
+}
+?>
+</tbody>
+</table>
+</div>

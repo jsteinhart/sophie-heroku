@@ -1,0 +1,8 @@
+Session Name;Participant Label;Code
+<?php
+foreach ($this->codes as $code)
+{
+	echo $this->session['name'] . ';';
+	echo $code['label'] . ';';
+	echo $code['code'] . "\n";
+}

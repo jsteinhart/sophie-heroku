@@ -1,0 +1,126 @@
+<?php
+$themeName = 'sophie_2_0_0';
+echo $this->doctype() . "\n";
+?>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php
+	echo $this->headTitle();
+	echo $this->headMeta();
+	
+	$styles = array(
+		'/expfront/theme/asset/' . $themeName . '/bootstrap/3.0.3/css/bootstrap.min.css',
+		'/expfront/theme/asset/' . $themeName . '/symbic/Toaster.css',
+		'/expfront/theme/asset/' . $themeName . '/symbic/form.css',
+		'/expfront/theme/asset/' . $themeName . '/default.css'
+	);
+	while ($style = array_pop($styles))
+	{
+		$this->headLink()->prependStylesheet($style, 'all');
+	}
+
+	echo $this->headLink();
+	echo $this->headStyle();
+
+	echo $this->initFlashMessengerToaster();
+
+	$inlineScripts = array(
+		'/expfront/theme/asset/' . $themeName . '/jquery/1.10.2/jquery-1.10.2.min.js',
+		'/expfront/theme/asset/' . $themeName . '/bootstrap/3.0.3/js/bootstrap.min.js',
+		'/expfront/theme/asset/' . $themeName . '/bootbox/4.1.0/bootbox.min.js',
+	);
+	
+	while ($inlineScript = array_pop($inlineScripts))
+	{
+		$this->inlineScript()->prependFile($inlineScript);
+	}
+
+	echo $this->dojo();
+	
+	$appBase = $this->baseUrl();
+	if (substr($appBase, -1) != '/')
+	{
+		$appBase .= '/';
+	}
+	$this->headScript()->appendScript('var appBase = \'' . addslashes($appBase) . '\';');
+	echo $this->headScript();
+
+	if (isset($this->participantLabel))
+	{
+		$loggedIn = true;
+	}
+	else
+	{
+		$session = new Zend_Session_Namespace('expfront');
+		if (isset($session->participantId))
+		{
+			$loggedIn = true;
+		}
+		else
+		{
+			$loggedIn = false;
+		}
+	}
+?>
+</head>
+<body class="claro">
+
+	<div id="main">
+
+		<div id="header">
+			<div id="headline">
+			</div>
+
+			<div id="headlinks">
+				<?php if ($loggedIn): ?>
+					<div id="sophie_timer_warning"></div>
+					<div id="sophie_timer"></div>
+				<?php else: ?>
+					<?php echo '<a href="' . $this->url(array('module'=>'expfront'), 'default', true) . '"><img src="/_media/Icons/key.png" alt="Login to Experiment" title="Login to Experiment"> Login to Experiment</a>'; ?>
+				<?php endif; ?>
+			</div>
+
+			<?php echo $this->placeholder('headContent'); ?>
+
+		</div>
+
+		<div id="content">
+			<?php echo $this->layout()->content; ?>
+		</div>
+
+		<div id="footer">
+			<?php
+				if (!$loggedIn)
+				{
+					$config = Zend_Registry::get('config');
+					if (isset($config['systemConfig']['sophie']['expfront']['showBackendLink']) && $config['systemConfig']['sophie']['expfront']['showBackendLink'] == 1)
+					{
+						echo '<a href="' . $this->url(array(), 'login', true) . '">Backend</a>';
+					}
+					if (isset($config['systemConfig']['sophie']['expfront']['showLicenseLink']) && $config['systemConfig']['sophie']['expfront']['showLicenseLink'] == 1)
+					{
+						echo '<a href="' . $this->url(array('module'=>'system', 'controller'=>'license', 'action'=>'index'), 'default', true) . '">License</a>';
+					}
+					echo '<span>Copyright &copy; ' . date("Y") . '</span>';
+				}
+			?>
+		</div>
+
+	</div>
+<?php
+	$debugConsole = $this->placeholder('debugConsole');
+	if ($debugConsole != '')
+	{
+		echo '<div id="debugConsole">';
+		echo '<h3>Debug Console</h3>';
+		echo nl2br($this->escape($debugConsole));
+		echo '</div>';
+	}
+
+	echo $this->inlineScript();
+	echo $this->jsOnDomReady();
+	echo $this->jsOnLoad();
+?>
+</body>
+</html>

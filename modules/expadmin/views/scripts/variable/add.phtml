@@ -1,0 +1,12 @@
+<?php
+echo $this->form;
+?>
+<script>
+expadmin.sessionAddVariableContextChange();
+<?php
+if (!empty($this->message))
+{
+	echo 'dojo.publish(\'messages\', [{ message: \'' . $this->escape($this->message) . '\', type: "message"}]);';
+}
+?>
+</script>

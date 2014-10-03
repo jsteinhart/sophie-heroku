@@ -1,0 +1,1 @@
+The files within this directory have been downloaded on github as release 1.7.9 and repackaged for SFW projects with composer.json within the top directory

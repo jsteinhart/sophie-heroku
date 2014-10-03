@@ -1,0 +1,17 @@
+<table class="table table-striped table-hover">
+<?php
+echo '<tr>';
+	echo '<td>Session Name</td>';
+	echo '<td>Participant Label</td>';
+	echo '<td>Code</td>';
+echo '</tr>';
+
+foreach ($this->codes as $code) {
+	echo '<tr>';
+		echo '<td>' . $this->escape($this->session['name']) . '</td>';
+		echo '<td>' . $this->escape($code['label']) . '</td>';
+		echo '<td>' . $this->escape($code['code']) . '</td>';
+	echo '</tr>';
+}
+?>
+</table>

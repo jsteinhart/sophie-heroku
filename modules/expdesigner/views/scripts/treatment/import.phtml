@@ -1,0 +1,43 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('Import Treatment', 'PREPEND');
+?>
+<h1>Import Treatment</h1>
+
+<ul class="nav nav-tabs">
+  <li<?php if ($this->source == 'file'): ?> class="active"<?php endif; ?>><a href="<?php echo $this->url(array( 'source' => 'file' )); ?>"><img src="/_media/Icons/table.png" alt="File"> File</a></li>
+  <li<?php if ($this->source == 'url'): ?> class="active"<?php endif; ?>><a href="<?php echo $this->url(array( 'source' => 'url' )); ?>"><img src="/_media/Icons/world_link.png" alt="URL"> URL</a></li>
+</ul>
+
+<div class="tab-content" style="padding-top: 20px">
+  <div class="tab-pane active" id="<?php echo $this->source; ?>">
+	<?php echo $this->form; ?>
+  </div>
+</div>
+
+<?php
+if ($this->source == 'url')
+{
+	$this->jsOnLoad()->appendScript('$("#treatmentContentUrl").select2({
+	createSearchChoice: function(url, data)
+		{
+			if ($(data).filter(
+					function()
+					{
+						return this.text.localeCompare(term)===0;
+					}
+				).length===0)
+		{
+			return {id:url, text:url};
+		}
+	},
+	multiple: false,
+	data: [{
+		id:		\'http://www.sophie.uos.de/docs/tutorials/UG.current.sophie\',
+		text:	\'Ultimatum Game Tutorial\'
+	}]
+});');
+}

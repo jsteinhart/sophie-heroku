@@ -1,0 +1,141 @@
+<?php
+$module = 'expdesigner';
+$this->headTitle('Edit Sessiontype Grouping', 'PREPEND');
+$this->headTitle($this->sessiontype['name'], 'PREPEND');
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$hasError = (isset($this->groupDefinitionError) || !is_array($this->sessiontype['groups']) || !is_array($this->sessiontype['participants']));
+?>
+<h1>Edit Sessiontype Grouping</h1>
+
+<div id="actionMainNav">
+	<ul>
+	<?php if (!$hasError): ?>
+		<li><a href="#" onclick="expdesigner.sessiontypeSave('<?php echo $this->escape($this->treatment['id']); ?>', '<?php echo $this->escape($this->sessiontype['id']); ?>');return false;"><img src="/_media/Icons/disk.png" alt="" title=""> Save</a></li>
+	<?php endif; ?>
+		<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'sessiontype', 'action'=>'edit', 'treatmentId'=>$this->treatment['id'], 'sessiontypeId'=>$this->sessiontype['id']), 'default', true); ?>"><img src="/_media/Icons/brick_edit.png" alt="" title=""> Edit Sessiontype Basics</a></li>
+	<?php if (!$hasError): ?>
+		<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'sessiontype', 'action'=>'grouping', 'treatmentId'=>$this->treatment['id'], 'sessiontypeId'=>$this->sessiontype['id'], 'repair' => 'forcereset'), 'default', true); ?>" onclick="return window.confirm(unescape('Do you really want to reset the grouping%3F%0AAll your work may be lost%21'));"><img src="/_media/Icons/bomb.png" alt="" title=""> Reset Grouping</a></li>
+        <li><a href="<?php echo $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'add', 'sessiontypeId'=>$this->sessiontype['id']), 'default', true); ?>"><img src="/_media/Icons/book_add.png" border="0" alt="Add Session" title="Add Session"> Add Session</a></li>
+	<?php endif; ?>
+	</ul>
+</div>
+
+<?php
+if ($hasError)
+{
+?>
+	<div class="error">
+		<strong>The grouping of this sessiontype is flawed:</strong><br />
+		<?php if (isset($this->groupDefinitionError)): ?>
+			<?php echo $this->escape($this->groupDefinitionError); ?>
+		<?php else: ?>
+			The Grouping could not be loaded.
+		<?php endif; ?>
+		<div class="actionToolbar">
+			<ul>
+			<?php if (isset($this->groupDefinitionCanBeRepaired) && $this->groupDefinitionCanBeRepaired): ?>
+				<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'sessiontype', 'action'=>'grouping', 'treatmentId'=>$this->treatment['id'], 'sessiontypeId'=>$this->sessiontype['id'], 'repair' => 'repair'), 'default', true); ?>"><img src="/_media/Icons/wrench.png" alt="" title=""> Repair Grouping</a></li>
+			<?php else: ?>
+				<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'sessiontype', 'action'=>'grouping', 'treatmentId'=>$this->treatment['id'], 'sessiontypeId'=>$this->sessiontype['id'], 'repair' => 'reset'), 'default', true); ?>"><img src="/_media/Icons/bomb.png" alt="" title=""> Reset Grouping</a></li>
+			<?php endif; ?>
+			</ul>
+		</div>
+	</div>
+<?php 
+	return;
+}
+?>
+
+<p>Use drag and drop to move the participants (represented by the small boxes containing the participant types&rsquo;s label, number and&mdash;if applicable&mdash;the icon chosen for the participant type) from one group to another within one stepgroup respectively one stepgroup loop. If the group is consistent with the defined group structure the group&rsquo;s cell will flash green; otherwise it will turn red to indicate an invalid grouping.</p>
+
+<div class="table-responsive">
+<table id="sessiontype" class="table table-striped table-hover">
+<thead>
+	<tr>
+		<th>Stepgroup.Loop</th>
+		<?php
+			foreach ($this->sessiontype['groups'] as $groupLabel => $groupstructure)
+			{
+				echo '<th>' . $this->escape($groupLabel) . '</th>';
+			}
+		?>
+	</tr>
+</thead>
+
+<tbody>
+<?php
+/* sgl = stepgrouploop */
+foreach ($this->sessiontype['groupDefinition'] as $sglLabel => $sgl)
+{
+	echo '<tr>';
+	echo '<th>' . $this->escape($sglLabel) . '</th>';
+
+	foreach ($this->sessiontype['groups'] as $groupLabel => $groupstructure)
+	{
+		$id = 'G' . md5($this->escape($sglLabel . '.' . $groupLabel));
+		$jsId = 'J' . $id;
+
+		echo '<td dojotype="dojo.dnd.Source" accept="' . $this->escape('p' . $sglLabel) . '" id="' . $id . '" jsId="' . $jsId . '" sophieSglLabel="' . $this->escape($sglLabel) . '" sophieGroupLabel="' . $this->escape($groupLabel) . '" sophieGroupstructureLabel="' . $this->escape($groupstructure['structureLabel']) . '" class="group">';
+
+		foreach ($sgl[$groupLabel] as $participantLabel)
+		{
+
+			echo '<div dndtype="' . $this->escape('p' . $sglLabel) . '" id="' . $this->escape('p' . $sglLabel . '.' . $participantLabel) . '" class="dojoDndItem participant" title="' . $this->escape($this->sessiontype['participants'][$participantLabel]['name'] . ': ' . $this->sessiontype['participants'][$participantLabel]['no']) . '" sophieId="' . $this->escape($participantLabel) . '" sophieType="' . $this->escape($this->sessiontype['participants'][$participantLabel]['type']) . '" sophieSort="' . $this->escape($this->sessiontype['participants'][$participantLabel]['sort']) . '">';
+
+			if (!empty($this->sessiontype['participants'][$participantLabel]['icon']))
+			{
+				echo '<img src="/_media/Icons/' . $this->sessiontype['participants'][$participantLabel]['icon'] . '" /> ';
+			}
+			echo $this->escape($participantLabel);
+
+			echo '</div>';
+		}
+
+	}
+		echo '</td>';
+	
+	echo '</tr>';
+}
+?>
+</tbody>
+</table>
+</div>
+
+<div class="actionToolbar">
+	<ul>
+		<li><a href="#" onclick="expdesigner.sessiontypeSave('<?php echo $this->escape($this->treatment['id']); ?>', '<?php echo $this->escape($this->sessiontype['id']); ?>');return false;"><img src="/_media/Icons/disk.png" alt="" title=""> Save</a></li>
+	</ul>
+</div>
+
+<?php
+$this->dojo()->requireModule('dojo.fx');
+$this->dojo()->requireModule('dojo.dnd.Source');
+$this->dojo()->requireModule('dojo.parser');
+$this->dojo()->addOnLoad('function() { dojo.parser.parse(); }');
+
+foreach ($this->sessiontype['groups'] as $groupLabel => $groupstructure)
+{
+	$this->jsOnLoad()->appendScript('expdesigner.sessiontypeRegisterGroupstructure("' . $this->escape($groupstructure['structureLabel']) . '", ' . $groupstructure['structureJson'] . ')');
+}
+
+foreach ($this->sessiontype['groupDefinition'] as $sglLabel => $sgl) /* sgl = stepgrouploop*/
+{
+	foreach ($this->sessiontype['groups'] as $groupLabel => $groupstructure)
+	{
+		$id = 'G' . md5($this->escape($sglLabel . '.' . $groupLabel));
+		$jsId = 'J' . $id;
+		$this->dojo()->addOnLoad('function() {
+			dojo.connect(' . $jsId . ', "onDndDrop", function(source, nodes, copy, target) {
+				if(dojo.dnd.manager().target !== this){
+					return;
+				}
+				expdesigner.sessiontypeValidate(dojo.attr(source.node, "id"));
+				expdesigner.sessiontypeValidate("' . $id . '");
+			});
+		}');
+	}
+}
+
+$this->jsOnLoad()->appendScript('expdesigner.sessiontypeValidateAll();');

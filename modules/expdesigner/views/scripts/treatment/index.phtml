@@ -1,0 +1,55 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle( 'Treatments', 'PREPEND');
+$this->headTitle( $this->experiment['name'], 'PREPEND');
+
+$this->jsOnLoad()->appendScript('expdesigner.initTreatmentList();');
+?>
+<h1>Treatments in &ldquo;<?php echo $this->escape($this->experiment['name']); ?>&rdquo;</h1>
+
+<div id="actionMainNav">
+	<ul>
+		<li><?php echo $this->buttonLink('<img src="/_media/Icons/application_edit.png" border="0" alt="Edit experiment" title="Edit experiment"> Edit experiment', $this->url(array('module'=>$module, 'controller'=>'experiment', 'action'=>'edit', 'experimentId'=>$this->experiment['id']), 'default', true)); ?></li>
+		<li><?php echo $this->buttonLink('<img src="/_media/Icons/chart_organisation_add.png" border="0" alt="Add treatment" title="Add treatment"> Add treatment', $this->url(array('module'=>$module, 'controller'=>'treatment', 'action'=>'add', 'experimentId'=>$this->experiment['id']), 'default', true)); ?></li>
+
+		<li class="sub"><?php echo $this->buttonLink('<img src="/_media/Icons/chart_organisation_add.png" border="0" alt="Import treatment" title="Import treatment"> Import treatment', $this->url(array('module'=>$module, 'controller'=>'treatment', 'action'=>'import', 'experimentId'=>$this->experiment['id']), 'default', true)); ?></li>
+	</ul>
+</div>
+
+<?php if (count($this->treatments) == 0): ?>
+<div class="alert alert-info">
+	<p><strong>No treatment found.</strong></p>
+	<p>Please click the corresponding button above to add or import your first treatment.</p>
+</div>
+<?php
+	return;
+endif;
+?>
+
+<div class="table-responsive">
+<table id="treatmentList" class="table table-striped table-hover">
+<thead>
+	<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Options</th>
+	</tr>
+</thead>
+<tbody>
+<?php
+foreach ($this->treatments as $treatment)
+{
+	echo '<tr data-pk="' . $treatment['id'] . '">';
+	echo '<td>' . $this->escape($treatment['name']) . '</td>';
+	echo '<td>';
+	echo $this->buttonLink('Select', $this->url(array('module' => 'expdesigner', 'controller' => 'treatment', 'action' => 'details', 'treatmentId' => $treatment['id']), 'default', 'true'), null, 'xs');
+	echo ' <button class="btn btn-default btn-xs expdesignerDeleteTreatment">Delete</button>';
+	echo '</td>';
+	echo '</tr>';
+}
+?>
+</tbody>
+</table>
+</div>

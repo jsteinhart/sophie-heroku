@@ -1,0 +1,13 @@
+{
+    "name": "Bootstrap-daterangepicker",
+    "version": {
+        "2": "1.3.3"
+    },
+    "homepage": "https://github.com/dangrossman/bootstrap-daterangepicker",
+    "authors": [
+        "Dan Grossman"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

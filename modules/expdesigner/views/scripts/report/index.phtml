@@ -1,0 +1,41 @@
+<?php
+$module = 'expdesigner';
+$this->headTitle('Reports', 'PREPEND');
+?>
+<div class="actionToolbar">
+	<ul>
+		<li><?php echo $this->buttonLink('<img src="/_media/Icons/chart_bar_add.png" border="0" title="Add Report"> Add Report', $this->url(array(
+			'module' => $module,
+			'controller' => 'report',
+			'action' => 'add',
+			'treatmentId' => $this->treatmentId
+		), 'default', true), null, 'xs'); ?></li>
+	</ul>
+</div>
+
+<?php
+
+if (count($this->reports) == 0)
+{
+	echo $this->alert('No reports found for this treatment.');
+	return;
+}
+
+echo '<div class="table-responsive">';
+echo '<table id="treatmentReportList" class="table table-striped table-hover">';
+echo '<tr><th>Name</th><th>Options</th></tr>';
+
+foreach ($this->reports as $report)
+{
+	echo '<tr data-pk="' . $report['id'] . '" id="reportListRow' . $report['id'] . '"><td>' . $this->escape($report['name']) . '</td><td>';
+	echo '<div class="actionToolbar"><ul>';
+	echo '<li><a href="' . $this->url(array('module' => $module, 'action' => 'edit', 'reportId' => $report['id'])) . '"><img src="/_media/Icons/chart_bar_edit.png" border="0"> Edit Report</a></li>';
+	echo '<li><a href="javascript:expdesigner.deleteTreatmentReport(\'' . $report['id'] . '\');"><img src="/_media/Icons/chart_bar_delete.png" border="0"> Delete Report</a></li>';
+	echo '</ul><div class="clear"></div></div></td></tr>';
+}
+
+echo '</table>';
+echo '</div>';
+
+$this->inlineScript()->appendScript('expdesigner.initTreatmentReportList();');
+echo $this->inlineScript();

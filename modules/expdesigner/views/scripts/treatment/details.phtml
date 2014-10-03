@@ -1,0 +1,52 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle($this->treatment['name'], 'PREPEND');
+$this->headTitle($this->experiment['name'], 'PREPEND');
+?>
+<h1>Treatment &ldquo;<?php echo $this->escape($this->treatment['name']); ?>&rdquo;</h1>
+
+<?php if (count($this->brokenSteptypes)): ?>
+<div class="alert alert-danger">
+	<strong>Error:</strong>
+	<?php
+
+echo (count($this->brokenSteptypes) == 1) ? 'One steptype is unknown:' : 'The following steptypes are unknown:';
+?>
+	<ul>
+	<?php foreach ($this->brokenSteptypes as $broken): ?>
+		<?php if (is_null($broken['name'])): ?>
+			<li>Missing steptype: <?php echo $broken['steptypeSystemName']; ?></li>
+		<?php else: ?>
+			<li>The steptype &ldquo;<?php echo $broken['name']; ?>&rdquo; is not installed, is not active or broken.</li>
+		<?php endif; ?>
+	<?php endforeach; ?>
+	</ul>
+</div>
+<?php endif; ?>
+<?php if ($this->hasRunningSessions): ?>
+<div class="alert alert-warning">
+	<strong>Warning:</strong>
+	At least one running sessions of this treatment exists. Changes to the treatment might affect these running sessions.
+</div>
+<?php endif; ?>
+
+<div id="actionMainNav">
+	<ul>
+		<li><?php echo $this->buttonLink('<img src="/_media/Icons/chart_organisation.png" alt="" title=""> Edit Treatment', $this->url(array('module' => $module, 'controller' => 'treatment', 'action' => 'edit', 'treatmentId' => $this->treatment['id']), 'default', true)); ?></li>
+		<li><?php echo $this->buttonLink('<img src="/_media/Icons/book_add.png" alt="" title=""> Create Session', $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'add', 'treatmentId'=>$this->treatment['id']), 'default', true)); ?></li>
+
+		<li class="sub"><?php echo $this->buttonLink('<img src="/_media/Icons/chart_organisation.png" alt="" title=""> Export Treatment', $this->url(array('module'=>$module, 'controller'=>'treatment', 'action'=>'export', 'treatmentId'=>$this->treatment['id'], 'download'=>'1'), 'default', true)); ?></li>
+		<li class="sub"><?php echo $this->buttonLink('<img src="/_media/Icons/chart_organisation.png" alt="" title=""> Copy Treatment', $this->url(array('module'=>$module, 'controller'=>'treatment', 'action'=>'copy', 'treatmentId'=>$this->treatment['id']), 'default', true)); ?></li>
+	</ul>
+</div>
+<?php
+$this->jsOnLoad()->appendScript($module . '.experimentId = ' . $this->experiment['id'] . '; ' . $module . '.treatmentId = ' . $this->treatment['id'] . '; ' . $module . '.initTreatmentDetails();');
+
+$designerTreatmentInterface = new Sophie_Designer_Treatment_Interface();
+$designerTreatmentInterface->setView($this);
+$designerTreatmentInterface->setTreatment($this->treatment);
+$designerTreatmentInterface->init();
+echo $designerTreatmentInterface->render();

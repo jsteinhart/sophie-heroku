@@ -1,0 +1,50 @@
+<h1>Add Session</h1>
+
+<table class="table table-striped">
+
+<tr>
+	<th>Experiment</th>
+	<td><?php echo $this->escape($this->experiment['name']); ?></td>
+</tr>
+
+<?php if (!empty($this->experiment['description'])): ?>
+<tr>
+	<th>Description:</th>
+	<td><?php echo nl2br($this->escape($this->experiment['description'])); ?></td>
+</tr>
+<?php endif; ?>
+
+<tr>
+	<th>Treatment</th>
+	<td><?php echo $this->escape($this->treatment['name']); ?></td>
+</th>
+
+<?php if (!empty($this->treatment['description'])): ?>
+<tr>
+	<th>Description:</th>
+	<td><?php echo nl2br($this->escape($this->treatment['description'])); ?></td>
+</tr>
+<?php endif; ?>
+
+<tr>
+	<th>Sessiontype</th>
+	<td><?php echo $this->escape($this->sessiontype['name']); ?></td>
+</tr>
+
+<tr>
+	<th>Participant Management</th>
+	<td><?php echo $this->escape($this->sessiontype['participantMgmt']); ?></td>
+</tr>
+
+<tr>
+	<th>Number of groups</th>
+	<td><?php echo $this->escape($this->sessiontype['size']); ?></td>
+</tr>
+
+</table>
+
+<div class="actionToolbar">
+	<ul>
+		<li><?php echo $this->buttonLink('<img src="/_media/Icons/book_add.png" alt="" title=""> Add Session now', $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'add3', 'sessiontypeId'=>$this->sessiontype['id']))); ?></li>
+	</ul>
+</div>

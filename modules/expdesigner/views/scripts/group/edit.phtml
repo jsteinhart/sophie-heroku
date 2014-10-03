@@ -1,0 +1,33 @@
+<?php
+$module = 'expdesigner';
+$this->inlineScript()->appendScript('
+function updateParentContent()
+{
+	if (window.opener && !window.opener.closed)
+	{
+		window[\'updateDefinition\']();
+	}
+}');
+?>
+<a href="javascript:this.close();">close window</a>
+<br />
+<hr />
+<div id="ajaxMessage" class="ajaxMessage"></div>
+<br />
+<b>Group: <?php echo $this->group['id']. ' :: ' . $this->group['name']; ?></b><br />
+<br />
+<form id="groupForm" action="javascript:confirmAjaxForm('really change?', 'groupForm', '<?php echo $this->url(array('module'=>$module, 'controller'=>'group', 'action'=>'ajaxupdate'), 'default', true); ?>', 'ajaxMessage', 'updateParentContent', 'updateParentContent');" method="POST">
+<?php
+echo $this->formHidden('groupId', $this->group['id']);
+echo $this->formHidden('treatmentId', $this->treatment['id']);
+?>
+<br />
+<table width="80%" border="1">
+<tr><td>Field</td><td>Value</td></tr>
+<tr><td><b>Name</b></td><td><?php echo $this->formText('FORM_name', $this->group['name']); ?></td></tr>
+<tr><td><b>Number</b></td><td><?php echo $this->formText('FORM_number', $this->group['number']); ?></td></tr>
+<tr><td><b>Active</b></td><td><?php echo $this->formSelect('FORM_active', $this->group['active'], null, array(0=>'inactive', 1=>'active')); ?></td></tr>
+</table>
+<br />
+<?php echo $this->formSubmit('submit', 'Save'); ?>
+</form>

@@ -1,0 +1,5 @@
+REV 679
+module config format change: moved rememberMe options into login subarray
+
+REV 674
+module config format change: moved login related options into a 'login' subarray

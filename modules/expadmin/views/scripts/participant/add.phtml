@@ -1,0 +1,19 @@
+<h2>Add Participant</h2>
+
+<?php
+	if ($this->session['participantMgmt'] == 'static'):
+?>
+<div class="notice">
+	This option is only available for sessions using a dynamic participant management. The current session uses a static participant management and thus no further participants can be added. You can change the participant management for this session to dynamic by using the form below.
+</div>
+
+<div class="warning">
+	Please only use this option if you know what you are doing. A dynamic session requires you to handle grouping manually and can not be changed back to a static session.
+</div>
+
+<button class="btn btn-default btn-xs" type="submit" onClick="sophieSessionSetParticipantMgmt( 'dynamic')">Use dynamic Participant Management</button>
+
+<?php
+	else:
+		echo $this->form;
+	endif;

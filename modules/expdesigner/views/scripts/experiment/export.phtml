@@ -1,0 +1,10 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+?>
+<h1>Experiment <?php echo $this->experiment['name']; ?></h1>
+<br />
+<a href="<?php echo $this->url(array('download'=>'1')); ?>" target="_blank">Download as SoPHIE-File</a><br />
+<br />
+<?php echo $this->formTextarea('definition', $this->definitionJSON, array('onClick' =>'this.select(); this.focus();', 'style' => 'width: 600px; height: 500px;'))

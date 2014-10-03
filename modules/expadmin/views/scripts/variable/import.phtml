@@ -1,0 +1,20 @@
+<h2>Import Variables</h2>
+
+<div class="alert alert-info hidden-print small">
+	<b>Please use the following format:</b><br/>
+	ee;name;value[;type]<br />
+	es;name;value;stepgroupLabel[;type]<br />
+	esl;name;value;stepgroupLabel;stepgroupLoop[;type]<br />
+	ge;name;value;groupLabel[;type]<br />
+	gs;name;value;groupLabel;stepgroupLabel[;type]<br />
+	gsl;name;value;groupLabel;stepgroupLabel;stepgroupLoop[;type]<br />
+	pe;name;value;participantLabel[;type]<br />
+	ps;name;value;participantLabel;stepgroupLabel[;type]<br />
+	psl;name;value;participantLabel;stepgroupLabel;stepgroupLoop[;type]<br />
+</div>
+
+<div class="alert alert-warning hidden-print">
+	Existing variables with the same name and context will be overwritten!
+</div>
+
+<?php echo $this->variableImportForm; ?>

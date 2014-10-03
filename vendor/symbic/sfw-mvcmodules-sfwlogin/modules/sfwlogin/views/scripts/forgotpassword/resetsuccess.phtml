@@ -1,0 +1,15 @@
+<?php
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', 'sfwlogin'));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', 'sfwlogin'));
+
+$t = $this->translator;
+//$pageTitle = $t->_('##forgotPasswordPageTitle##');
+//$headline = $t->_('##forgotPasswordHeadline##');
+
+?>
+<div class="alert alert-info">
+<b>Password changed</b><br />
+Your new password has been set successfully and can be used to login to the system immediately.
+</div>
+
+<a href="<?php echo $this->url(array(), 'login', true); ?>"><?php echo $this->escape($t->_('Back to Login')); ?></a>

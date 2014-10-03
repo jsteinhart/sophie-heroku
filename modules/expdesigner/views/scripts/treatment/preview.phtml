@@ -1,0 +1,66 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('Treatment Step Preview', 'PREPEND');
+$this->headTitle($this->treatment['name'], 'PREPEND');
+
+$this->headStyle()->appendStyle('
+@page { size:landscape; }
+.treatmentPreviewStep { page-break-inside:avoid; page-break-before:always; }
+#small_header { display: none; }
+#breadcrumbs { display: none; }
+.headingWithNavigation .toolbar { display: none; }
+.headingWithNavigation h1 { text-align: center; }
+.headingWithNavigation h2 { text-align: center; }
+#footer { display: none; }
+', array('media'=>'print'));
+?>
+<div class="headingWithNavigation">
+	<ul class="toolbar">
+		<li><a href="<?php echo $this->url(array (
+				'module' => 'expdesigner',
+				'controller' => 'treatment',
+				'action' => 'details',
+				'treatmentId' => $this->treatment['id']
+			), 'default', true); ?>"><img src="/_media/Icons/chart_organisation.png" alt="Goto treatment" title="Goto Treatment" /> Goto Treatment</a></li>
+		</ul>
+	<h1>Treatment Step Preview &ndash; <?php echo $this->escape($this->treatment['name']); ?></h1>
+	<?php if (isset($this->stepgroup)) { ?>
+	<h2>Stepgroup &ndash; <?php echo $this->escape($this->stepgroup['name']); ?></h2>
+	<?php } ?>
+</div>
+
+<div class="alert alert-info">
+In some cases the preview function may not show a step correctly. If a step is obviously previewed inaccurately, please run a test session to check whether the problem still occurs.
+</div>
+
+<div class="treatmentPreviewSteps center">
+
+<?php
+foreach ($this->treatmentStructure as $stepId => $stepName)
+{
+	echo '<div class="treatmentPreviewStep">';
+
+		echo '<div class="headingWithNavigation">';
+			echo '<ul class="toolbar">';
+			echo '<li><a href="javascript:dojo.byId(\'previewFrame' . $stepId . '\').contentWindow.location.reload()">';
+			echo '<img src="/_media/Icons/arrow_refresh.png" alt="Refresh" title="Refresh" /> Refresh</a></li>';
+			echo '<li><a href="' . $this->url(array (
+					'module' => 'expdesigner',
+					'controller' => 'step',
+					'action' => 'edit',
+					'stepId' => $stepId
+				), 'default', true) .'">';
+			echo '<img src="/_media/Icons/page_edit.png" alt="Goto treatment" title="Edit Step" /> Edit Step</a></li>';
+			echo '</ul>';
+			echo '<h2>'. $this->escape($stepName) . '</h2>';
+		echo '</div>';
+
+		echo '<iframe style="width:100%;height:400px" src="' . $this->url(array('module' => 'expdesigner', 'controller' => 'step', 'action'=>'preview', 'stepId' => $stepId)) . '" id="previewFrame' . $stepId . '" onload="expdesigner.previewFrameLoaded(this)">Loading ...</iframe>';
+
+	echo '</div>';
+}
+?>
+</div>

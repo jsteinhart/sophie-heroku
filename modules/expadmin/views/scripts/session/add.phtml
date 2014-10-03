@@ -1,0 +1,90 @@
+<?php
+$this->headTitle('Create Session', 'PREPEND');
+?>
+<h1>Create Session</h1>
+
+<?php
+if (!$this->hasTreatment)
+{
+?>
+<div class="alert alert-info">
+		<strong>No experiment found.</strong>
+		<p>Please go to the Designer and add an Experiment to conduct a Session.</p>
+</div>
+<?php
+	return;
+}
+
+$onload  = 'function() {';
+$onload .= 'dojo.require(\'dijit.layout.BorderContainer\');';
+$onload .= 'dojo.require(\'dijit.layout.ContentPane\');';
+$onload .= 'dojo.require(\'dojo.data.ItemFileReadStore\');';
+$onload .= 'dojo.require(\'dijit.Tree\');';
+$onload .= 'dojo.require(\'dojo.parser\');';
+
+// resize height:
+$onload .= "var minHeight = dojo.style('addSessionMain', 'height');";
+$onload .= "resizeDijitHeight('addSessionMain', 65, minHeight);";
+$onload .= "addOnResize(function() { resizeDijitHeight('addSessionMain', 65, minHeight); } );";
+$onload .= "}";
+$this->dojo()->addOnLoad($onload);
+
+if (!empty($this->sessiontypeTreeSelect))
+{
+	$sessiontypeTreeFocus = 'function() {';
+	$sessiontypeTreeFocus .= 'var sessiontypeTreeOnLoad = dojo.connect(dijit.byId(\'sessiontypeTree\'), \'onLoad\',' . "\n";
+	$sessiontypeTreeFocus .= '  function()' . "\n";
+	$sessiontypeTreeFocus .= '  {' . "\n";
+	$sessiontypeTreeFocus .= '    dijit.byId(\'sessiontypeTree\').attr(\'path\', ' . $this->sessiontypeTreeSelect . ');' . "\n";
+	if (isset($this->sessiontypeTreeSelectSessiontypeId))
+	{
+		$sessiontypeTreeFocus .= '      dijit.byId("sessiontypeInfoPane").set("href", "' . $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'add2')) . '/sessiontypeId/' . $this->escape($this->sessiontypeTreeSelectSessiontypeId) . '");';
+	}
+	$sessiontypeTreeFocus .= '      dojo.disconnect(sessiontypeTreeOnLoad);' . "\n";
+	$sessiontypeTreeFocus .= '    }' . "\n";
+	$sessiontypeTreeFocus .= '    );' . "\n";
+	$sessiontypeTreeFocus .= '}';
+	$this->dojo()->addOnLoad($sessiontypeTreeFocus);
+}
+?>
+
+
+Select a Sessiontype:
+
+<div dojoType="dijit.layout.ContentPane" style="height: 400px;" id="addSessionMain">
+
+	<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%;">
+
+		<div dojoType="dijit.layout.ContentPane" region="leading" style="width: 300px;" splitter="1">
+
+			<div dojoType="dojo.data.ItemFileReadStore" jsId="sessiontypeStore" url="<?php echo $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'sessiontypes'), 'default', true); ?>"></div>
+			<div dojoType="dijit.tree.ForestStoreModel" jsId="sessiontypeModel" store="sessiontypeStore" query="{type:'experiment'}" rootId="sessiontypeRoot" rootLabel="Experiments" childrenAttrs="children"></div>
+
+			<div dojoType="dijit.Tree" id="sessiontypeTree" model="sessiontypeModel" openOnDblClick="true" openOnClick="true" showRoot="false">
+				<script type="dojo/method" event="onClick" args="item">
+				var type = sessiontypeStore.getValue(item, "type");
+				if (type == 'sessiontype')
+				{
+					dijit.byId('sessiontypeInfoPane').set('href', '<?php echo $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'add2')); ?>/sessiontypeId/' + sessiontypeStore.getValue(item, "sessiontypeId"));
+				}
+				else if (type == 'dynamicSession')
+				{
+					dijit.byId('sessiontypeInfoPane').set('href', '<?php echo $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'adddynamic2')); ?>/treatmentId/' + sessiontypeStore.getValue(item, "treatmentId"));
+				}
+				</script>
+				<script type="dojo/method" event="getIconClass" args="item, opened">
+				    if(item == this.model.root) {
+				        return (opened ? "dijitFolderOpened" : "dijitFolderClosed");
+				    } else {
+				        return sessiontypeStore.getValue(item, "type") + "Icon";
+				    }
+				</script>
+			</div>
+
+	    </div>
+
+		<div id="sessiontypeInfoPane" dojoType="dijit.layout.ContentPane" region="center">
+	    </div>
+	</div>
+
+</div>

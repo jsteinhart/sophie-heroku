@@ -1,0 +1,10 @@
+<?php
+$module = 'sfwsysadmin';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('System Administration', 'PREPEND');
+$this->headTitle('Users', 'PREPEND');
+$this->headTitle('Add User', 'PREPEND');
+
+echo $this->form;

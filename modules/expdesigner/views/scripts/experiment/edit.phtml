@@ -1,0 +1,15 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+$this->headTitle('Edit Experiment', 'PREPEND');
+$this->headTitle($this->experiment['name'], 'PREPEND');
+
+$this->jsOnLoad()->appendScript('
+$(\'#ownerId\').select2({ width: \'100%\' });
+$(\'#userAccess\').select2({ width: \'100%\' });
+$(\'#usergroupAccess\').select2({ width: \'100%\' });
+');
+
+$this->form->setLegend('Edit Experiment ' . $this->experiment['name']);
+echo $this->form;

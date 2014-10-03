@@ -1,0 +1,13 @@
+{
+    "name": "Backbone",
+    "version": {
+        "2": "1.1.2"
+    },
+    "homepage": "http://backbonejs.org",
+    "authors": [
+        "Jeremy Ashkenas"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

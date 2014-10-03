@@ -1,0 +1,61 @@
+{
+	"name":"symbic/sfw-lib",
+	"description":"Symbic Framework Library",
+	"authors":[
+		{
+			"name":"Achim Hendriks",
+			"email":"achim.hendriks@symbic.de"
+		},
+		{
+			"name":"Philipp Mamat",
+			"email":"philipp.mamat@symbic.de"
+		}
+	],
+
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://devserver.symbic.de/projects/sfw/composer-repository/"
+		}
+	],
+
+	"autoload":{
+		"psr-0":{
+			"Symbic_":"lib/"
+		}
+	},
+
+	"include-path": [
+		"lib/"
+	],
+
+	"require": {
+	},
+
+	"require-dev": {
+		"tivoka/tivoka": "*",
+		"symfony/process": "*",
+		"monolog/monolog": "*",
+		"symbic/sfw-zendframework1-modified": "*",
+
+		"phpunit/dbunit": ">=1.2",
+		"phpunit/phpunit": "~3.7",
+		"theseer/phpdox": "*",
+		"phpmd/phpmd": "1.4.*",
+		"phploc/phploc": "*",
+		"squizlabs/php_codesniffer": "1.4.*",
+		"satooshi/php-coveralls": "~0.6"
+	},
+
+	"suggest": {
+		"tivoka/tivoka": "Used for JsonRpc Services",
+		"symfony/process": "Used to spawn processes",
+		"monolog/monolog": "Used for error logging and handling",
+		"symbic/sfw-zendframework1-modified": "Several components used throughout the library",
+		"socloz/ninja-mutex": "Required for task mutex"
+	},
+
+	"config": {
+		"notify-on-install": false
+	}
+}

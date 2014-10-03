@@ -1,0 +1,58 @@
+<table width="100%" border="1">
+<tr>
+  <th>Process</th>
+  <th>Participants</th>
+  <th>Options</th>
+</tr>
+<?php
+foreach ($this->stepgroups as $stepgroup)
+{
+	if ($stepgroup['participants'] != '')
+	{
+	?>
+	<tr>
+	  <td><?php echo $this->escape($stepgroup['label']); ?></td>
+	  <td><?php echo $this->escape($participant['typeLabel']); ?></td>
+	  <td><?php echo $this->escape($participant['session_group_label']); ?></td>
+	<?php if ($participant['state']!='new' && $participant['state']!='finished') { ?>
+	  <td><?php echo $participant['treatment_stepgroup_position']; ?> [<?php echo $this->escape($participant['treatment_stepgroup_name']); ?>...] / <?php echo $participant['stepgroupLoop']; ?></td>
+	  <td><?php echo $participant['treatment_step_position']; ?> [<?php if (isset($participant['treatment_step_type'])) { echo $this->escape($participant['treatment_step_type']); } ?> / <?php echo $this->escape($participant['treatment_step_name']); ?>...]</td>
+	<?php } else { ?>
+		<td></td><td></td>
+	<?php } ?>
+	  <td>
+	    <?php
+	      echo $this->escape($participant['state']);
+	      if ($participant['state']!='new')
+	      {
+			echo ' / ' . ( time() - strtotime($participant['lastContact']) ) . ' Sec.';
+	      }
+		?>
+	  </td>
+	  <td>
+	  <?php
+		$stepOptions = array();
+	  	if (isset($participant['treatment_step_type']) && ($participant['treatment_step_type']=='timer' || $participant['treatment_step_type']=='chat' || $participant['treatment_step_type']=='ahgChat'))
+	  	{
+	  		$stepOptions[] = '<a target="_blank" href="' . $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'starttimer', 'sessionId'=>$this->session['id'], 'stepId'=>$participant['stepId'], 'stepgroupLoop'=>$participant['stepgroupLoop'])) .'">start timer</a>';
+	  	}
+	  	if (isset($participant['treatment_step_type']) && ($participant['treatment_step_type']=='market'))
+	  	{
+			$stepOptions[] = '<a target="_blank" href="' . $this->url(array('module'=>'expadmin', 'controller'=>'market', 'action'=>'index', 'sessionId'=>$this->session['id'])).'">start matching process</a>';
+	  	}
+	  	if (isset($participant['treatment_step_type']) && $participant['treatment_step_type']=='syncAdmin')
+	  	{
+	  		$stepOptions[] = '<a target="_blank" href="' . $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'setsyncadmin', 'sessionId'=>$this->session['id'], 'stepId'=>$participant['stepId'], 'stepgroupLoop'=>$participant['stepgroupLoop'])).'">set sync</a>';
+	  	}
+
+		$stepOptions[] = '<a target="_blank" href="' . $this->url(array('module'=>'expadmin', 'controller'=>'participant', 'action'=>'edit', 'sessionId'=>$this->session['id'], 'participantId'=>$participant['id'])).'">edit</a>';
+
+	  	echo implode(' | ', $stepOptions);
+	  	?>
+	  </td>
+	</tr>
+	<?php
+	}
+}
+?>
+</table>

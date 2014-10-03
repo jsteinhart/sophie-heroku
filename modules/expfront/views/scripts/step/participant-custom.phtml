@@ -1,0 +1,16 @@
+<div id="cheader">
+	<div id="cheadtexts">
+		<?php echo $this->customHtml; ?>
+	</div>
+</div>
+<?php
+$this->headScript()->captureStart();
+?>
+function ReloadSync () {
+	var href = location.href;
+	location.href = href;
+}
+window.setTimeout("ReloadSync()", 2000);
+<?php
+$this->headScript()->captureEnd();
+?>

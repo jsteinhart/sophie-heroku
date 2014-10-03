@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	<title>SoPHIE</title>
+	<meta http-equiv="content-language" content="en" >
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+	<link href="/_media/favicon.ico" rel="shortcut icon" >
+	<link href="/_styles/sophie/default.css" media="screen" rel="stylesheet" type="text/css" >
+    </head>
+    <body>
+
+	<div id="main">
+
+	    <div id="header">
+		<div id="headline">
+		</div>
+	    </div>
+
+	    <div id="content">
+		<h1>Welcome to SoPHIE</h1>
+		Please enable <tt>mod_rewrite</tt> to use the Software Platform for Human Interaction Experiments:<br/>
+		<br />
+		To activate mod_rewrite functionality please look into your Webserver specific documentation.<br />
+		<br />
+		Procedure for XAMPP on Windows or Linux
+		<ol>
+		    <li>Locate the file <tt>httpd.conf</tt> containing the Apache configuration.</li>
+		    <li>Search for <tt>LoadModule rewrite_module modules/mod_rewrite.so</tt>. There should be a preceding hash (<tt>#</tt>) which needs to be removed.</li>
+		    <li>Restart the Apache webserver though the XAMPP console. You may use the cli command <tt>apache2ctl graceful</tt> on the console.</li>
+		    <li>Reload this page.</li>
+		</ol>
+
+		Procedure for Apache on a Debian Linux or Ubuntu Distribution
+		<ol>
+		    <li>Activate the module by executing the command <tt>a2enmod rewrite</tt> on the console with root priviledges.</li>
+		    <li>Restart the Apache webserver by running <tt>apache2ctl graceful</tt> on the console with root priviledges.</li>
+		    <li>Reload this page.</li>
+		</ol>
+
+		More information on the Apache Module mod_rewrite can be found on its <a href="http://httpd.apache.org/docs/current/mod/mod_rewrite.html">homepage</a>.
+	    </div>
+
+	    <div id="footer">
+		<span>Copyright &copy; 2012</span>
+	    </div>
+
+	</div>
+
+
+    </body>
+</html>

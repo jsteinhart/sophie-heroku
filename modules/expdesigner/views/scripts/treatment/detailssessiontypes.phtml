@@ -1,0 +1,53 @@
+<?php
+$module = 'expdesigner';
+?>
+<h2>Session Types</h2>
+
+<div class="actionToolbar">
+	<ul>
+		<li><?php echo $this->buttonLink('<img src="/_media/Icons/brick_add.png" border="0" alt="Add Type"> Add Type', $this->url(array('module'=>'expdesigner', 'controller'=>'sessiontype', 'action'=>'add', 'treatmentId'=>$this->treatment['id']), 'default', true)); ?></li>
+	</ul>
+</div>
+
+<div class="table-responsive">
+<table class="table table-striped table-hover">
+<tr><th>Name</th><th>Participant Management</th><th>Number of Groups</th><th>Options</th></tr>
+<?php
+foreach ($this->sessiontypes as $type):
+?>
+<tr id="sessiontypeListRow<?php echo $this->escape($type['id']); ?>">
+	<td><?php echo $this->escape($type['name']); ?></td>
+	<td><?php echo $this->escape($type['participantMgmt']); ?></td>
+	<td><?php echo $this->escape($type['size']); ?></td>
+	<td>
+		<?php
+			echo $this->buttonLink('<img src="/_media/Icons/book_add.png" border="0" alt="Add Session" title="Add Session">', $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'add', 'sessiontypeId'=>$type['id']), 'default', true),
+									null,
+									'xs');
+
+			echo ' ';
+
+			echo $this->buttonLink('<img src="/_media/Icons/brick_edit.png" border="0" alt="Edit Sessiontype" title="Edit Sessiontype">', $this->url(array('module'=>'expdesigner', 'controller'=>'sessiontype', 'action'=>'edit', 'treatmentId'=>$this->treatment['id'], 'sessiontypeId'=>$type['id']), 'default', true),
+									null,
+									'xs');
+		
+			if ($type['participantMgmt'] == 'static')
+			{
+				echo ' ';
+			
+				echo $this->buttonLink('<img src="/_media/Icons/bricks.png" border="0" alt="Edit Grouping" title="Edit Grouping">', $this->url(array('module'=>'expdesigner', 'controller'=>'sessiontype', 'action'=>'grouping', 'treatmentId'=>$this->treatment['id'], 'sessiontypeId'=>$type['id']), 'default', true),
+									null,
+									'xs');
+			}
+
+			echo ' ';
+
+			echo $this->buttonLink('<img src="/_media/Icons/brick_delete.png" border="0" alt="Delete Sessiontype" title="Delete Sessiontype">', 'javascript:expdesigner.deleteSessiontype(' . $type['id'] . ')',
+									null,
+									'xs');
+		?>
+	</td>
+</tr>
+<?php endforeach; ?>
+</table>
+</div>

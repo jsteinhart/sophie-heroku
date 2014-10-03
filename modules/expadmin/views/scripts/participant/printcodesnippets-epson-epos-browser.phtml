@@ -1,0 +1,80 @@
+<h2>Print Code Snippets</h2>
+
+<div id="printingState">Loading page ...</div>
+
+<script language="text/javascript">
+    dojo.ready(function () {
+        dojo.require("dojo.io.iframe");
+
+        var printingStateContainer = dojo.byId("printingState");
+        printingStateContainer.innerHTML = 'Printing code snippets, please wait ...';
+
+        dojo.io.iframe.send({
+            url:'<?php echo $this->printerUrl; ?>',
+            method:'POST',
+            headers:{
+            <?php
+            foreach ($this->printRequestHeaders as $headerName => $headerValue) {
+                echo '      \'' . $headerName . '\': \'' . $headerValue . '\',' . "\n";
+            }
+            ?>
+            },
+            handleAs:"xml",
+            preventCache:true,
+            postData:'<?php echo $this->printRequest; ?>',
+
+            load:function (response, ioArgs) {
+                printingStateContainer.innerHTML = response.getElementsByTagName('response')[0].getAttribute('success');
+                return response;
+            },
+
+            error:function (response, ioArgs) {
+                printingStateContainer.innerHTML = "An unexpected error occurred: " + response;
+                return response;
+            }
+        });
+
+
+        /*    var xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?php echo $this->printerUrl; ?>', true);
+    xhr.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
+    xhr.setRequestHeader('If-Modified-Since', 'Thu, 01 Jan 1970 00:00:00 GMT');
+    xhr.onreadystatechange = function () {
+
+        // Receive response document
+        if (xhr.readyState == 4) {
+
+            // Parse response document
+            if (xhr.status == 200) {
+                var res = xhr.responseXML;
+                printingStateContainer.innerHTML = res.getElementsByTagName('response')[0].getAttribute('success');
+            }
+            else {
+                printingStateContainer.innerHTML = 'Network error occured.';
+            }
+        }
+    };
+
+    xhr.send('<?php //echo $this->printRequest; ?>');
+    */
+        /*
+        dojo.xhrPost(
+                {
+                    url: printerUrl,
+                    headers: {
+                        'Content-Type': 'text/xml; charset=utf-8',
+                        'If-Modified-Since': 'Thu, 01 Jan 1970 00:00:00 GMT'
+                    },
+                    handleAs: "text",
+                    preventCache: true,
+                    postData: printReq,
+                    load: function(data){
+                        printingStateContainer.innerHTML = data.getElementsByTagName('response')[0].getAttribute('success');
+                    },
+                    error: function(error){
+                        printingStateContainer.innerHTML = "An unexpected error occurred: " + error;
+                    }
+                }
+        );*/
+    });
+</script>

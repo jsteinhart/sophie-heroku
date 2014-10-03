@@ -1,0 +1,39 @@
+<?php
+$module = 'expdesigner';
+?>
+<div class="actionToolbar">
+	<ul>
+		<li><?php echo $this->buttonLink('<img src="/_media/Icons/user_add.png" border="0" alt="Add Type"> Add Type', $this->url(array('module'=>'expdesigner', 'controller'=>'type', 'action'=>'add', 'treatmentId'=>$this->treatment['id']), 'default', true)); ?></li>
+	</ul>
+</div>
+
+<?php if (is_array($this->types) && count($this->types)): ?>
+<div class="table-responsive">
+<table id="treatmentTypeList" class="table table-striped table-hover">
+<tr><th>Label</th><th>Name</th><th>Options</th></tr>
+<?php
+foreach ($this->types as $type):
+?>
+<tr data-pk="<?php echo $type['label']; ?>" id="typeListRow<?php echo $this->escape($type['label']); ?>?>;">
+	<td>
+		<?php if (!empty($type['icon'])): ?>
+			<img src="/_media/Icons/<?php echo $this->escape($type['icon']); ?>" border="0" alt="" title="" />
+		<?php endif; ?>
+		<?php echo $this->escape($type['label']); ?>
+	</td>
+	<td><?php echo $this->escape($type['name']); ?></td>
+	<td>
+		<button class="btn btn-default btn-xs" onclick="window.location.href='<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'type', 'action'=>'edit', 'treatmentId'=>$this->treatment['id'], 'typeLabel'=>$type['label'])); ?>'"><img src="/_media/Icons/user_edit.png" border="0" alt="Edit Type" title="Edit Type"></button>
+		<?php
+		echo '<button class="btn btn-default btn-xs" onclick="expdesigner.deleteType(' . $this->treatment['id'] . ',\'' . $type['label'] . '\');"><img src="/_media/Icons/user_delete.png" border="0" alt="Delete type" title="Delete type" /></button>';
+		?>
+	</td>
+</tr>
+<?php endforeach; ?>
+</table>
+</div>
+<?php
+endif;
+
+$this->inlineScript()->appendScript('expdesigner.initTreatmentTypeList();');
+echo $this->inlineScript();

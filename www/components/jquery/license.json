@@ -1,0 +1,13 @@
+{
+    "name": "Jquery",
+    "version": {
+        "2": "1.10.2"
+    },
+    "homepage": "http://jquery.com",
+    "authors": [
+        "jQuery Foundation and other contributors"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

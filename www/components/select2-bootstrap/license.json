@@ -1,0 +1,13 @@
+{
+    "name": "Select2-bootstrap",
+    "version": {
+        "2": "3.4.5"
+    },
+    "homepage": "http://fk.github.io/select2-bootstrap-css",
+    "authors": [
+        "Tom Terrace"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

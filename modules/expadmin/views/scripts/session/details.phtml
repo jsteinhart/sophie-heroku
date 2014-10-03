@@ -1,0 +1,99 @@
+<?php
+$module = 'expadmin';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('Session Details', 'PREPEND');
+$this->headTitle($this->session['name'], 'PREPEND');
+
+$this->dojo()->requireModule("dojo.hash");
+
+$sessionProcess = 'expadmin.initSessionDetails(' . $this->session['id'] . ');';
+
+$this->jsOnLoad()->appendScript($sessionProcess);
+?>
+<h1>Session Details</h1>
+
+<div id="actionMainNav">
+	<ul>
+		<li>
+			<a href="<?php echo $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'edit', 'sessionId'=>$this->session['id'])); ?>">
+				<img src="/_media/Icons/book_edit.png" border="0" alt="" title="">
+				Edit Session
+			</a>
+		</li>
+
+		<li>
+			<a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'treatment', 'action'=>'details', 'treatmentId'=>$this->session['treatmentId']), 'default', true); ?>">
+				<img src="/_media/Icons/chart_organisation.png" border="0" alt="" title="">
+				Go to Treatment
+			</a>
+		</li>
+
+		<li id="sessionSetStateRunning"<?php if ($this->session['state']!='created' && $this->session['state']!='paused') { echo ' class="hidden"'; } ?>>
+			<a href="javascript:expadmin.sessionSetState('running');">
+				<img src="/_media/Icons/control_play_blue.png" border="0" alt="" title="">
+				Set running
+			</a>
+		</li>
+		<li id="sessionSetStatePaused"<?php if ($this->session['state']!='running') { echo ' class="hidden"'; } ?>>
+			<a href="javascript:expadmin.sessionSetState('paused');">
+				<img src="/_media/Icons/control_pause_blue.png" border="0" alt="" title="">
+				Set paused
+			</a>
+		</li>
+
+		<li id="sessionSetAdminProcessStateRunning">
+			<a href="javascript:expadmin.setAdminProcessState('running');">
+				<img src="/_media/Icons/control_play_blue.png" border="0" alt="" title="">
+				Start Admin Process
+			</a>
+		</li>
+		<li id="sessionSetAdminProcessStateStopped" class="hidden">
+			<a href="javascript:expadmin.setAdminProcessState('stopped');">
+				<img src="/_media/Icons/control_stop_blue.png" border="0" alt="" title="">
+				Stop Admin Process
+			</a>
+		</li>
+
+		<li class="sub" id="sessionSetStateFinished">
+			<a href="javascript:expadmin.sessionSetState('finished');">
+				<img src="/_media/Icons/control_stop_blue.png" border="0" alt="" title="">
+				Set finished
+			</a>
+		</li>
+<?php /*
+		<li class="sub" id="sessionSetStateArchived">
+			<a onClick="alert('Function deactivated'); return false;" href="javascript:expadmin.sessionSetState('archived');">
+				Archive Session
+			</a>
+		</li>
+*/ ?>
+		<li class="sub" id="sessionSetStateDeleted">
+			<a href="javascript:expadmin.deleteSession('<?php echo $this->session['id']; ?>');">
+				<img src="/_media/Icons/book_delete.png" border="0" alt="" title="">
+				Delete Session
+			</a>
+		</li>
+<?php /*
+		<li class="sub">
+			<a onClick="alert('Function deactivated'); return false;" href="<?php echo $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'print', 'sessionId'=>$this->session['id']), 'default', true); ?>" target="_blank">
+				<img src="/_media/Icons/printer.png" border="0" alt="Print version" title="Print version">
+				Print Version
+			</a>
+		</li>
+*/ ?>
+	</ul>
+</div>
+
+<div id="sessionAdminProcessWarning" class="alert alert-warning hidden">
+	<p><strong>The Admin Process does not seem to be running.</strong></p>
+	<p>Please start the Admin Process to let SoPHIE manage some background processes.</p>
+</div>
+
+<?php
+$sessionAdminMonitor = new Sophie_Admin_Session_Interface();
+$sessionAdminMonitor->setView($this);
+$sessionAdminMonitor->setSession($this->session);
+$sessionAdminMonitor->init();
+echo $sessionAdminMonitor->render();

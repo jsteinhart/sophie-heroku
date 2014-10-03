@@ -1,0 +1,13 @@
+{
+    "name": "Requirejs",
+    "version": {
+        "2": "2.1.11"
+    },
+    "homepage": "http://requirejs.org",
+    "authors": [
+        "Andy Chung"
+    ],
+    "license": [
+        "MIT", "BSD"
+    ]
+}

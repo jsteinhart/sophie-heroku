@@ -1,0 +1,32 @@
+<?php
+$module = 'sfwsysadmin';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('System Administration', 'PREPEND');
+$this->headTitle('System Info', 'PREPEND');
+$this->headTitle('Drives', 'PREPEND');
+?>
+<h1>Drives</h1>
+
+<table class="table table-striped">
+<tr>
+	<th>Name</th>
+	<th>Space</th>
+</tr>
+<?php
+foreach ($this->details as $name => $info)
+{
+	echo '<tr>';
+	echo '<td>';
+		echo $this->escape($name);
+	echo '</td>';
+	echo '<td>';
+		echo $this->byteFormat($info['free']);
+		echo ' / ';
+		echo $this->byteFormat($info['total']);
+	echo '</td>';
+	echo '</tr>';
+}
+?>
+</table>

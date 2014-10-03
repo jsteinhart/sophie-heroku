@@ -1,0 +1,13 @@
+{
+    "name": "Jquery-ui",
+    "version": {
+        "2": "1.10.4-custom"
+    },
+    "homepage": "http://jqueryui.com",
+    "authors": [
+        "jQuery Foundation and other contributors"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

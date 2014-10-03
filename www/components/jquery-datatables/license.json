@@ -1,0 +1,13 @@
+{
+    "name": "Jquery-datatables",
+    "version": {
+        "2": "1.9.4"
+    },
+    "homepage": "http://www.datatables.net",
+    "authors": [
+        "SpryMedia Ltd"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

@@ -1,0 +1,37 @@
+<?php
+$module = 'expadmin';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('Step Timer Options', 'PREPEND');
+$this->headTitle($this->session['name'], 'PREPEND');
+$this->headTitle($this->step['name'], 'PREPEND');
+
+$jsinit = 'expadmin.sessionId = ' . $this->session['id'] . ';';
+$jsinit .= 'expadmin.pollStepTimerDetails(' . $this->step['id'] . ', ' . $this->stepgroupLoop . ');';
+$this->jsOnLoad()->appendScript($jsinit);
+
+$timerContextLabels = array();
+$timerContextLabels['E'] = 'Everyone';
+$timerContextLabels['G'] = 'Group';
+$timerContextLabels['P'] = 'Participant';
+
+$timerStartLabels = array();
+$timerStartLabels['sync-context'] = 'Automatically on Sync';
+$timerStartLabels['admin'] = 'By Admin';
+
+?>
+<h1>Timer</h1>
+
+<table class="table table-hover">
+<tr><td>Server Time</td><td><span id="serverTime"><?php echo date('Y-m-d H:i:s'); ?></span></td></tr>
+<tr><td>Context</td><td><span id="timerContext"><?php echo
+ $timerContextLabels[$this->timerContext]; ?></span></td></tr>
+ <tr><td>Start</td><td><span id="timerStart"><?php echo
+ $timerStartLabels[$this->timerStart]; ?></span></td></tr>
+
+</table>
+
+<div id="optionsTimerDetails">
+	<?php echo $this->partial('options/timer-details.phtml', $this->getVars()); ?>
+</div>

@@ -1,0 +1,51 @@
+<?php
+$config = Zend_Registry::get('config');
+
+if (isset($config['systemConfig']['receiptPrinters']) && is_array($config['systemConfig']['receiptPrinters']) && sizeof($config['systemConfig']['receiptPrinters']) > 0)
+{
+	$hasReceiptPrinter = true;
+}
+else
+{
+	$hasReceiptPrinter = false;
+}
+
+if (isset($config['systemConfig']['sophie']['expadmin']) && isset($config['systemConfig']['sophie']['expadmin']['payoffReceiptPdfTemplates']) && is_array($config['systemConfig']['sophie']['expadmin']['payoffReceiptPdfTemplates']) && sizeof($config['systemConfig']['sophie']['expadmin']['payoffReceiptPdfTemplates']) > 0) 
+{
+	$hasReceiptPdfTemplate = true;
+}
+else
+{
+	$hasReceiptPdfTemplate = false;
+}
+?>
+<h3>Payoff List</h3>
+<ul>
+    <li>
+        <a href="<?php echo $this->url(array('module' => 'expadmin', 'controller' => 'report', 'action' => 'payoff', 'sessionId' => $this->session['id'])); ?>"
+           target="_blank">Show in Browser</a>
+	</li>
+    <li>
+        <a href="<?php echo $this->url(array('module' => 'expadmin', 'controller' => 'report', 'action' => 'payoff', 'sessionId' => $this->session['id'], 'outputFormat' => 'xlsx')); ?>" target="_blank">Download Excel Payoff List (XSLX)</a>
+	</li>
+</ul>
+	
+<h3>Payoff Receipts</h3>
+<ul>
+    <li>
+    <?php  echo '<a href="' . $this->url(array('module' => 'expadmin', 'controller' => 'report', 'action' => 'payoff', 'sessionId' => $this->session['id'], 'outputFormat' => 'pdf')) . '" target="_blank">Download Plain Receipts</a>'; ?>
+	</li>
+<?php
+if ($hasReceiptPdfTemplate)
+{
+	foreach ($config['systemConfig']['sophie']['expadmin']['payoffReceiptPdfTemplates'] as $templateName => $template)
+	{
+		echo '<li>';
+		echo '<a href="' . $this->url(array('module' => 'expadmin', 'controller' => 'report', 'action' => 'payoff', 'sessionId' => $this->session['id'], 'outputFormat' => 'pdf', 'template' => $templateName)) . '" target="_blank">Download Receipts ' . $this->escape($template['name']) . '</a>';
+		echo '</li>';
+	}
+}
+
+// if ($hasReceiptPrinter) {}
+?>
+</ul>

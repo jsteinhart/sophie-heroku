@@ -1,0 +1,97 @@
+<?php
+$themeName = 'minimal_1_0_0';
+echo $this->doctype();
+?>
+<html>
+<head>
+<?php
+	echo $this->headTitle();
+	echo $this->headMeta();
+	$this->headLink()->prependStylesheet('/expfront/theme/asset/' . $themeName .'/default.css', 'all');
+	echo $this->initFlashMessengerToaster();
+	echo $this->headLink();
+	echo $this->headStyle();
+	echo $this->dojo();
+	echo $this->headScript();
+
+	if (isset($this->participantLabel))
+	{
+		$loggedIn = true;
+	}
+	else
+	{
+		$session = new Zend_Session_Namespace('expfront');
+		if (isset($session->participantId))
+		{
+			$loggedIn = true;
+		}
+		else
+		{
+			$loggedIn = false;
+		}
+	}
+?>
+</head>
+
+<body class="claro">
+
+	<div id="main">
+
+		<div id="header">
+			<div id="headline">
+			</div>
+
+			<div id="headlinks">
+				<?php if ($loggedIn): ?>
+					<div id="sophie_timer_warning"></div>
+					<div id="sophie_timer"></div>
+				<?php else: ?>
+					<?php echo '<a href="' . $this->url(array('module'=>'expfront'), 'default', true) . '"><img src="/_media/Icons/key.png" alt="Login to Experiment" title="Login to Experiment"> Login to Experiment</a>'; ?>
+				<?php endif; ?>
+			</div>
+
+			<?php echo $this->placeholder('headContent'); ?>
+
+		</div>
+
+		<div id="content">
+			<?php echo $this->layout()->content; ?>
+		</div>
+
+		<div id="footer">
+			<?php
+				if (!$loggedIn)
+				{
+					$config = Zend_Registry::get('config');
+					if (isset($config['systemConfig']['sophie']['expfront']['showBackendLink']) && $config['systemConfig']['sophie']['expfront']['showBackendLink'] == 1)
+					{
+						echo '<a href="' . $this->url(array(), 'login', true) . '">Backend</a>';
+					}
+					if (isset($config['systemConfig']['sophie']['expfront']['showLicenseLink']) && $config['systemConfig']['sophie']['expfront']['showLicenseLink'] == 1)
+					{
+						echo '<a href="' . $this->url(array('module'=>'system', 'controller'=>'license', 'action'=>'index'), 'default', true) . '">License</a>';
+					}
+					echo '<span>Copyright &copy; ' . date("Y") . '</span>';
+				}
+			?>
+		</div>
+
+	</div>
+
+<?php
+	$debugConsole = $this->placeholder('debugConsole');
+	if ($debugConsole != '')
+	{
+		echo '<div id="debugConsole">';
+		echo '<h3>Debug Console</h3>';
+		echo nl2br($this->escape($debugConsole));
+		echo '</div>';
+	}
+
+	echo $this->inlineScript();
+	echo $this->jsOnDomReady();
+	echo $this->jsOnLoad();
+?>
+
+</body>
+</html>

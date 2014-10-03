@@ -1,0 +1,101 @@
+<?php echo $this->doctype() . "\n"; ?>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php
+	echo $this->headTitle();
+	echo $this->headMeta();
+	
+	$styles = array(
+		'/components/bootstrap/3.0.3/css/bootstrap.min.css',
+		'/_styles/symbic/form.css',
+		'/_styles/application/default.css'
+	);
+	while ($style = array_pop($styles))
+	{
+		$this->headLink()->prependStylesheet($style, 'all');
+	}
+
+	echo $this->headLink();
+	echo $this->headStyle();
+
+	$inlineScripts = array(
+		'/components/jquery/1.10.2/jquery-1.10.2.min.js',
+		'/components/bootstrap/3.0.3/js/bootstrap.min.js'
+	);
+	
+	while ($inlineScript = array_pop($inlineScripts))
+	{
+		$this->inlineScript()->prependFile($inlineScript);
+	}
+	echo $this->headScript();
+?>
+</head>
+<body>
+
+	<div id="small_header">
+		<?php echo $this->placeholder('headContent'); ?>
+	</div>
+
+<?php
+if (isset($this->steps)):
+?>
+	<div id="breadcrumbs">
+		<ul>
+		<?php
+		// <ul class="breadcrumb">
+		$i = 1;
+		$first = true;
+		foreach ($this->steps as $step)
+		{
+			if ($i > 1)
+			{
+				echo '<li>&raquo;</li>';
+			}
+
+			if ($this->finishedStep > $i)
+			{
+				echo '<li><img src="/_media/Icons/tick.png" /></li>';
+			}
+	
+			echo '<li';
+			if ($this->stepNumber == $i)
+			{
+				echo ' class="active"';
+			}
+			echo '>';
+			if ($this->finishedStep >= $i)
+			{
+				echo '<a href="' . $this->url(array('step' => $i)) . '">';
+			}
+			echo '<small>Step ' . $i . '</small>';
+			echo '<span>' . $step['name'] . '</span>';
+			if ($this->finishedStep >= $i)
+			{
+				echo '</a>';
+			}
+			echo '</li>';
+			$i++;
+		}
+		//</ul>
+		?>
+		</ul>
+		<div class="clear"></div>
+	</div>
+<?php
+endif;
+?>
+
+	<div class="panel panel-default" id="content">
+		<div class="panel-body">
+			<?php echo $this->layout()->content; ?>
+		</div>
+	</div>
+
+<?php
+	echo $this->inlineScript();
+	echo $this->jsOnDomReady();
+	echo $this->jsOnLoad();
+?>
+</body>
+</html>

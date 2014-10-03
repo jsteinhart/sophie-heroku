@@ -1,0 +1,69 @@
+<?php
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', 'sfwlogin'));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', 'sfwlogin'));
+
+$t = $this->translator;
+if (empty($this->loginConfig['pageTitle']))
+{
+	$this->loginConfig['pageTitle'] = 'Login';
+}
+$this->headTitle($t->_($this->loginConfig['pageTitle']), 'PREPEND');
+
+$autofocusLogin = $this->form->getElement('login')->getAttrib('autofocus');
+if ($autofocusLogin !== null && $autofocusLogin !== false)
+{
+	// TODO: use html5 shim instead
+	$this->jsOnDomReady()->appendScript('document.getElementById("login").focus();');
+}
+else
+{
+	$autofocusPassword = $this->form->getElement('login')->getAttrib('autofocus');
+	if ($autofocusPassword !== null && $autofocusPassword !== false)
+	{
+		// TODO: use html5 shim instead
+		$this->jsOnDomReady()->appendScript('document.getElementById("password").focus();');
+	}
+}
+
+echo '<div id="sfwloginContainer">';
+
+if (!empty($this->loginConfig['headline']))
+{
+	echo '<h1>' . $t->_($this->loginConfig['headline']) . '</h1>';
+}
+
+if (isset($this->loginConfig['showNoScriptWarning']) && $this->loginConfig['showNoScriptWarning'])
+{
+	echo '<noscript><div class="error">' . $t->_('##noScriptWarning##') . '</div></noscript>';
+}
+
+if (!empty($this->left))
+{
+	echo '<div id="loginFormExtraContentLeft" class="loginFormExtraContent pull-left">';
+	echo $this->left;
+	echo '</div>';
+}
+
+// TODO: Keep me signed in for XXX
+// TODO: or Sign up
+// TODO: Or are you having problems logging in?
+// TODO: Move Forgot your password? out of form?
+
+echo '<div id="loginForm" class="loginForm">';
+echo $this->form;
+echo '</div>';
+
+// TODO: add right column content
+/* $this->right = '<h2>What\'s new?</h2>';
+  $this->right .= '<div>...</div>';
+  $this->right .= '<h2>Learn more at ...?</h2>';
+  $this->right .= '<div>...</div>'; */
+
+if (!empty($this->right))
+{
+	echo '<div id="loginFormExtraContentRight" class="loginFormExtraContent pull-right">';
+	echo $this->right;
+	echo '</div>';
+}
+
+echo '</div>';

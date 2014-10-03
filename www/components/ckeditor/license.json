@@ -1,0 +1,13 @@
+{
+    "name": "Ckeditor",
+    "version": {
+        "2": "4.3.3"
+    },
+    "homepage": "http://ckeditor.com",
+    "authors": [
+        "Frederico Knabben"
+    ],
+    "license": [
+        "GPL", "LGPL", "MPL"
+    ]
+}

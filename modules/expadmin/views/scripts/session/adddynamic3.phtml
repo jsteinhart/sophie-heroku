@@ -1,0 +1,10 @@
+<?php
+$this->form->setLegend('Add Dynamic Session');
+// for	Experiment ' . $this->experiment['name'] . ', Treatment ' . $this->treatment['name']);
+echo $this->form;
+
+$this->jsOnLoad()->appendScript('
+	jQuery(\'#ownerId\').select2({ width: \'100%\' });
+	jQuery(\'#userAccess\').select2({ width: \'100%\' });
+	jQuery(\'#usergroupAccess\').select2({ width: \'100%\' });
+');

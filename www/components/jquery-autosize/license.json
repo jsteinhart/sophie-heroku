@@ -1,0 +1,13 @@
+{
+    "name": "Jquery-autosize",
+    "version": {
+        "2": "1.18.1"
+    },
+    "homepage": "http://www.jacklmoore.com/autosize",
+    "authors": [
+        "Jack Moore"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

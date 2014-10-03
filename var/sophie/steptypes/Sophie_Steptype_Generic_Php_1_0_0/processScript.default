@@ -1,0 +1,10 @@
+$sophieAction = $requestApi->getParam('sophieAction', '');
+
+if ($sophieAction == 'continue')
+{
+  return true;
+}
+else
+{
+  return false;
+}

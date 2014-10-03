@@ -1,0 +1,105 @@
+<?php
+$module = 'sysadmin';
+$this->headTitle('System Administration', 'PREPEND');
+$this->headTitle('SoPHIE Steptypes', 'PREPEND');
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+?>
+<h1>SoPHIE Steptypes</h1>
+
+<div id="actionMainNav">
+	<ul>
+<?php /*
+		<li><a href="<?php echo $this->url(array('module'=>'sysadmin', 'controller'=>'steptype', 'action'=>'add'), 'default', true); ?>"><img src="/_media/Icons/page_add.png" border="0" alt="" title=""> Add Steptype</a></li>
+*/ ?>
+		<li><a href="<?php echo $this->url(array('module'=>'sysadmin', 'controller'=>'steptype', 'action'=>'refresh'), 'default', true); ?>"><img src="/_media/Icons/page_refresh.png" border="0" alt="" title=""> Refresh Steptype Packages</a></li>
+	</ul>
+	<div class="clear"></div>
+</div>
+
+<div>
+Registered Steptype Paths are:
+<ul>
+<?php
+foreach ($this->basepaths as $basepath)
+{
+	echo '<li>';
+	if (!file_exists($basepath) || !is_dir($basepath))
+	{
+	  echo '<b>None existing:</b> ';
+	}
+	echo $this->escape($basepath);
+	echo '</li>';
+}
+?>
+<li>System Default: <?php echo $this->escape($this->defaultBasepath); ?></li>
+</ul>
+</div>
+
+<?php
+if (count($this->steptypes) > 0)
+{
+	$this->jsOnLoad()->appendScript('sysadmin.initSteptypeList();');
+?>
+<div class="table-responsive">
+<table id="experimentList" class="table table-striped table-hover">
+<thead>
+	<tr>
+		<th scope="col">Name</th>
+		<th scope="col">System Name</th>
+		<th scope="col">Installed</th>
+		<th scope="col">Active</th>
+		<th scope="col">Abstract</th>
+		<th scope="col">Options</th>
+	</tr>
+</thead>
+<tbody>
+	<?php
+foreach ($this->steptypes as $steptype) {
+?>
+	<tr>
+		<td><?php echo $this->escape($steptype['name']); ?></td>
+		<td><?php echo $this->escape($steptype['systemName']); ?></td>
+		<td class="center">
+			<?php if ($this->escape($steptype['isInstalled'])): ?>
+				<img src="/_media/Icons/tick.png" border="0" alt="yes" title="">
+			<?php else: ?>
+				<img src="/_media/Icons/cross.png" border="0" alt="no" title="">
+			<?php endif; ?>
+		</td>
+		<td class="center">
+			<?php if ($this->escape($steptype['isActive'])): ?>
+				<img src="/_media/Icons/tick.png" border="0" alt="yes" title="">
+			<?php else: ?>
+				<img src="/_media/Icons/cross.png" border="0" alt="no" title="">
+			<?php endif; ?>
+		</td>
+		<td class="center">
+			<?php if ($this->escape($steptype['isAbstract'])): ?>
+				<img src="/_media/Icons/box.png" border="0" alt="yes" title="">
+			<?php else: ?>
+				<img src="/_media/Icons.inactive/box.png" border="0" alt="no" title="">
+			<?php endif; ?>
+		</td>
+		<td>
+			<button class="btn btn-default btn-xs" onclick="window.location.href='<?php echo $this->url(array('module'=>'sysadmin','controller'=>'steptype','action'=>'install', 'steptypeId'=>$steptype['systemName'])); ?>'" title="install"><img src="/_media/Icons/page_save.png" border="0" alt="" title=""></button>
+			<?php if ($steptype['isActive']): ?>
+				<button class="btn btn-default btn-xs" onclick="window.location.href='<?php echo $this->url(array('module'=>'sysadmin','controller'=>'steptype','action'=>'deactivate', 'steptypeId'=>$steptype['systemName'])); ?>'" title="deactivate"><img src="/_media/Icons/page_green.png" border="0" alt="" title=""></button>
+			<?php else: ?>
+				<button class="btn btn-default btn-xs" onclick="window.location.href='<?php echo $this->url(array('module'=>'sysadmin','controller'=>'steptype','action'=>'activate', 'steptypeId'=>$steptype['systemName'])); ?>'" title="activate"><img src="/_media/Icons/page_red.png" border="0" alt="" title=""></button>
+			<?php endif; ?>
+		</td>
+    </tr>
+
+<?php
+}
+?>
+</tbody>
+</table>
+</div>
+
+<?php } else { ?>
+<div class="alert alert-info">
+		<p>No steptypes found.</p>
+</div>
+<?php } ?>

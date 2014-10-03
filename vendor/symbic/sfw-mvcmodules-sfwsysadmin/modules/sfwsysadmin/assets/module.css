@@ -1,0 +1,45 @@
+.sfwsysadminDashboardCategoryBlock {
+	margin: 20px 5px 20px 5px;
+	padding: 10px;
+	border: 2px solid #007fb4;
+	background-color:#fff;
+}
+.sfwsysadminTaskHasDescription {
+	border-bottom: 1px dotted #333;
+	cursor: help;
+}
+table.sfwsysadminTaskHistory a {
+	text-decoration: none;
+}
+
+table.sfwsysadminTaskHistory ul.logs {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+table.sfwsysadminTaskHistory ul.logs > li {
+	margin: 0;
+	padding: 0;
+	padding: 5px 10px 5px 30px;
+	background-repeat: no-repeat;
+	background-position: 7px 7px;
+	background-image: url(../../../_media/Icons.inactive/help.png);
+}
+table.sfwsysadminTaskHistory ul.logs > li.message {
+	background-image: url(../../../_media/Icons/email.png);
+}
+table.sfwsysadminTaskHistory ul.logs > li.notice {
+	background-image: url(../../../_media/Icons/information.png);
+}
+table.sfwsysadminTaskHistory ul.logs > li.warning {
+	background-image: url(../../../_media/Icons/error.png);
+}
+table.sfwsysadminTaskHistory ul.logs > li.error, table.sfwsysadminTaskHistory ul.logs > li.exception {
+	background-image: url(../../../_media/Icons/exclamation.png);
+}
+table.sfwsysadminTaskHistory div.logContent {
+	font-family: monospace;
+}
+table.sfwsysadminTaskHistory  tr.logHidden {
+	display: none;
+}

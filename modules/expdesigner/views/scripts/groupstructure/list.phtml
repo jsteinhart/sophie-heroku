@@ -1,0 +1,46 @@
+<?php
+$module = 'expdesigner';
+?>
+<div class="actionToolbar">
+	<ul>
+		<li><a href="<?php echo $this->url(array('module'=>$module, 'controller'=>'groupstructure', 'action'=>'edit', 'treatmentId'=>$this->treatment['id']), 'default', true); ?>" title="Edit Group Structure"><img src="/_media/Icons/group_edit.png" border="0" alt="Edit Group Structure"> Edit Group Structure</a></li>
+	</ul>
+</div>
+<?php if (is_array($this->groupStructure['structure']) && count($this->groupStructure['structure'])): ?>
+<div class="table-responsive">
+<table class="table table-striped table-hover">
+<tr><th>Label</th><th>Name</th><th>Number per Group</th></tr>
+<?php
+foreach ($this->groupStructure['structure'] as $label => $structure):
+?>
+<tr id="structureListRow<?php echo $this->escape($label); ?>?>;">
+	<td><?php echo $this->escape($label); ?></td>
+	<td><?php echo $this->escape($structure['name']); ?></td>
+	<td><?php
+		if ($structure['min'] == $structure['max'])
+		{
+			switch ($structure['min'])
+			{
+				case 0:
+					echo 'No';
+					break;
+				/*
+				case 1:
+					echo 'One';
+					break;
+				*/
+				default:
+					echo $this->escape($structure['min']);
+			}
+			echo ' participant' . (($structure['min'] == 1) ? '' : 's');
+		}
+		else
+		{
+			echo $this->escape($structure['min']) . '&ndash;' . $this->escape($structure['max']) . ' participants';
+		}
+	?></td>
+</tr>
+<?php endforeach; ?>
+</table>
+</div>
+<?php endif; ?>

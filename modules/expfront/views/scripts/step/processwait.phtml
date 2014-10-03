@@ -1,0 +1,23 @@
+<div id="cheader">
+	<div id="cheadtexts">
+		<span id="cheadline">Please wait until the system shows the next screen</span><br />
+	</div>
+</div>
+<form id="processwaitForm" action="<?php echo $this->url(); ?>?<?php echo http_build_query($_GET); ?>" method="POST">
+<?php
+foreach ($_POST as $key => $value)
+{
+	echo $this->formHidden($key, $value);
+}
+?>
+</form>
+<?php
+$this->headScript()->captureStart();
+?>
+function ReloadSync ()
+{
+	dojo.byId('processwaitForm').submit();
+}
+window.setTimeout("ReloadSync()", 1000);
+<?php
+$this->headScript()->captureEnd();

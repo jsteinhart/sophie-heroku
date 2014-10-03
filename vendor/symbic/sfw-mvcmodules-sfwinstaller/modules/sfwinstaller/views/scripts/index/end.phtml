@@ -1,0 +1,26 @@
+<?php
+
+echo '<h1>Installation finished</h1>';
+
+if (isset($this->error))
+{
+	echo '<div class="alert alert-danger">';
+		echo '<p><strong>An error occured</strong></p>';
+		echo '<p>' . $this->escape($this->error) . '</p>';
+	echo '</div>';
+
+	return;
+}
+?>
+
+<div class="alert alert-info">
+	<p><strong>Installation finished</strong></p>
+	<p>You can now login to the Webinterface. Have fun!</p>
+</div>
+
+
+<div class="actionToolbar">
+	<ul>
+		<li><a href="<?php echo $this->url(array(), 'default', true); ?>"><img src="/_media/Icons/key.png" alt="" title=""> Goto Startpage</a></li>
+	</ul>
+</div>

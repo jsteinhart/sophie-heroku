@@ -1,0 +1,66 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+$this->headTitle('Assets', 'PREPEND');
+?>
+<div class="actionToolbar">
+	<ul><?php
+	$nav = array ();
+
+	$nav[] = '<a href="' . $this->url(array (
+		'module' => 'expdesigner',
+		'controller' => 'asset',
+		'action' => 'add',
+		'treatmentId' => $this->treatmentId
+	), 'default', true) . '" title="Add Asset"><img src="/_media/Icons/picture_add.png" border="0" alt="Add Asset"> Add Asset</a>';
+
+	echo '<li>' . implode('</li><li>', $nav) . '</li>';
+
+	?>
+
+	</ul>
+	<div class="clear"></div>
+</div>
+
+<?php
+
+
+
+if(empty($this->assets))
+{
+	echo 'No assets found for this treatment.';
+}
+else
+{
+	echo "<table><tr><th>Title</th><th>Asset</th><th>Delete</th></tr>";
+
+	foreach($this->assets as $asset)
+	{
+		echo "<tr>";
+		echo "<td>" . $asset->title . "</td>";
+		echo "<td>";
+		echo '<img width="200px" src="data:image/jpeg;base64,' . base64_encode( $asset->asset ) . '" />';
+		echo "</td>";
+		echo  "<td>";
+
+?><div class="actionToolbar">
+	<ul><?php
+	$nav = '<a href="javascript:expdesigner.deleteAsset(' . $asset->id . ');"><img src="/_media/Icons/picture_delete.png" border="0" alt="Delete Asset"> Delete Asset</a>';
+
+	echo  $nav;
+
+	?>
+
+	</ul>
+	<div class="clear"></div>
+</div>
+<?php
+		echo "</td>";
+		echo "</tr>";
+	}
+
+	echo "</table>";
+
+
+}

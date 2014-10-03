@@ -1,0 +1,13 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+$this->headTitle('Add Experiment', 'PREPEND');
+
+$this->jsOnLoad()->appendScript('
+	jQuery(\'#ownerId\').select2({ width: \'100%\' });
+	jQuery(\'#userAccess\').select2({ width: \'100%\' });
+	jQuery(\'#usergroupAccess\').select2({ width: \'100%\' });
+');
+
+echo $this->form;

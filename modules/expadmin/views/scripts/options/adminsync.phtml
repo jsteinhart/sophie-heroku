@@ -1,0 +1,45 @@
+<?php
+if (isset($this->adminSyncNote) && !empty($this->adminSyncNote))
+{
+?>
+<fieldset>
+	<legend>Admin Sync Note</legend>
+	<div style="margin: 5px;">
+		<?php echo nl2br($this->escape($this->adminSyncNote)); ?>
+	</div>
+</fieldset>
+<?php
+}
+
+/*
+<fieldset>
+	<legend>Import Variables</legend>
+	<div style="margin: 5px;">
+		<form action="javascript:expadmin.sessionVariableImport('sessionVariableImportContent');">
+			<?php
+				echo $this->formTextarea('sessionVariableImportContent', $this->adminSyncNote);
+				echo $this->formSubmit('Import Variables');
+			?>
+		</form>
+	</div>
+</fieldset>
+*/
+
+if (!isset($this->varSync) || $this->varSync !== 'sync')
+{
+	echo $this->form;
+}
+else
+{
+?>
+<fieldset>
+	<legend>Sync Information</legend>
+	<div style="margin: 5px;">
+		<b>Step has already been set to sync.</b><br />
+		<br />
+		Set sync on: <?php echo date('d.m.Y H:i:s', $this->varSyncTimestamp); ?>
+	</div>
+</fieldset>
+<br />
+<?php
+}

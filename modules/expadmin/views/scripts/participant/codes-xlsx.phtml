@@ -1,0 +1,51 @@
+<?php
+$phpExcel = new PHPExcel();
+PHPExcel_Shared_File::setUseUploadTempDirectory(true);
+$phpExcel->getProperties()->setTitle("Participant Code List");
+$excelSheet = $phpExcel->getActiveSheet();
+
+$headNames = array (
+	'Session Name',
+	'Participant Label',
+	'Code'
+);
+
+$colIndex = 1;
+$rowIndex = 1;
+
+// Add Header Row
+foreach ($headNames as $value)
+{
+	$colIndex2 = $colIndex - 1;
+	for ($colIndexAlpha = ""; $colIndex2 >= 0; $colIndex2 = intval($colIndex2 / 26) - 1)
+	{
+		$colIndexAlpha = chr($colIndex2 % 26 + 0x41) . $colIndexAlpha;
+	}
+
+	$excelSheet->setCellValue($colIndexAlpha . $rowIndex, $value);
+	$colIndex++;
+}
+
+
+foreach ($this->codes as $code)
+{
+	$rowIndex++;
+	$colIndex = 1;
+
+	$lineCols = array($this->session['name'], $code['label'], $code['code']);
+
+	foreach ($lineCols as $lineCol)
+	{
+		$colIndex2 = $colIndex - 1;
+		for ($colIndexAlpha = ""; $colIndex2 >= 0; $colIndex2 = intval($colIndex2 / 26) - 1)
+		{
+			$colIndexAlpha = chr($colIndex2 % 26 + 0x41) . $colIndexAlpha;
+		}
+
+		$excelSheet->setCellValue($colIndexAlpha . $rowIndex, $lineCol);
+		$colIndex++;
+	}
+}
+
+$excelWriter = PHPExcel_IOFactory :: createWriter($phpExcel, 'Excel2007');
+$excelWriter->save('php://output');

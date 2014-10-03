@@ -1,0 +1,13 @@
+{
+    "name": "Audiojs",
+    "version": {
+        "2": "20131211"
+    },
+    "homepage": "http://kolber.github.io/audiojs",
+    "authors": [
+        "Anthony Kolber"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

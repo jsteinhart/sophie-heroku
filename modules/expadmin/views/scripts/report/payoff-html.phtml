@@ -1,0 +1,86 @@
+<h1>Payofflist for session: <?php echo $this->session['name']; ?></h1>
+<table class="table table-striped table-hover">
+<tr>
+  <th>Participant Code</th>
+  <th>Payoff</th>
+  <th>Money Payoff</th>
+  <th>Money Payoff (0.10)</th>
+<?php if (isset($this->secondaryPayoffs)) { ?>
+  <th>Sec. Payoff</th>
+  <th>Sec. Money Payoff</th>
+  <th>Sec. Money Payoff (0.10)</th>
+<?php } ?>
+</tr>
+
+<?php
+$payoffSum = 0;
+$moneyPayoffSum=0;
+$moneyPayoutSum=0;
+$secondaryPayoffSum = 0;
+$secondaryMoneyPayoffSum=0;
+$secondaryMoneyPayoutSum=0;
+foreach ($this->participants as $participant)
+{
+
+	echo '<tr>';
+		echo '<td>';
+			echo $participant['code'];
+		echo '</td>';
+
+		echo '<td>';
+			echo $this->payoffs[$participant['label']];
+		echo '</td>';
+
+	// TODO: do localization of number format
+		echo '<td>';
+			echo number_format($this->moneyPayoffs[$participant['label']], 2, '.', ',');
+		echo '</td>';
+		echo '<td>';
+			echo number_format($this->moneyPayouts[$participant['label']], 2, '.', ',');
+		echo '</td>';
+
+		if (isset($this->secondaryPayoffs)) {
+			echo '<td>';
+				echo $this->secondaryPayoffs[$participant['label']];
+			echo '</td>';
+
+		// TODO: do localization of number format
+			echo '<td>';
+				echo number_format($this->secondaryMoneyPayoffs[$participant['label']], 2, '.', ',');
+			echo '</td>';
+			echo '<td>';
+				echo number_format($this->secondaryMoneyPayouts[$participant['label']], 2, '.', ',');
+			echo '</td>';
+		}
+
+	echo '</tr>';
+
+	$payoffSum += $this->payoffs[$participant['label']];
+	$moneyPayoffSum += $this->moneyPayoffs[$participant['label']];
+	$moneyPayoutSum += $this->moneyPayouts[$participant['label']];
+
+	if (isset($this->secondaryPayoffs)) {
+		$secondaryPayoffSum += $this->secondaryPayoffs[$participant['label']];
+		$secondaryMoneyPayoffSum += $this->secondaryMoneyPayoffs[$participant['label']];
+		$secondaryMoneyPayoutSum += $this->secondaryMoneyPayouts[$participant['label']];
+	}
+}
+
+/*
+TODO: show sums
+echo '<tr>';
+	echo '<td>';
+		echo count($this->participants) . ' participants';
+	echo '</td>';
+	echo '<td>';
+		echo number_format($payoffSum);
+	echo '</td>';
+	echo '<td>';
+		echo number_format($moneyPayoffSum, 2, ',', '.');
+	echo '</td>';
+	echo '<td>';
+		echo number_format($moneyPayoutSum, 2, ',', '.');
+	echo '</td>';
+echo '</tr>';*/
+?>
+</table>

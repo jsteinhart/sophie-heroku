@@ -1,0 +1,14 @@
+<div class="table-responsive">
+<table class="table table-striped table-hover">
+<tr>
+	<th>Number</th>
+	<th>Label</th>
+</tr>
+<?php foreach ($this->groups as $group) { ?>
+<tr>
+	<td><?php echo $this->escape($group['number']); ?></td>
+	<td><?php echo $this->escape($group['label']); ?></td>
+</tr>
+<?php } ?>
+</table>
+</div>

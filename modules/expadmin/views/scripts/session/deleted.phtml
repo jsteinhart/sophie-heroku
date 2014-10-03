@@ -1,0 +1,17 @@
+<?php
+$module = 'expadmin';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+$this->inlineScript()->appendScript('window.setTimeout("window.location.href = expadmin.routes.sessionList", 3000)');
+
+$this->headTitle('Session Deleted', 'PREPEND');
+?>
+<h1>Session deleted</h1>
+<?php
+echo $this->alert('The session has been deleted. In a few seconds you will be redirected to the session list.');
+?>
+<div id="actionMainNav">
+	<ul>
+		<li><a href="<?php echo $this->baseUrl(); ?>/expadmin">Back to Session List</a></li>
+	</ul>
+</div>

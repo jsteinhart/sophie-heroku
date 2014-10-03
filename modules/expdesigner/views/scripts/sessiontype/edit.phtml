@@ -1,0 +1,32 @@
+<?php
+	$this->headTitle('Edit Sessiontype', 'PREPEND');
+	$this->headTitle($this->sessiontype['name'], 'PREPEND');
+?>
+<h1>Edit Sessiontype</h1>
+<div id="actionMainNav">
+	<ul>
+		<?php if ($this->sessiontype['participantMgmt'] == 'static'):?>
+		<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'sessiontype', 'action'=>'grouping', 'treatmentId'=>$this->treatment['id'], 'sessiontypeId'=>$this->sessiontype['id']), 'default', true); ?>"><img src="/_media/Icons/bricks.png" alt="" title=""> Edit Grouping</a></li>
+		<?php endif; ?>
+        <li><a href="<?php echo $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'add', 'sessiontypeId'=>$this->sessiontype['id']), 'default', true); ?>"><img src="/_media/Icons/book_add.png" border="0" alt="Add Session" title="Add Session"> Add Session</a></li>
+	</ul>
+	<div class="clear"></div>
+</div>
+<?php if (isset($this->groupDefinitionError)): ?>
+<div class="error">
+	<strong>The grouping of this sessiontype is flawed:</strong><br />
+	<?php echo $this->escape($this->groupDefinitionError); ?>
+	<div class="actionToolbar">
+		<ul>
+		<?php if ($this->groupDefinitionCanBeRepaired): ?>
+			<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'sessiontype', 'action'=>'grouping', 'treatmentId'=>$this->treatment['id'], 'sessiontypeId'=>$this->sessiontype['id'], 'repair' => 'repair'), 'default', true); ?>"><img src="/_media/Icons/wrench.png" alt="" title=""> Repair Grouping</a></li>
+		<?php else: ?>
+			<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'sessiontype', 'action'=>'grouping', 'treatmentId'=>$this->treatment['id'], 'sessiontypeId'=>$this->sessiontype['id'], 'repair' => 'reset'), 'default', true); ?>"><img src="/_media/Icons/bomb.png" alt="" title=""> Reset Grouping</a></li>
+		<?php endif; ?>
+		</ul>
+		<div class="clear"></div>
+	</div>
+</div>
+<?php endif; ?>
+<?php
+echo $this->form;

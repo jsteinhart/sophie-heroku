@@ -1,0 +1,73 @@
+<?php
+$module = 'sfwsysadmin';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('System Administration', 'PREPEND');
+$this->headTitle('System Info', 'PREPEND');
+$this->headTitle('MySQL', 'PREPEND');
+?>
+<h1>MySQL Status</h1>
+
+<h2>Variables</h2>
+<table class="table table-striped">
+<tr>
+	<th>Name</th>
+	<th>Value</th>
+</tr>
+<?php
+foreach ($this->variables as $name => $value)
+{
+	echo '<tr>';
+	echo '<td>';
+		echo $this->escape($name);
+	echo '</td>';
+	echo '<td>';
+		echo $this->escape($value);
+	echo '</td>';
+	echo '</tr>';
+}
+?>
+</table>
+
+<h2>Status</h2>
+<table class="table table-striped">
+<tr>
+	<th>Name</th>
+	<th>Value</th>
+</tr>
+<?php
+foreach ($this->status as $name => $value)
+{
+	echo '<tr>';
+	echo '<td>';
+		echo $this->escape($name);
+	echo '</td>';
+	echo '<td>';
+		echo $this->escape($value);
+	echo '</td>';
+	echo '</tr>';
+}
+?>
+</table>
+
+<h2>InnoDB Status</h2>
+<table class="table table-striped">
+<tr>
+	<th>Name</th>
+	<th>Value</th>
+</tr>
+<?php
+foreach ($this->innodbStatus as $name => $value)
+{
+	echo '<tr>';
+	echo '<td>';
+		echo $this->escape($name);
+	echo '</td>';
+	echo '<td>';
+		echo $this->escape($value);
+	echo '</td>';
+	echo '</tr>';
+}
+?>
+</table>

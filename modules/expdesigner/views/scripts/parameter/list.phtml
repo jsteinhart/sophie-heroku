@@ -1,0 +1,29 @@
+<?php
+$module = 'expdesigner';
+?>
+<div class="actionToolbar">
+	<ul>
+		<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'parameter', 'action'=>'add', 'treatmentId'=>$this->treatment['id']), 'default', true); ?>" title="Add Parameter"><img src="/_media/Icons/table_add.png" border="0" alt="Add Parameter"> Add Parameter</a></li>
+	</ul>
+	<div class="clear"></div>
+</div>
+<?php if (is_array($this->parameters) && count($this->parameters)): ?>
+<table>
+<tr><th>Name</th><th>Value</th><th>Options</th></tr>
+<?php
+foreach ($this->parameters as $parameter):
+?>
+<tr id="treatmentParameterListRow<?php echo $this->escape($parameter['name']); ?>">
+	<td><?php echo $this->escape($parameter['name']); ?></td>
+	<td><?php echo $this->escape($parameter['value']); ?></td>
+	<td>
+		<a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'parameter', 'action'=>'edit', 'treatmentId'=>$this->treatment['id'], 'parameterName'=>$parameter['name'])); ?>"><img src="/_media/Icons/user_edit.png" border="0" alt="Edit Parameter" title="Edit Parameter"></a>
+		|
+		<?php
+		echo '<a href="javascript:expdesigner.deleteTreatmentParameter(' . $this->treatment['id'] . ',\'' . $parameter['name'] . '\');"><img src="/_media/Icons/user_delete.png" border="0" alt="Delete Parameter" title="Delete Parameter"></a>';
+		?>
+	</td>
+</tr>
+<?php endforeach; ?>
+</table>
+<?php endif; ?>

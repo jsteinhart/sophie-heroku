@@ -1,0 +1,45 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+?>
+<h2>Steptype &ldquo;<?php echo $this->escape($this->steptype['name']); ?>&rdquo;</h2>
+
+<table class="table">
+<tr>
+	<th>Version:</th>
+	<td><?php echo nl2br($this->escape($this->steptype['version'])); ?></td>
+</tr>
+<?php if (!empty($this->steptype['description'])): ?>
+<tr>
+	<th>Description:</th>
+	<td><?php echo nl2br($this->escape($this->steptype['description'])); ?></td>
+</tr>
+<?php endif; ?>
+<?php if (!empty($this->steptype['author'])): ?>
+<tr>
+	<th>Author:</th>
+	<td><?php echo $this->escape($this->steptype['author']); ?></td>
+</tr>
+<?php endif; ?>
+<?php if (!empty($this->steptype['authorEmail'])): ?>
+<tr>
+	<th>Author&rsquo;s E-Mail:</th>
+	<td><a href="mailto:<?php echo $this->escape($this->steptype['authorEmail']); ?>"><?php echo $this->escape($this->steptype['authorEmail']); ?></a></td>
+</tr>
+<?php endif; ?>
+<?php if (!empty($this->steptype['website'])): ?>
+<?php $url = (strpos($this->steptype['website'], '://')) ? $this->steptype['website'] : ('http://' . $this->steptype['website']); ?>
+<tr>
+	<th>Website:</th>
+	<td><a href="<?php echo $this->escape($url); ?>" target="_blank"><?php echo $this->escape($this->steptype['website']); ?></a></td>
+</tr>
+<?php endif; ?>
+</table>
+
+<div class="actionToolbar">
+	<ul>
+		<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'step', 'action'=>'add3', 'steptypeId'=>$this->steptype['systemName'])); ?>"><img src="/_media/Icons/page_add.png" alt="" title=""> Add Step now</a></li>
+	</ul>
+	<div class="clear"></div>
+</div>

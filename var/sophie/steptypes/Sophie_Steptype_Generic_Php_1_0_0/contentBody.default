@@ -1,0 +1,9 @@
+<form action="<?php echo $this->url(); ?>" method="post">
+  <select name="sophieAction">
+  <option value="stay">Stay here</option>
+  <option value="continue">Continue with next step</option>
+  </select>
+  <input type="submit" value="Submit" />
+  
+  <input type="hidden" name="contextChecksum" value="<?php echo $context->getChecksum(); ?>" />
+</form>

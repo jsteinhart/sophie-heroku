@@ -1,0 +1,35 @@
+<?php
+$module = 'sfwsysadmin';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('System Administration', 'PREPEND');
+$this->headTitle('Application Cache', 'PREPEND');
+?>
+<h1>Application Cache</h1>
+
+<div id="actionMainNav">
+	<ul>
+		<li><a href="<?php echo $this->url(array('clear'=>'y')); ?>"><img src="/_media/Icons/bin.png" border="0" alt="" title=""> Clear cache</a></li>
+	</ul>
+</div>
+
+<h2>Existing cache files</h2>
+<?php
+if (is_null($this->cacheFiles))
+{
+	echo 'Cache state is unknown.';
+}
+elseif (sizeof($this->cacheFiles))
+{
+	echo '<ul>';
+	foreach ( $this->cacheFiles as $cacheFile )
+	{
+		echo '<li>' . $cacheFile . '</li>';
+	}
+	echo '</ul>';
+}
+else
+{
+	echo 'Cache is empty.';
+}

@@ -1,0 +1,85 @@
+#sidebar {
+	font-size: 10pt;
+	white-space: nowrap;
+}
+#sidebar table {
+	border: 0;
+	border-collapse: collapse;
+	width: 100%;
+	margin-top: 0;
+}
+#sidebar th, #sidebar td {
+	font-weight: normal;
+	background-color: #fff;
+	border: 0;
+	padding: 0;
+	padding-right: 3pt;
+}
+#sidebar th {
+	width: 80pt;
+}
+#sidebar #sessionRecentLogMessagesContainer {
+	height: 166px;
+	overflow: hidden;
+	position: relative;
+}
+#sidebar #sessionRecentLogMessages {
+	position: absolute;
+	bottom: 0;
+}
+
+/* sessionmonitor */
+#sessionmonitor {
+	border-color: #000;
+	width: 100%;
+}
+
+#sessionmonitor th {
+	text-align: center;
+}
+
+#sessionmonitor td {
+	border-color: #000;
+	vertical-align: middle;
+	text-align: left;
+	white-space: nowrap;
+}
+
+#sessionmonitor td.participants {
+	vertical-align: top;
+	padding: 0;
+	border-color: #000;
+	white-space: normal;
+	width: 100%;
+}
+
+#sessionmonitor div.participant {
+	border: 1px solid #666;
+	padding: 1pt 2pt;
+	background-color: #eee;
+	cursor: default;
+	display: inline-block;
+	margin: 4pt;
+}
+
+#sessionmonitor img {
+	vertical-align: bottom;
+}
+
+#sessionmonitor div.missing-participant {
+	color: #fff;
+	background-color: #c00;
+}
+
+#sessionLogTab #sessionLogFilterType {
+	text-align: right;
+}
+
+#sessionLogTab #sessionLogFilterType label {
+	margin-left: 10px;
+	font-weight: normal;
+}
+
+#sessionLogTab #sessionLogFilterType label input {
+	margin-right: 5px;
+}

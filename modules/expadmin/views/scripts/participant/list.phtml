@@ -1,0 +1,52 @@
+<?php /* <a onClick="alert('Function deactivated'); return false;" href="<?php echo $this->url(array('module'=>'expadmin', 'controller'=>'session', 'action'=>'importgroupassoc', 'sessionId'=>$this->session['id'])); ?>" target="_blank">Edit Group Association</a> */ ?>
+
+<div class="table-responsive">
+<table class="table table-striped table-hover">
+<tr>
+  <th>Name</th>
+  <th>Group</th>
+  <th>Step</th>
+  <th>Last Contact</th>
+  <th>Options</th>
+</tr>
+<?php foreach ($this->participants as $participant) { ?>
+<tr>
+  <td id="sessionParticipantTab_label_<?php echo $participant['id']; ?>"><?php echo $this->escape($participant['label']); ?></td>
+  <td id="sessionParticipantTab_groupLabel_<?php echo $participant['id']; ?>"><?php echo $this->escape($participant['session_group_label']); ?></td>
+  <td id="sessionParticipantTab_state_<?php echo $participant['id']; ?>">
+	<?php if ($participant['state']!='new' && $participant['state']!='finished') { ?>
+	    <?php echo $participant['treatment_stepgroup_position']; ?> [<?php echo $this->escape($participant['treatment_stepgroup_name']); ?>...] / <?php echo $participant['stepgroupLoop']; ?> /
+	    <?php echo $participant['treatment_step_position']; ?> [<?php if (isset($participant['treatment_step_type'])) { echo $this->escape($participant['treatment_step_type']); } ?> / <?php echo $this->escape($participant['treatment_step_name']); ?>...]
+	<?php
+		} else {
+			echo $this->escape($participant['state']);
+		}
+	?>
+  </td>
+  <td id="sessionParticipantTab_lastContact_<?php echo $participant['id']; ?>">
+    <?php
+    $lastContactDelta = round(time() - $participant['lastContact']);
+  	if ($lastContactDelta < 300)
+	{
+		echo $lastContactDelta . ' Sec.';
+	}
+	else
+	{
+		echo $this->escape('> 300 Sec.');
+	}
+	?>
+  </td>
+  <td>
+  <?php
+	$stepOptions = array();
+
+	$windowName = $this->escape('participant_edit_' . $this->session['id'] . '_' . $participant['id']);
+	$stepOptions[] = '<button class="btn btn-default btn-xs" onclick="win(\'' . $windowName . '\', \'' . $this->url(array('module'=>'expadmin', 'controller'=>'participant', 'action'=>'edit', 'sessionId'=>$this->session['id'], 'participantId'=>$participant['id'], 'popup' => 1)) .'\')">edit</button>';
+
+  	echo implode(' | ', $stepOptions);
+  	?>
+  </td>
+</tr>
+<?php } ?>
+</table>
+</div>

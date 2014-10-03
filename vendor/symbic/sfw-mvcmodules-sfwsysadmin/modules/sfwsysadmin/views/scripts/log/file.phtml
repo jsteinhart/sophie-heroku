@@ -1,0 +1,38 @@
+<?php
+$module = 'sfwsysadmin';
+$this->headTitle('Log Files', 'PREPEND');
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+?>
+<h1>Log Files</h1>
+<div class="table-responsive">
+<table id="logFileList" class="table table-striped table-hover">
+<thead>
+	<tr>
+		<th>Name</th>
+		<th>Path</th>
+		<th>Size</th>
+		<th></th>
+</tr>
+</thead>
+<tbody>
+<?php
+foreach ($this->logFiles as $logFile)
+{
+	echo '<tr>';
+		echo '<td>' . $this->escape($logFile['name']) . '</td>';
+		echo '<td>' . $this->escape($logFile['path']) . '</td>';
+		echo '<td>' . $this->byteFormat($logFile['size']) . '</td>';
+		echo '<td>';
+		echo $this->buttonLink('Browse', $this->url(array('action' => 'filebrowse', 'fileId' => $logFile['id'])), null, 'xs');
+		echo ' ';
+		echo $this->buttonLink('Tail', $this->url(array('action' => 'filetail', 'fileId' => $logFile['id'])), null, 'xs');
+		echo ' ';
+		echo $this->button('Clear', 'sfwsysadmin.logFiletruncate(\'' . $logFile['id'] . '\')', null, 'xs');
+		echo '</td>';
+	echo '</tr>';
+}
+?>
+</tbody>
+</table>
+</div>

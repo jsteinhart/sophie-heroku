@@ -1,0 +1,169 @@
+/*overwrite some Bootstrap settings */
+
+label.blank > input{
+	display:inline;
+	margin-top: -3px;
+}
+
+/* Symbic Form CSS */
+.symbic_form {
+  width:100%;
+  max-width: 1000px;
+}
+
+.symbic_form_fieldset {
+  width:100%;
+}
+
+.symbic_form_table {
+  width:100%;
+}
+
+.symbic_form_table th {
+	vertical-align: top;
+}
+
+.symbic_form label {
+	font-weight: normal;
+	margin-right: 20px;
+	/*min-width: 180px;*/
+}
+
+.symbic_form label.required:after {
+	content: '*';
+}
+
+.symbic_form input, .symbic_form select, .symbic_form textarea {
+	width: 100%;
+}
+
+.symbic_form input[type="submit"], .symbic_form input[type="reset"], .symbic_form input[type="button"], .symbic_form input[type="checkbox"], .symbic_form input[type="radio"] {
+	width: auto;
+}
+
+.symbic_form input[type="submit"].btn, .symbic_form input[type="reset"].btn, .symbic_form input[type="button"].btn, .symbic_form button.btn {
+	min-width: 150px;
+}
+
+.symbic_form textarea {
+	resize: none;
+}
+
+.symbic_form .symbic_form_multi_checkbox_container {
+	min-height: 1.5em;
+	max-height: 5.8em;
+	min-width: 500px;
+	overflow: auto;
+	border: 1px solid #B5BCC7;
+}
+
+.symbic_form .symbic_form_multi_checkbox_container input[type="checkbox"] {
+	display: inline;
+	margin-left: 5px;
+	margin-right: 5px;
+	height: auto;
+}
+.symbic_form .symbic_form_multi_checkbox_container label {
+	height: auto;
+}
+
+.symbic_form .symbic_form_multi_checkbox_container label:after {
+	content: '';
+}
+
+.symbic_form .CodeMirror-container {
+	width: 800px;
+}
+
+.symbic_form .CodeMirror {
+	line-height: 1.3em;
+	font-family: monospace;
+	position: relative;
+	overflow: hidden;
+	background-color: white;
+	width: 100%;
+	height: auto;
+
+	/* copied from bootstrap textarea */
+	display: inline-block;
+	padding: 4px 6px;
+	margin-bottom: 9px;
+	color: #555555;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-o-transition: border linear 0.2s, box-shadow linear 0.2s;
+	transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+
+.symbic_form  .CodeMirror-scroll {
+	min-height: 4em;
+}
+
+.symbic_form .CodeMirror-focused {
+	/* Style according to Bootstrap textarea */
+	border-color: rgba(82, 168, 236, 0.8);
+	outline: 0;
+	outline: thin dotted \9;
+	/* IE6-9 */
+
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+	 -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.symbic_form .CodeMirror-fullscreen {
+	position: fixed;
+	top: 0; left: 0; right: 0; bottom: 0;
+	height: auto;
+	width: auto;
+	z-index: 9;
+}
+
+.symbic_form .CodeMirror-fullscreen .CodeMirror-scroll {
+	width: auto;
+}
+
+.symbic_form ul.errors {
+	/* taken from alert */
+	border-top-width: 1px;
+	border-right-width-value: 1px;
+	border-bottom-width: 1px;
+	border-left-width-value: 1px;
+	border-top-style: solid;
+	border-right-style-value: solid;
+	border-bottom-style: solid;
+	border-left-style-value: solid;
+	border-image-source: none;
+	border-image-slice: 100% 100% 100% 100%;
+	border-image-width: 1 1 1 1;
+	border-image-outset: 0 0 0 0;
+	border-image-repeat: stretch stretch;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+
+	/* taken from alert-danger */
+	background-color: #f2dede;
+	border-top-color: #ebccd1;
+	border-right-color-value: #ebccd1;
+	border-bottom-color: #ebccd1;
+	border-left-color-value: #ebccd1;
+	color: #a94442;
+
+	list-style-type: none;
+	margin: .5em 0;
+	padding: .5em 1em;
+}
+
+.symbic_form ul.errors li {
+	margin-left: 1em;
+}

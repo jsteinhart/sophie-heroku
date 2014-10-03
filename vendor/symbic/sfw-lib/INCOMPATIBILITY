@@ -1,0 +1,9 @@
+CHANGES TO THESE SVN REVISIONS (OR HIGHER) MAY CAUSE INCOMPATIBILITIES!
+Be careful and update your code if necessary.
+
+Rev. 688 / Symbic_Task_*
+	Tasks no longer implement Symbic_Task_Interface.
+	Instead they extend Symbic_Task_Abstract.
+
+Rev. 1067 / Symbic_View_Helper_HeadStyle & _HeadLink
+	Symbic Helpers become the default Helpers in Symbic_View

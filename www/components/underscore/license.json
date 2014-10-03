@@ -1,0 +1,13 @@
+{
+    "name": "Underscore",
+    "version": {
+        "2": "1.6.0"
+    },
+    "homepage": "http://underscorejs.org",
+    "authors": [
+        "Jeremy Ashkenas", "DocumentCloud and Investigative"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

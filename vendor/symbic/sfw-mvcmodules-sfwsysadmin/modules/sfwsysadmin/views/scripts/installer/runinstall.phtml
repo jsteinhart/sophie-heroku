@@ -1,0 +1,22 @@
+<?php if (isset($this->message)): ?>
+<div class="alert alert-info">
+<?php
+	echo $this->escape($this->message);
+?>
+</div>
+<?php endif; ?>
+
+<?php
+if (!isset($this->output))
+{
+	return;
+}
+?>
+
+<div>
+<pre>
+<?php
+echo $this->escape(implode("\n", $this->output));
+?>
+</pre>
+</div>

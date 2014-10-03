@@ -1,0 +1,39 @@
+<table>
+<tr>
+	<th>Name of External Part:</th>
+	<td><?php echo $this->escape($this->part['partName']); ?></td>
+</tr>
+
+<?php if ($this->part['partUrl'] != ''): ?>
+<tr>
+	<th>Website:</th>
+	<td><a href="<?php echo $this->escape($this->part['partUrl']); ?>"><?php echo $this->escape($this->part['partUrl']); ?></a></td>
+</tr>
+<?php endif; ?>
+
+<?php if (count($this->part['partAuthors'])): ?>
+<tr>
+	<th><?php echo (count($this->part['partAuthors']) == 1) ? 'Author' : 'Authors' ?>:</th>
+	<td><?php echo $this->escape(implode(', ', $this->part['partAuthors'])); ?></td>
+</tr>
+<?php endif; ?>
+
+<?php if ($this->part['licenseType'] != ''): ?>
+<tr>
+	<th>License Type:</th>
+	<td><?php echo $this->escape($this->part['licenseType']); ?></td>
+</tr>
+<?php endif; ?>
+
+<?php if ($this->part['licenseUrl'] != ''): ?>
+<tr>
+	<th>License URL:</th>
+	<td><a href="<?php echo $this->escape($this->part['licenseUrl']); ?>"><?php echo $this->escape($this->part['licenseUrl']); ?></a></td>
+</tr>
+<?php endif; ?>
+
+</table>
+
+<?php if ($this->part['licenseText'] != ''): ?>
+<pre><?php echo $this->escape($this->part['licenseText']); ?></pre>
+<?php endif; ?>

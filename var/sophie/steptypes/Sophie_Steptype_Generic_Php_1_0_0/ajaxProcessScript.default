@@ -1,0 +1,10 @@
+$ajaxAction = $requestApi->getParam('ajaxAction', '');
+switch ($ajaxAction)
+{
+  case 'example':
+	$result = array('foo' => 'bar');
+	break;
+  default:
+	$result = array('error' => 'Unkown ajax process action called');
+}
+return $result;

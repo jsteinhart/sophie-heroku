@@ -1,0 +1,22 @@
+<div style="margin: 20px 5px 20px 5px; padding: 10px; border: 2px solid #93c27a; background-color:#e5ffd7;">
+<h1>
+	<a href="/expdesigner" style="text-decoration:none;font-weight:bold">
+		<img src="/_media/Icons/application_double.png" alt="Designer" title="Designer" style="vertical-align: middle" />
+		Designer
+	</a>
+</h1>
+<p style="margin: 10px 0 20px 0">
+	Create your own experiment with multiple treatments.
+</p>
+<div class="actionToolbar">
+	<ul>
+		<li><a href="/expdesigner"><img src="/_media/Icons/application_double.png" alt="Designer" title="Designer" /> Show existing Experiments</a></li>
+		<li><a href="<?php echo $this->url(array (
+				'module' => 'expdesigner',
+				'controller' => 'experiment',
+				'action' => 'add',
+			), 'default', true); ?>"><img src="/_media/Icons/application_add.png" alt="Designer" title="Designer" /> Create new Experiment</a></li>
+	</ul>
+	<div class="clear"></div>
+</div>
+</div>

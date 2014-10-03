@@ -1,0 +1,70 @@
+<div class="table-responsive">
+<table class="table table-striped table-hover">
+<tr>
+	<th>Session</th>
+	<th>Procedural Context</th>
+	<th>Person Context</th>
+	<th>Name</th>
+	<th>Value</th>
+	<th>Type</th>
+</tr>
+<?php
+foreach ( $this->variables as $variable )
+{
+	if (isset($variable['name']))
+	{
+		echo '<tr>';
+			echo '<td>' . $variable['sessionId'] . '</td>';
+
+			echo '<td>';
+			if ($variable['stepgroupLabel'] != '')
+			{
+				echo $this->escape($variable['stepgroupLabel']);
+			}
+			if ($variable['stepgroupLabel'] != '')
+			{
+				echo ' - ' . $variable['stepgroupLoop'];
+			}
+			else
+			{
+				echo 'Everywhere';
+			}
+			echo '</td>';
+
+			echo '<td>';
+			if ($variable['groupLabel'] != '')
+			{
+				echo 'Group ' . $this->escape($variable['groupLabel']);
+			}
+			elseif ($variable['participantLabel'] != '')
+			{
+				echo 'Participant ' . $this->escape($variable['participantLabel']);
+
+				if (isset($this->participantCodes))
+				{
+					echo ' / ' . $this->escape($this->participantCodes[$variable['participantLabel']]);
+				}
+
+			}
+			else
+			{
+				echo 'Everyone';
+			}
+			echo '</td>';
+
+			echo '<td>' . $this->escape($variable['name']) . '</td>';
+			if (is_array($variable['value']) || is_object($variable['value']))
+			{
+				echo '<td><pre>' . $this->escape(print_r($variable['value'], true)) . '</pre></td>';
+			}
+			else
+			{
+				echo '<td>' . $this->escape($variable['value']) . '</td>';
+			}
+			echo '<td>' . gettype($variable['value']) . '</td>';
+		echo '</tr>';
+	}
+}
+?>
+</table>
+</div>

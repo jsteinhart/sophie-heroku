@@ -1,0 +1,13 @@
+{
+    "name": "Jquery-dirtyforms",
+    "version": {
+        "2": "master-commit47"
+    },
+    "homepage": "https://github.com/snikch/jquery.dirtyforms",
+    "authors": [
+        "Mal Curtis"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

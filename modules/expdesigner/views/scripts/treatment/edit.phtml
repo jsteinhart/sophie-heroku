@@ -1,0 +1,10 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('Edit Treatment', 'PREPEND');
+$this->headTitle($this->treatment['name'], 'PREPEND');
+
+$this->form->setLegend('Edit Treatment “' . $this->treatment['name'] . '”');
+echo $this->form;

@@ -1,0 +1,125 @@
+<script type="text/javascript">
+expadmin.openDebugUrl = '<?php echo $this->url; ?>';
+expadmin.openDebugServerHost = '<?php echo $this->serverHost; ?>';
+expadmin.openDebugProtocol = '<?php echo $this->protocol; ?>';
+</script>
+
+<?php
+$agent = null;
+if(isset($_SERVER['HTTP_USER_AGENT']))
+{
+	$agent = $_SERVER['HTTP_USER_AGENT'];
+}
+
+if(strpos($agent, 'Firefox') !== false):
+?>
+<div class="alert alert-info hidden-print small">
+	<strong>Hint:</strong>
+	Improve your Firefox installation for debugging purposes:<br/>
+	Enter <tt>about:config</tt> in the address bar to open the Firefox application settings. Increase these values (if
+	they are smaller than the proposed value):
+	<ul>
+		<li>
+			<tt>dom.popup_maximum</tt> to the number of participants.<br/>
+			This enables Firefox to open the necessary number of windows for debugging.
+		</li>
+		<li>
+			<tt>network.http.max-connections</tt>,<br/>
+			<tt>network.http.max-connections-per-server</tt>,<br/>
+			<tt>network.http.max-persistent-connections-per-proxy</tt>,<br/>
+			<tt>network.http.max-persistent-connections-per-server</tt> to three times the number of participants.<br/>
+			This enables Firefox to open enough parallel connections and prevents slow and sticky debug windows.
+		</li>
+	</ul>
+</div>
+<?php endif; ?>
+
+<h2>Debug Console</h2>
+
+<div class="btn-group">
+	<button class="btn btn-default" onClick="expadmin.sessionSet('debugConsole', 1)">Activate Console</button>
+	<button class="btn btn-default" onClick="expadmin.sessionSet('debugConsole', 0)">Deactivate Console</button>
+</div>
+
+<h2>Treatment Caching</h2>
+
+<div class="btn-group">
+	<button class="btn btn-default" onClick="expadmin.sessionSet('cacheTreatment', 1)">Activate Caching</button>
+	<button class="btn btn-default" onClick="expadmin.sessionSet('cacheTreatment', 0)">Deactivate Caching</button>
+	<button class="btn btn-default" onClick="expadmin.sessionDebugTreatmentcacheclear()"> Clear Cache</button>
+	<button class="btn btn-default" onClick="expadmin.sessionDebugTreatmentcacheprefill()"> Prefill Cache</button>
+</div>
+
+<?php if (sizeof($this->participants) > 0): ?>
+
+<h2>Login all participants</h2>
+
+<button class="btn btn-default" onClick="<?php
+foreach ($this->participants as $participant) {
+	echo "expadmin.openDebugWindow('" . $this->codePlacement . "', '" . $participant['code'] . "', '" . $participant['number'] . "');";
+}
+?>">open</button><br/>
+
+<h2>Login participants by type</h2>
+<table class="table table-striped table-hover">
+	<?php
+	echo '<tr>';
+	echo '<th>Label</th>';
+	echo '<th>Options</th>';
+	echo '</tr>';
+
+	foreach ($this->types as $type) {
+		echo '<tr>';
+		echo '<td>' . $type['label'] . '</td>';
+		echo '<td><button class="btn btn-default btn-xs" onClick="';
+		foreach ($this->participants as $participant) {
+			if ($participant['typeLabel'] == $type['label']) {
+				echo "expadmin.openDebugWindow('" . $this->codePlacement . "', '" . $participant['code'] . "', '" . $participant['number'] . "');";
+			}
+		}
+		echo '">open</button></td>';
+		echo '</tr>';
+	}
+	?>
+</table>
+
+<h2>Login participants individually</h2>
+<table class="table table-striped table-hover">
+	<?php
+	echo '<tr>';
+	echo '<th>Number</th>';
+	echo '<th>Label</th>';
+	echo '<th>Code</th>';
+	echo '<th>Options</th>';
+	echo '</tr>';
+
+	foreach ($this->participants as $participant) {
+		echo '<tr>';
+		echo '<td>' . $participant['number'] . '</td>';
+		echo '<td>' . $participant['label'] . '</td>';
+		echo '<td>' . $participant['code'] . '</td>';
+		echo '<td>';
+			echo '<button class="btn btn-default btn-xs" onClick="expadmin.openDebugWindow(\'' . $this->codePlacement . '\', \'' . $participant['code'] . '\', \'' . $participant['number'] . '\')">open</button> ';
+			echo '<button class="btn btn-default btn-xs" onClick="expadmin.openDebugWindow(\'none\', \'' . $participant['code'] . '\', \'' . $participant['number'] . '\', \'TestWindow_' . $participant['code'] . '\');">open without prefix</button>';
+		echo '</td>';
+		echo '</tr>';
+	}
+	?>
+</table>
+
+<h2>Login Links</h2>
+<textarea class="form-control" wrap="off" rows="<?php echo sizeof($this->participants); ?>"><?php
+foreach ($this->participants as $participant)
+{
+	echo $this->protocol . '://' . $this->serverHost . $this->url . '/participantCode/' . $participant['code'] . "\n";
+}
+?></textarea>
+
+<?php endif; ?>
+
+<h2>Sync Variables</h2>
+<div class="alert alert-warning hidden-print small">
+    Only use this options if you know what you are doing.
+</div>
+
+<button class="btn btn-default" onClick="expadmin.sessionDebugDeletesync()">Delete all Sync Variables</button>

@@ -1,0 +1,46 @@
+<?php
+$config = Zend_Registry::get('config');
+
+if (isset($config['systemConfig']['receiptPrinters']) && is_array($config['systemConfig']['receiptPrinters']) && sizeof($config['systemConfig']['receiptPrinters']) > 0)
+{
+	$hasReceiptPrinter = true;
+}
+else
+{
+	$hasReceiptPrinter = false;
+}
+?>
+<h3>List of Participant Codes</h3>
+<ul>
+    <li>
+		Show in Browser [ <a href="<?php echo $this->url(array('module' => 'expadmin', 'controller' => 'participant', 'action' => 'codes', 'sessionId' => $this->session['id'], 'order'=>'codeAsc')); ?>" target="_blank">Ordered by Code</a> | <a href="<?php echo $this->url(array('module' => 'expadmin', 'controller' => 'participant', 'action' => 'codes', 'sessionId' => $this->session['id'], 'order'=>'rand')); ?>" target="_blank">Random Order</a> ]
+	</li>
+	<li>
+        Download Excel (XLSX) [ <a href="<?php echo $this->url(array('module' => 'expadmin', 'controller' => 'participant', 'action' => 'codes', 'sessionId' => $this->session['id'], 'outputFormat' => 'xlsx', 'order'=>'codeAsc')); ?>" target="_blank">Ordered by Code</a> | <a href="<?php echo $this->url(array('module' => 'expadmin', 'controller' => 'participant', 'action' => 'codes', 'sessionId' => $this->session['id'], 'outputFormat' => 'xlsx', 'order'=>'rand')); ?>" target="_blank">Random Order</a> ]
+	</li>
+	<li>
+		Download CSV File [ <a href="<?php echo $this->url(array('module' => 'expadmin', 'controller' => 'participant', 'action' => 'codes', 'sessionId' => $this->session['id'], 'outputFormat' => 'csv', 'order'=>'codeAsc')); ?>" target="_blank">Ordered by Code</a> | <a href="<?php echo $this->url(array('module' => 'expadmin', 'controller' => 'participant', 'action' => 'codes', 'sessionId' => $this->session['id'], 'outputFormat' => 'csv', 'order'=>'rand')); ?>" target="_blank">Random Order</a> ]
+	</li>
+</ul>
+
+<h3>Participant Code Labels Sheet</h3>
+<ul>
+	<li>
+        <a href="<?php echo $this->url(array('module' => 'expadmin', 'controller' => 'participant', 'action' => 'codelabels', 'sessionId' => $this->session['id'], 'popup' => '1', 'labelType' => 'HERMA_No._4452')); ?>" target="_blank">Download 7 x 2 Labels per Page PDF (HERMA No. 4452)</a>
+	</li>
+	<li>
+		<a href="<?php echo $this->url(array('module' => 'expadmin', 'controller' => 'participant', 'action' => 'codelabels', 'sessionId' => $this->session['id'], 'popup' => '1', 'labelType' => 'HERMA_No._4615')); ?>" target="_blank">Download 7 x 3 Labels per Page PDF (HERMA No. 4615)</a>
+	</li>
+	<li>
+		<a href="<?php echo $this->url(array('module' => 'expadmin', 'controller' => 'participant', 'action' => 'codelabels', 'sessionId' => $this->session['id'], 'popup' => '1', 'labelType' => 'HERMA_No._4459')); ?>" target="_blank">Download 17 x 3 Labels per Page PDF (HERMA No. 4459)</a>
+    </li>
+</ul>
+
+<?php if ($hasReceiptPrinter): ?>
+<h3>Login Code Snippets</h3>
+<ul>
+    <li>
+		<a href="<?php echo $this->url(array('module' => 'expadmin', 'controller' => 'participant', 'action' => 'printcodesnippets', 'sessionId' => $this->session['id'], 'popup' => '1')); ?>" target="_blank">Print on Receipt Printer</a>
+	</li>
+</ul>
+<?php endif; ?>

@@ -1,0 +1,12 @@
+<?php
+$module = 'sfwsysadmin';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('System Administration', 'PREPEND');
+$this->headTitle('System Info', 'PREPEND');
+$this->headTitle('PHP', 'PREPEND');
+?>
+<h1>PHP Info</h1>
+
+<iframe src="<?php echo $this->url(array('action' => 'phpinfo2')); ?>" width="100%" height="500" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0" name="phpinfo"></iframe>

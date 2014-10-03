@@ -1,0 +1,13 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+$this->headTitle('Edit Group Structure', 'PREPEND');
+
+if ($this->hasSessiontypes)
+{
+	echo $this->alert('<p><strong>Keep in mind:</strong></p>
+<p>At least one session type exists for this treatment. When changing the group structure the existing session types will be corrupted and will not be compatible any more!</p>', 'warning');
+}
+
+echo $this->form;

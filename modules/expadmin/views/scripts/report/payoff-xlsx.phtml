@@ -1,0 +1,116 @@
+<?php
+$phpExcel = new PHPExcel();
+PHPExcel_Shared_File::setUseUploadTempDirectory(true);
+$phpExcel->getProperties()->setTitle("Payoff List");
+$excelSheet = $phpExcel->getActiveSheet();
+
+$headNames = array (
+	'Participant Code',
+	'Payoff',
+	'Money Payoff',
+	'Money Payoff (0.10)'
+);
+
+if (isset($this->secondaryPayoffs)) {
+	$headNames[] = 'Payoff';
+	$headNames[] = 'Sec. Money Payoff';
+	$headNames[] = 'Sec. Money Payoff (0.10)';
+}
+
+$colIndex = 1;
+$rowIndex = 1;
+
+// Add Header Row
+foreach ($headNames as $value)
+{
+	$colIndex2 = $colIndex - 1;
+	for ($colIndexAlpha = ""; $colIndex2 >= 0; $colIndex2 = intval($colIndex2 / 26) - 1)
+	{
+		$colIndexAlpha = chr($colIndex2 % 26 + 0x41) . $colIndexAlpha;
+	}
+
+	$excelSheet->setCellValue($colIndexAlpha . $rowIndex, $value);
+	$colIndex++;
+}
+
+
+$payoffSum = 0;
+$moneyPayoffSum=0;
+$moneyPayoutSum=0;
+$secondaryPayoffSum = 0;
+$secondaryMoneyPayoffSum=0;
+$secondaryMoneyPayoutSum=0;
+
+foreach ($this->participants as $participant)
+{
+	$rowIndex++;
+	$colIndex = 1;
+
+	// TODO: do localization of number format
+	$lineCols = array(
+		$participant['code'],
+		$this->payoffs[$participant['label']],
+		number_format($this->moneyPayoffs[$participant['label']], 2, '.', ','),
+		number_format($this->moneyPayouts[$participant['label']], 2, '.', ',')
+	);
+
+	if (isset($this->secondaryPayoffs)) {
+		$lineCols[] = $this->secondaryPayoffs[$participant['label']];
+
+		$lineCols[] = number_format($this->secondaryMoneyPayoffs[$participant['label']], 2, '.', ',');
+		$lineCols[] = number_format($this->secondaryMoneyPayouts[$participant['label']], 2, '.', ',');
+	}
+
+	foreach ($lineCols as $lineCol)
+	{
+		$colIndex2 = $colIndex - 1;
+		for ($colIndexAlpha = ""; $colIndex2 >= 0; $colIndex2 = intval($colIndex2 / 26) - 1)
+		{
+			$colIndexAlpha = chr($colIndex2 % 26 + 0x41) . $colIndexAlpha;
+		}
+
+		$excelSheet->setCellValue($colIndexAlpha . $rowIndex, $lineCol);
+		$colIndex++;
+	}
+
+	$payoffSum += $this->payoffs[$participant['label']];
+	$moneyPayoffSum += $this->moneyPayoffs[$participant['label']];
+	$moneyPayoutSum += $this->moneyPayouts[$participant['label']];
+
+	if (isset($this->secondaryPayoffs)) {
+		$secondaryPayoffSum += $this->secondaryPayoffs[$participant['label']];
+		$secondaryMoneyPayoffSum += $this->secondaryMoneyPayoffs[$participant['label']];
+		$secondaryMoneyPayoutSum += $this->secondaryMoneyPayouts[$participant['label']];
+	}
+}
+
+$rowIndex++;
+$colIndex = 1;
+
+$lineCols = array(
+	'Sum for ' . count($this->participants) . ' Participants',
+	$payoffSum,
+	number_format($moneyPayoffSum, 2, ',', '.'),
+	number_format($moneyPayoutSum, 2, ',', '.')
+);
+
+if (isset($this->secondaryPayoffs)) {
+	$lineCols[] = $secondaryPayoffSum;
+	$lineCols[] = number_format($secondaryMoneyPayoffSum, 2, '.', ',');
+	$lineCols[] = number_format($secondaryMoneyPayoutSum, 2, '.', ',');
+}
+
+foreach ($lineCols as $lineCol)
+{
+	$colIndex2 = $colIndex - 1;
+	for ($colIndexAlpha = ""; $colIndex2 >= 0; $colIndex2 = intval($colIndex2 / 26) - 1)
+	{
+		$colIndexAlpha = chr($colIndex2 % 26 + 0x41) . $colIndexAlpha;
+	}
+
+	$excelSheet->setCellValue($colIndexAlpha . $rowIndex, $lineCol);
+	$colIndex++;
+}
+
+$excelWriter = PHPExcel_IOFactory :: createWriter($phpExcel, 'Excel2007');
+$excelWriter->save('php://output');

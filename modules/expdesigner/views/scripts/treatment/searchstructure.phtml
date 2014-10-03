@@ -1,0 +1,51 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle($this->treatment['name'], 'PREPEND');
+$this->headTitle('Search Structure', 'PREPEND');
+
+echo $this->form;
+
+if (isset($this->results))
+{
+
+echo '<a name="results"></a>';
+echo '<h2>Results</h2>';
+
+	if (!is_array($this->results) || count($this->results) == 0)
+	{
+		echo $this->alert('No matches found.', 'notice');
+		return;
+	}
+	
+	$query = $this->escape($this->query);
+?>
+<ul class="searchresults">
+	<?php foreach ($this->results as $result): ?>
+	<li>
+		<strong><a href="<?php echo $this->url(array (
+			'module' => 'expdesigner',
+			'controller' => 'step',
+			'action' => 'edit',
+			'stepId' => $result['stepId']
+		), 'default', true); ?>"><?php echo $this->escape($result['step_name']); ?></a></strong>
+		<?php echo $this->escape($result['steptype_name'] . ' (' . $result['steptype_version'] . ')'); ?>
+		<ul>
+			<?php foreach ($result['eav'] as $eav): ?>
+			<li>
+				<div class="attribute"><?php echo $this->escape($eav['name']); ?> = </div>
+				<div class="value"><?php
+				$value = $this->escape($eav['value']);
+				echo str_replace($query, '<em>' . $query . '</em>', $value);
+				?></div>
+			</li>
+			<?php endforeach; ?>
+		</ul>
+	</li>
+	<?php endforeach; ?>
+</ul>
+
+<?php
+}

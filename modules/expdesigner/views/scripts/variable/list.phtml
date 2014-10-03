@@ -1,0 +1,95 @@
+<?php
+$module = 'expdesigner';
+?>
+<div class="actionToolbar">
+	<ul>
+		<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'variable', 'action'=>'add', 'treatmentId'=>$this->treatment['id']), 'default', true); ?>" title="Add Variable"><img src="/_media/Icons/table_add.png" border="0" alt="Add Variable"> Add Variable</a></li>
+		<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'variable', 'action'=>'import', 'treatmentId'=>$this->treatment['id']), 'default', true); ?>" title="Import Variable"><img src="/_media/Icons/table_add.png" border="0" alt="Import Variable"> Import Variables</a></li>
+		<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'variable', 'action'=>'list', 'treatmentId'=>$this->treatment['id'], 'outputFormat' => 'csv'), 'default', true); ?>" title="Variables CSV"><img src="/_media/Icons/table.png" border="0" alt="Variables CSV" target="_blank"> Export CSV</a></li>
+		<li><a href="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'variable', 'action'=>'list', 'treatmentId'=>$this->treatment['id'], 'outputFormat' => 'csv'), 'default', true); ?>" title="Variables CSV"><img src="/_media/Icons/table.png" border="0" alt="Variables CSV" target="_blank"> Export Excel</a></li>
+		<li><a href="javascript:expdesigner.deleteAllTreatmentVariables();" title="Delete all Variable"><img src="/_media/Icons/table_delete.png" border="0" alt="Import Variable"> Delete all Variables</a></li>
+	</ul>
+</div>
+
+<div class="table-responsive">
+<table id="treatmentVariableList" class="table table-striped table-hover">
+<thead>
+	<tr>
+		<th>Procedural Context</th>
+		<th>Person Context</th>
+		<th>Name</th>
+		<th>Value</th>
+		<th>Type</th>
+		<th>Options</th>
+	</tr>
+</thead>
+<tbody>
+<?php
+foreach ($this->variables as $variable)
+{
+	echo '<tr data-pk="' . $variable['id'] . '" class="treatmentVariableListRow" id="treatmentVariableListRow' . $this->escape($variable['id']) . '">';
+
+	echo '<td>';
+		if ($variable['stepgroupLabel'] != '')
+		{
+			echo $this->escape($variable['stepgroupLabel']);
+			if ($variable['stepgroupLoop'] != '')
+			{
+				echo ' - ' . $variable['stepgroupLoop'];
+			}
+		}
+		else
+		{
+			echo 'Everywhere';
+		}
+		echo '</td>';
+
+		echo '<td>';
+		if ($variable['groupLabel'] != '')
+		{
+			echo 'Group ' . $this->escape($variable['groupLabel']);
+		}
+		elseif ($variable['participantLabel'] != '')
+		{
+			echo 'Participant ' . $this->escape($variable['participantLabel']);
+		}
+		else
+		{
+			echo 'Everyone';
+		}
+		echo '</td>';
+
+		echo '<td>';
+			echo $this->escape($variable['name']);
+		echo '</td>';
+
+		echo '<td>';
+			if (strlen($variable['value']) > 50)
+			{
+				echo $this->escape(substr($variable['value'], 0, 46) . ' ...');
+			}
+			else
+			{
+				echo $this->escape($variable['value']);
+			}
+		echo '</td>';
+
+		echo '<td>';
+			echo gettype($variable['value']);
+		echo '</td>';
+
+		echo '<td>';
+			echo $this->buttonLink('<img src="/_media/Icons/table_edit.png" border="0" alt="Edit Variable" title="Edit Variable">', $this->url(array('module'=>'expdesigner', 'controller'=>'variable', 'action'=>'edit', 'treatmentId'=>$this->treatment['id'], 'variableId'=>$variable['id'])), null, 'xs');
+			echo ' ';
+			echo '<button class="btn btn-default btn-xs" onclick="expdesigner.deleteTreatmentVariable(\'' . $variable['id'] . '\');"><img src="/_media/Icons/table_delete.png" border="0" alt="Delete Variable" title="Delete Variable"></button>';
+		echo '</td>';
+	echo '</tr>';
+}
+?>
+	</tbody>
+</table>
+</div>
+
+<?php
+$this->inlineScript()->appendScript('expdesigner.initTreatmentVariableList();');
+echo $this->inlineScript();

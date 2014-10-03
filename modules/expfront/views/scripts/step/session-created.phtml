@@ -1,0 +1,18 @@
+<div id="cheader">
+	<div id="cheadtexts">
+		<span id="cheadline">You are logged in.</span><br />
+		<span id="cheadtext">The experiment has not started yet. Please wait until the experimenter starts the experiment.</span>
+	</div>
+</div>
+<?php
+
+$this->headScript()->captureStart();
+?>
+function ReloadSync () {
+	var href = location.href;
+	location.href = href;
+}
+window.setTimeout("ReloadSync()", 2000);
+<?php
+$this->headScript()->captureEnd();
+?>

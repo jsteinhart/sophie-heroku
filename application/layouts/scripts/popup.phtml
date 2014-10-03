@@ -1,0 +1,86 @@
+﻿<?php echo $this->doctype() . "\n"; ?>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php
+	echo $this->headTitle();
+	echo $this->headMeta();
+	
+	$styles = array(
+		'/components/bootstrap/3.0.3/css/bootstrap.min.css',
+		'/components/select2/3.4.5/select2.css',
+		'/components/select2-bootstrap/3.4.5/select2-bootstrap.css',
+		'/components/bootstrap3-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css',
+		'/_scripts/symbic/Toaster.css',
+		'/_styles/symbic/form.css',
+		'/_styles/symbic/datatables.css',
+		'/_styles/application/default.css'
+	);
+	while ($style = array_pop($styles))
+	{
+		$this->headLink()->prependStylesheet($style, 'all');
+	}
+
+	echo $this->headLink();
+	echo $this->headStyle();
+
+	echo $this->initFlashMessengerToaster();
+
+	$inlineScripts = array(
+		'/components/jquery/1.10.2/jquery-1.10.2.min.js',
+		'/components/underscore/1.6.0/underscore-min.js',
+		'/components/backbone/1.1.2/backbone-min.js',
+		'/components/jquery-ui/1.10.4-custom/js/jquery-ui-1.10.4.custom.min.js',
+		'/components/jquery-ui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js',
+		'/components/bootstrap/3.0.3/js/bootstrap.min.js',
+		'/components/bootbox/4.1.0/bootbox.min.js',
+		'/components/jquery-autosize/1.18.1/jquery.autosize.min.js',
+		'/components/select2/3.4.5/select2.js',
+		'/components/jquery-datatables/1.9.4/media/js/jquery.dataTables.min.js',
+		'/components/bootstrap3-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js',
+		'/components/jquery-dirtyforms/master-commit47/jquery.dirtyforms.js',
+		'/components/jquery-cookie/1.4.0/jquery.cookie.js',
+		'/_scripts/application/datatables-defaults.js',
+		'/_scripts/symbic/backend.js',
+		'/_scripts/application/backend.js'
+	);
+	
+	while ($inlineScript = array_pop($inlineScripts))
+	{
+		$this->inlineScript()->prependFile($inlineScript);
+	}
+
+	$this->dojo()->addLayer('/_scripts/dojo/dojo/dojo_backend.js');
+	echo $this->dojo();
+	
+	$appBase = $this->baseUrl();
+	if (substr($appBase, -1) != '/')
+	{
+		$appBase .= '/';
+	}
+	$this->headScript()->appendScript('var appBase = \'' . addslashes($appBase) . '\';');
+	echo $this->headScript();
+?>
+</head>
+<body class="claro popup">
+
+<div id="contentWrapper">
+<div id="content">
+	<?php echo $this->layout()->content; ?>
+</div>
+</div>
+
+<div id="footer">
+
+	<a href="javascript:window.close()">Close</a>
+	<span>Copyright &copy; <?php echo date("Y"); ?></span>
+</div>
+
+<?php
+	echo $this->inlineScript();
+	$this->jsOnLoad()->appendScript('dojo.require(\'symbic.Heartbeat\'); var heartbeat = new symbic.Heartbeat(); heartbeat.start();');
+	echo $this->jsOnDomReady();
+	echo $this->jsOnLoad();
+?>
+</body>
+</html>

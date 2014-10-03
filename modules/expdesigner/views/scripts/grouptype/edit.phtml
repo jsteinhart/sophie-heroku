@@ -1,0 +1,36 @@
+<?php
+$module = 'expdesigner';
+$this->headScript()->captureStart();
+?>
+function updateParentContent()
+{
+	if (window.opener && !window.opener.closed)
+	{
+		window['updateDefinition']();
+	}
+}
+<?php
+$this->headScript()->captureEnd();
+?>
+<a href="javascript:this.close();">close window</a>
+<br />
+<hr />
+<div id="ajaxMessage" class="ajaxMessage"></div>
+<br />
+<b>Grouptype: <?php echo $this->grouptype['id']; ?> for group <?php echo $this->group['name']; ?></b><br />
+<br />
+<form id="grouptypeForm" action="javascript:confirmAjaxForm('really change?', 'grouptypeForm', '<?php echo $this->url(array('module'=>$module, 'controller'=>'grouptype', 'action'=>'ajaxupdate'), 'default', true); ?>', 'ajaxMessage', 'updateParentContent', 'updateParentContent');" method="POST">
+<?php
+echo $this->formHidden('grouptypeId', $this->grouptype['id']);
+echo $this->formHidden('groupId', $this->group['id']);
+echo $this->formHidden('treatmentId', $this->treatment['id']);
+?>
+<br />
+<table width="80%" border="1">
+<tr><td>Field</td><td>Value</td></tr>
+<tr><td><b>Type</b></td><td><?php echo $this->formSelect('FORM_typeid', $this->grouptype['typeId'], null, $this->typeSelect); ?></td></tr>
+<tr><td><b>Participants</b></td><td><?php echo $this->formText('FORM_participants', $this->grouptype['participants']); ?></td></tr>
+</table>
+<br />
+<?php echo $this->formSubmit('submit', 'Save'); ?>
+</form>

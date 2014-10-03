@@ -1,0 +1,9 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+$this->headTitle('Edit Paramenter', 'PREPEND');
+$this->headTitle($this->escape($this->parameter['name']), 'PREPEND');
+
+$this->form->setLegend('Parameter - ' .$this->parameter['name']);
+echo $this->form;

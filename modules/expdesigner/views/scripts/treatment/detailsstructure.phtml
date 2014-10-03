@@ -1,0 +1,294 @@
+<?php
+$module = 'expdesigner';
+?>
+<div class="actionToolbar">
+	<?php
+	$nav = array ();
+
+	$nav[] = $this->buttonLink('<img src="/_media/Icons/folder_add.png" border="0" alt="Add stepgroup"> Add Stepgroup',
+		$this->url(array (
+			'module' => 'expdesigner',
+			'controller' => 'stepgroup',
+			'action' => 'add',
+			'treatmentId' => $this->treatment['id']
+		), 'default', true)
+	);
+
+	$nav[] = $this->buttonLink('<img src="/_media/Icons/magnifier.png" border="0" alt="Search Structure"> Search Structure',
+		$this->url(array (
+			'module' => 'expdesigner',
+			'controller' => 'treatment',
+			'action' => 'searchstructure',
+			'treatmentId' => $this->treatment['id']
+		), 'default', true)
+	);
+
+	$nav[] = $this->buttonLink('<img src="/_media/Icons/eye.png" alt="Preview Steps" title="Preview Steps" /> Preview Steps',
+		$this->url(array(
+			'module' => 'expdesigner',
+			'controller' => 'treatment',
+			'action' => 'preview',
+			'treatmentId' => $this->treatment['id']
+		), 'default', true)
+	);
+
+	echo '<li class="sub">' . implode('</li><li class="sub">', $nav) . '</li>';
+
+	?></ul>
+</div>
+
+<div id="treatmentStructure" class="treatmentStructure" data-pk="<?php echo $this->treatment['id']; ?>">
+<?php
+	foreach ($this->stepgroups as $stepgroup)
+	{
+		echo '<div class="stepgroupContainer" id="stepgroupContainer_' . $stepgroup['id'] . '" data-pk="' . $stepgroup['id'] . '">';
+		echo '<a name="stepgroup' . $stepgroup['id'] . '"></a>';
+
+			echo '<div id="stepgroupRow_' . $stepgroup['id'] . '" class="stepgroupRow';
+			if ($stepgroup['active'] == 0)
+			{
+				echo ' inactiveStepgroup';
+			}
+			echo '" data-pk="' . $stepgroup['id'] . '">';
+
+				echo '<span class="stepgroupToggle glyphicon glyphicon-chevron-down"></span>';
+				echo '<span class="stepgroupNameCol">';
+					echo '<span class="stepgroupNameSpan" data-pk="' . $stepgroup['id'] . '">' . $this->escape($stepgroup['name']) . '</span>';
+					echo ' <span class="stepgroupDetailsSpan">(';
+						echo '<span class="stepgroupLabelSpan" data-pk="' . $stepgroup['id'] . '" data-value="' . $this->escape($stepgroup['label']) . '">';
+						echo 'Label ';
+						echo $this->escape($stepgroup['label']);
+						echo '</span>';
+
+						echo ' / ';
+
+						echo '<span class="stepgroupLoopsSpan" data-pk="' . $stepgroup['id'] . '" data-value="' . $stepgroup['loop'] . '">';
+						if ($stepgroup['loop'] == -1)
+						{
+							echo 'Infinite';
+						}
+						else
+						{
+							echo $stepgroup['loop'];
+						}
+						echo ' Loop';
+						if ($stepgroup['loop'] > 1 || $stepgroup['loop'] < 0)
+						{
+							echo 's';
+						}
+						echo '';
+						echo '</span>';
+					echo ')</span>';
+				echo '</span>';
+
+				$nav = array ();
+				echo '<span class="optionsCol">';
+
+				$nav[] = $this->buttonLink('<img src="/_media/Icons/page_add.png" border="0" alt="Add step" title="Add Step">',
+					$this->url(array(
+						'module' => 'expdesigner',
+						'controller' => 'step',
+						'action' => 'add',
+						'stepgroupId' => $stepgroup['id'],
+						'position' => 'end'
+					), 'default', true),
+					null,
+					'xs'
+				);
+
+				$nav[] = $this->buttonLink('<img src="/_media/Icons/eye.png" border="0" alt="Preview steps" title="Preview steps">',
+					$this->url(array(
+						'module' => 'expdesigner',
+						'controller' => 'treatment',
+						'action' => 'preview',
+						'treatmentId' => $this->treatment['id'],
+						'stepgroupId' => $stepgroup['id'],
+					), 'default', true),
+					null,
+					'xs'
+				);
+
+				$nav[] = $this->buttonLink('<img src="/_media/Icons/folder_edit.png" border="0" alt="Edit stepgroup" title="Edit stepgroup">',
+					$this->url(array(
+						'module' => 'expdesigner',
+						'controller' => 'stepgroup',
+						'action' => 'edit',
+						'stepgroupId' => $stepgroup['id']
+					), 'default', true),
+					null,
+					'xs'
+				);
+
+				$nav[] = $this->buttonLink('<img src="/_media/Icons/folder_delete.png" border="0" alt="Delete stepgroup" title="Delete stepgroup">', 'javascript:expdesigner.deleteStepgroup(' . $stepgroup['id'] . ')',
+					null,
+					'xs');
+
+				if ($stepgroup['active'] == 1)
+				{
+					$nav[] = $this->buttonLink('<img src="/_media/Icons/bullet_green.png" border="0" alt="Deactivate stepgroup" title="Deactivate stepgroup">', 'javascript:expdesigner.modifyTreatmentStructure(' . $this->treatment['id'] . ', \'stepgroup\', ' . $stepgroup['id'] . ', \'setInactive\')',
+					null,
+					'xs');
+				}
+				else
+				{
+					$nav[] = $this->buttonLink('<img src="/_media/Icons/bullet_red.png" border="0" alt="Activate stepgroup" title="Activate stepgroup">', 'javascript:expdesigner.modifyTreatmentStructure(' . $this->treatment['id'] . ', \'stepgroup\', ' . $stepgroup['id'] . ', \'setActive\')',
+					null,
+					'xs');
+				}
+
+				$nav[] = $this->buttonLink('<img src="/_media/Icons/page_copy.png" border="0" alt="Copy stepgroup" title="Copy stepgroup">', 'javascript:expdesigner.copyStepgroup(' . $stepgroup['id'] . ')',
+					null,
+					'xs');
+
+				echo implode(' ', $nav);
+
+				echo '</span>';
+			echo '</div>'; // stepgroupRow
+
+			echo '<div id="stepContainer2_' . $stepgroup['id'] . '" class="stepContainer2">';
+
+				echo '<div id="stepHeaderRow_' . $stepgroup['id'] . '" class="stepHeaderRow">';
+					echo '<span class="stepOrderCol">Pos.</span>';
+					echo '<span class="stepNameCol">Name</span>';
+					echo '<span class="stepSteptypeCol">Steptype</span>';
+					echo '<span class="stepRunConditionCol">Types</span>';
+				echo '</div>';
+
+				echo '<div id="stepContainer_' . $stepgroup['id'] . '" class="stepContainer">';
+
+					foreach ($this->steps[$stepgroup['id']] as $step)
+					{
+						echo '<div id="stepRowContainer_'.$step['id'].'" class="stepRowContainer" data-pk="' . $step['id'] . '">';
+
+							$class = array('stepRow', 'stepgroupRow_'.$stepgroup['id'].'Step');
+							if ($stepgroup['active'] == 0 || $step['active'] == 0)
+							{
+								$class[] = 'inactiveStep';
+							}
+
+							echo '<div id="stepRow_'.$step['id'].'" class="' . implode($class, ' ') . '" data-pk="' . $step['id'] . '">';
+
+							echo '<span class="stepOrderCol">' . $step['position'] . '</span>';
+
+							echo '<span class="stepNameCol">';
+								echo '<span class="stepNameSpan" id="stepNameSpan_' . $step['id'] . '" data-pk="' . $step['id'] . '">';
+								echo $this->escape($step['name']);
+								echo '</span>';
+							echo '</span>';
+
+							echo '<span class="stepSteptypeCol">';
+								echo '<span class="stepSteptypeSpan" id="stepSteptypeSpan_' . $step['id'] . '" data-pk="' . $step['id'] . '">';
+								if (empty($step['steptype_name']))
+								{
+									echo 'Unkown steptype';
+								}
+								else
+								{
+									echo $this->escape($step['steptype_name']);
+								}
+								echo '</span>';
+							echo '</span>';
+
+							echo '<span class="runConditionCol">';
+								echo '<span class="stepTypeSpan" data-value="' . $this->escape($step['type_names']) . '" data-pk="' . $step['id'] . '">';
+								if ($step['type_names'] == '')
+								{
+									echo 'all';
+								}
+								else
+								{
+									echo $this->escape($step['type_names']);
+								}
+								echo '</span>';
+							echo '</span>';
+
+							echo '<span class="optionsCol">';
+
+							$nav = array();
+
+							if (!empty($step['internalNote']))
+							{
+								$nav[] = $this->buttonLink('<img id="stepNoteIcon' . $step['id'] . '" src="/_media/Icons/note.png" border="0">',
+									$this->url(array (
+										'module' => 'expdesigner',
+										'controller' => 'step',
+										'action' => 'edit',
+										'stepId' => $step['id']
+									), 'default', true) . '#tab_internal-ContentPane',
+									null,
+									'xs'
+								);
+							}
+							else
+							{
+								$nav[] = $this->buttonLink('<img src="/_media/Icons.inactive/note.png" alt="Edit Internal Note" title="Edit Internal Note" border="0">',
+									$this->url(array (
+										'module' => 'expdesigner',
+										'controller' => 'step',
+										'action' => 'edit',
+										'stepId' => $step['id']
+									), 'default', true) . '#tab_internal-ContentPane',
+									null,
+									'xs'
+								);
+							}
+
+							$nav[] = $this->buttonLink('<img src="/_media/Icons/eye.png" border="0" alt="Preview step" title="Preview step">',
+								$this->url(array (
+									'module' => 'expdesigner',
+									'controller' => 'step',
+									'action' => 'previewnavigation',
+									'stepId' => $step['id']
+								), 'default', true),
+								null,
+								'xs'
+							);
+
+							$nav[] = $this->buttonLink('<img src="/_media/Icons/page_edit.png" border="0" alt="Edit step" title="Edit step">',
+								$this->url(array (
+									'module' => 'expdesigner',
+									'controller' => 'step',
+									'action' => 'edit',
+									'stepId' => $step['id']
+								), 'default', true),
+								null,
+								'xs'
+							);
+
+							$nav[] = $this->buttonLink('<img src="/_media/Icons/page_delete.png" border="0" alt="Delete step" title="Delete step">', 'javascript:expdesigner.deleteStep(' . $step['id'] . ')',
+									null,
+									'xs');
+
+							if ($step['active'] == 1)
+							{
+								$nav[] = $this->buttonLink('<img src="/_media/Icons/bullet_green.png" border="0" alt="Deactivate step" title="Deactivate step">', 'javascript:expdesigner.modifyTreatmentStructure(' . $this->treatment['id'] . ', \'step\', ' . $step['id'] . ', \'setInactive\')',
+									null,
+									'xs');
+							}
+							else
+							{
+								$nav[] = $this->buttonLink('<img src="/_media/Icons/bullet_red.png" border="0" alt="Activate step" title="Activate step">', 'javascript:expdesigner.modifyTreatmentStructure(' . $this->treatment['id'] . ', \'step\', ' . $step['id'] . ', \'setActive\')',
+									null,
+									'xs');
+							}
+
+							$nav[] = $this->buttonLink('<img src="/_media/Icons/page_copy.png" border="0" alt="Copy step" title="Copy step">', 'javascript:expdesigner.copyStep(' . $step['id'] . ')',
+									null,
+									'xs');
+
+							echo implode(' ', $nav);
+							echo '</span>';
+
+						echo '</div>';
+					echo '</div>';
+				}
+
+				echo '</div>';
+			echo '</div>';
+		echo '</div>';
+	}
+?>
+</div>
+<?php
+$this->inlineScript()->appendScript('expdesigner.initTreatmentDetailsStructure();');
+echo $this->inlineScript();

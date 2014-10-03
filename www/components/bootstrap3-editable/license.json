@@ -1,0 +1,13 @@
+{
+    "name": "Bootstrap3-editable",
+    "version": {
+        "2": "1.5.1"
+    },
+    "homepage": "http://vitalets.github.io/x-editable",
+    "authors": [
+        "Vitaliy Potapov"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

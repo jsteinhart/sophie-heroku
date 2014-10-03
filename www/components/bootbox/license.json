@@ -1,0 +1,13 @@
+{
+    "name": "Bootbox",
+    "version": {
+        "2": "4.1.0"
+    },
+    "homepage": "http://bootboxjs.com",
+    "authors": [
+        "Nick Payne"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

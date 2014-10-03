@@ -1,0 +1,57 @@
+<?php
+	$this->session = array_merge(array(
+		'participantsFirstStep' => 'Login',
+		'participantsLastStep' => 'Login',
+		'participantsFurthestContact' => '2 s'
+	), $this->session);
+?>
+<div id="sidebar">
+	<h2>Session Overview</h2>
+
+	<table>
+	<tr>
+		<th>Session State:</th>
+		<td><div id="sessionState"><?php echo $this->escape($this->session['state']); ?></div></td>
+	</tr>
+	</table>
+
+	<h3>Participant State</h3>
+	<table>
+	<tr>
+		<th>Backwardest in:</th>
+		<td><div id="sessionParticipantsBackwardestStep">-</div></td>
+	</tr>
+	<tr>
+		<th>Furthest in:</th>
+		<td><div id="sessionParticipantsFurthestStep">-</div></td>
+	</tr>
+	<tr>
+		<th>Furthest Contact:</th>
+		<td><div id="sessionParticipantsFurthestContact">-</div></td>
+	</tr>
+	</table>
+
+	<h3>Admin Process</h3>
+	<table>
+	<tr>
+		<th>State:</th>
+		<td><div id="sessionAdminProcessState">not running</div></td>
+	</tr>
+	<tr>
+		<th>Last Run:</th>
+		<td><div id="sessionAdminProcessLast">-</div></td>
+	</tr>
+	</table>
+
+	<h3>Recent Log Messages</h3>
+	<div id="sessionRecentLogMessagesContainer">
+		<ul class="log" id="sessionRecentLogMessages">
+			<li class="error">Errors will be displayed like this.</li>
+			<li class="warning">Warnings will be displayed like this.</li>
+			<li class="notice">Notices will be displayed like this.</li>
+			<li class="debug">Debug messages will be displayed like this.</li>
+			<li>&nbsp;</li>
+		</ul>
+	</div>
+
+</div>

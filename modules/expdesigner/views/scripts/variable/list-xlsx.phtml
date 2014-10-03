@@ -1,0 +1,66 @@
+Context;Name;Value;Dyn1;Dyn2;Dyn3;Dyn4
+<?php
+foreach ($this->variables as $variable)
+{
+	if ($variable['groupLabel'] != '')
+	{
+		$contextPerson = 'g';
+	}
+	elseif ($variable['participantLabel'] != '')
+	{
+		$contextPerson = 'p';
+	}
+	else
+	{
+		$contextPerson = 'e';
+	}
+
+	if ($variable['stepgroupLabel'] != '')
+	{
+		if ($variable['stepgroupLoop'] != '')
+		{
+			$contextProcess = 'sl';
+		}
+		else
+		{
+			$contextProcess = 's';
+		}
+	}
+	else
+	{
+		$contextProcess = 'e';
+	}
+
+
+	echo $contextPerson . $contextProcess;
+	echo ';';
+	echo $variable['name'];
+	echo ';';
+	echo $variable['value'];
+	echo ';';
+
+	if ($contextPerson == 'p')
+	{
+		echo $variable['participantLabel'];
+		echo ';';
+	}
+	elseif ($contextPerson == 'g')
+	{
+		echo $variable['groupLabel'];
+		echo ';';
+	}
+
+	if ($contextProcess == 's' || $contextProcess == 'sl')
+	{
+		echo $variable['stepgroupLabel'];
+		echo ';';
+	}
+	if ($contextProcess == 'sl')
+	{
+		echo $variable['stepgroupLoop'];
+		echo ';';
+	}
+
+	echo gettype($variable['value']);
+	echo "\n";
+}

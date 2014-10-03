@@ -1,0 +1,26 @@
+<?php
+$module = 'sfwsysadmin';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('System Administration', 'PREPEND');
+$this->headTitle('Modules', 'PREPEND');
+$this->headTitle('MVC', 'PREPEND');
+?>
+<h1>MVC Modules</h1>
+
+<div class="table-responsive">
+<table id="moduleList" class="table table-striped table-hover">
+<thead>
+	<tr>
+		<th>Name</th>
+	</tr>
+</thead>
+<tbody>
+<?php foreach ($this->mvcModules as $mvcModule): ?>
+	<tr>
+		<td><?php echo $this->escape(print_r($mvcModule, true)); ?></td>
+    </tr>
+<?php endforeach; ?>
+</table>
+</div>

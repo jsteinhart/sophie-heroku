@@ -1,0 +1,17 @@
+<div id="cheader">
+	<div id="cheadtexts">
+		<span id="cheadline">End of experiment</span><br />
+		<span id="cheadtext">Thank you for participating</span>
+	</div>
+</div>
+<?php
+$this->headScript()->captureStart();
+?>
+function ReloadSync () {
+	var href = location.href;
+	location.href = href;
+}
+window.setTimeout("ReloadSync()", 60000);
+<?php
+$this->headScript()->captureEnd();
+?>

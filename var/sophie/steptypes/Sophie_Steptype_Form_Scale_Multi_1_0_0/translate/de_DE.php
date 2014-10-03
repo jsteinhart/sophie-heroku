@@ -1,0 +1,2 @@
+<?php
+return array('Submit ...' => 'Absenden ...', 'Please select one of the given options.' => 'Bitte wählen Sie eine der gegebenen Optionen.', 'Please select one of the given options per item.' => 'Bitte wählen Sie für jede Zeile eine der gegebenen Optionen.');

@@ -1,0 +1,70 @@
+<div class="table-responsive">
+<table id="sessionGroupingList" class="table table-striped table-hover">
+<tr>
+	<th>Stepgroup (Label.Loop)</th>
+	<?php foreach ($this->groups as $group): ?>
+	<th>
+		<?php
+			echo $this->escape($group['label']);
+			echo ' (' . $this->escape($group['groupStructure']) . ')';
+		?>
+	</th>
+	<?php endforeach; ?>
+	<th>No Group</th>
+</tr>
+<?php
+$participantLabels = array();
+foreach ($this->participants as $participant)
+{
+	$participantLabels[$participant['label']] = 1;
+}
+
+foreach ($this->stepgroups as $stepgroup)
+{
+	if (isset($this->groupingsByStepgroup[$stepgroup['label']]))
+	{
+		foreach ($this->groupingsByStepgroup[$stepgroup['label']] as $stepgroupLoop => $groupingsByStepgroupLoop)
+		{
+			$stepgroupLoopLabel = $stepgroup['label'] . '.' . $stepgroupLoop;
+			$ungroupedParticipantsLabels = $participantLabels;
+
+			echo '<tr>';
+			echo '<th>' . $this->escape($stepgroupLoopLabel) . '</th>';
+
+			foreach ($this->groups as $group)
+			{
+				echo '<td>';
+
+				if (isset($groupingsByStepgroupLoop[$group['label']]) && is_array($groupingsByStepgroupLoop[$group['label']]))
+				{
+				
+					foreach ($groupingsByStepgroupLoop[$group['label']] as $participantLabel)
+					{
+						if (isset($ungroupedParticipantsLabels[$participantLabel]))
+						{
+							unset($ungroupedParticipantsLabels[$participantLabel]);
+						}
+						echo '<div>';
+						echo $this->escape($participantLabel);
+						echo '</div>';
+					}
+				}
+				
+				echo '</td>';
+			}
+
+			echo '<td>';
+			foreach ($ungroupedParticipantsLabels as $participantLabel => $unused)
+			{
+				echo '<div>';
+				echo $this->escape($participantLabel);
+				echo '</div>';
+			}
+			echo '</td>';
+			echo '</tr>';
+		}
+	}
+}
+?>
+</table>
+</div>

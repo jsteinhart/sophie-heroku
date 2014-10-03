@@ -1,0 +1,123 @@
+<h1><?php
+echo 'Treatment: ' . $this->escape($this->treatment['name']) . ' from Experiment: ' . $this->escape($this->experiment['name']) . '<br /><br />';
+?></h1>
+<br />
+<hr />
+<br />
+<h2>Structure Definition</h2>
+<br />
+<div id="treatmentDefinition">
+<table>
+<tr><th>Name</th><th>Order</th><th>Type</th></tr>
+<?php
+foreach ($this->stepgroups as $stepgroup)
+{
+
+  echo '<tr>';
+
+    echo '<td';
+
+    if ($stepgroup['active']==0)
+      echo ' style="color:#ff0000"';
+
+    echo '><b>' . $this->escape($stepgroup['name']) . ' (' . $stepgroup['id'] . ')';
+
+    if ($stepgroup['loop']>1)
+      echo ' (Loops: ' . $stepgroup['loop'] . ')';
+
+    echo '</b></span></td>';
+
+    echo '<td>' . $stepgroup['position'] . '</td>';
+
+    echo '<td></td>';
+
+  echo '</tr>';
+
+  foreach ($this->steps[$stepgroup['id']] as $step)
+  {
+	  echo '<tr>';
+	    echo '<td> ..... ' . $this->escape($step['type'] . ' : ' . $step['contentHeadline']) .'</td>';
+	    echo '<td>' . $stepgroup['position'] . ' / ' . $step['position'] . '</td>';
+	    echo '<td>';
+	    if($step['type_names']=='') echo 'All';
+	    else echo $step['type_names'];
+	    echo '</td>';
+	  echo '</tr>';
+
+	if ($step['contentHeadtext']!='')
+	{
+	  echo '<tr>';
+		echo '<td colspan="3">';
+			echo '<b>Info Content</b>';
+		echo '</td>';
+	  echo '</tr>';
+
+	  echo '<tr>';
+		echo '<td colspan="3">';
+			echo '<b>' . $this->escape($step['contentActionhead']) . '</b>';
+			echo '<hr />';
+			echo $this->escape($step['contentHeadtext']);
+		echo '</td>';
+	  echo '</tr>';
+	}
+
+	if ($step['contentActionhead']!='' || $step['contentActiontext']!='' || $step['contentActionform']!='')
+	{
+	  echo '<tr>';
+		echo '<td colspan="3">';
+			echo '<b>Action Content</b>';
+		echo '</td>';
+	  echo '</tr>';
+
+
+	  echo '<tr>';
+		echo '<td colspan="3">';
+			echo '<b>' . $this->escape($step['contentActionhead']) . '</b>';
+			echo '<hr />';
+			echo $this->escape($step['contentActiontext']);
+			echo '<hr />';
+			echo $this->escape($step['contentActionform']);
+		echo '</td>';
+	  echo '</tr>';
+  	}
+
+	// TODO: add echo scripts
+  }
+}
+?>
+</table>
+
+<br />
+<h2>Treatment Participants</h2><br />
+<table width="80%" border="1">
+<tr><th>Name</th><th></th></tr>
+<?php foreach ($this->groups as $group) { ?>
+<tr>
+  <td><?php if ($group['active']==0) { ?><span style="color:#ff0000"><?php } ?><?php echo $group['name']; ?><?php if ($group['active']==0) { ?></span><?php } ?></td>
+  <td></td>
+</tr>
+<?php
+	foreach ($this->groupTypes[$group['id']] as $type)
+	{
+?>
+  <tr>
+    <td> ..... Type <?php echo $type['type_name']; ?></td>
+    <td><?php echo $type['participants']; ?> Participants</td>
+  </tr>
+<?php
+	}
+}
+?>
+</table>
+
+<br />
+<h2>Treatment Types</h2><br />
+<table width="80%" border="1">
+<tr><th>Name</th></tr>
+<?php foreach ($this->types as $type) { ?>
+<tr>
+  <td><?php echo $type['name']; ?></td>
+</tr>
+<?php } ?>
+</table>
+</div>

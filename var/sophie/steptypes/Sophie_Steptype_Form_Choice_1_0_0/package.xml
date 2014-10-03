@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<package>
+	<name>Form Choice</name>
+	<version>1.0.0</version>
+	<description></description>
+	<author>SoPHIE Team</author>
+	<authorEmail>achim.hendriks@uos.de</authorEmail>
+	<website>sophie.uos.de/steptype/sophie_steptype_form_choice_1_0_0</website>
+	<isAbstract>0</isAbstract>
+	<category>Form</category>
+ 	<tags>
+		<tag>html</tag>
+	</tags>
+ 	<dependencies>
+
+ 	</dependencies>
+ 	<deps>
+		<system-os-win type="system-os" required="true">
+			<require>win</require>
+			<!-- <requireNot>win</requireNot> -->
+		</system-os-win>
+
+		<php-version type="php-version" required="true">
+			<min></min>
+			<max></max>
+			<exclude></exclude>
+			<include></include>
+		</php-version>
+
+		<symbic-application>
+			<type></type>
+			<minVersion></minVersion>
+			<exactVersion></exactVersion>
+			<maxVersion></maxVersion>
+		</symbic-application>
+
+		<symbic-package>
+			<Sophie_Steptype_Info>
+				<minVersion></minVersion>
+				<exactVersion></exactVersion>
+				<maxVersion></maxVersion>
+			</Sophie_Steptype_Info>
+			<api></api>
+		</symbic-package>
+
+	</deps>
+</package>

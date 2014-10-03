@@ -1,0 +1,389 @@
+/* Default CSS for SoPHIE, e.g. for expadmin */
+@charset "utf-8";
+
+html, body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background-color: #f2f2f2;
+	font-size: 12pt;
+}
+
+body, td, th {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+	color: #000;
+}
+
+a.visited {
+	color: #000;
+}
+
+img {
+	border: 0;
+}
+
+h1 {
+	font-weight:bold;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 16pt;
+}
+
+h2 {
+	font-weight:bold;
+	margin: 14pt 0 4pt 0;
+	padding: 0;
+	border: 0;
+	font-size: 14pt;
+}
+h2:first-child {
+	margin-top: 0;
+}
+
+h3 {
+	font-weight:bold;
+	margin: 6pt 0 2pt 0;
+	padding: 0;
+	border: 0;
+	font-size: 12pt;
+}
+
+#main {
+}
+
+#header {
+	position: relative;
+	background-color: #e5ffd7;
+	height: 65px;
+	border-bottom: 2px solid #93c27a;
+	background-image:url(./logo.png);
+	background-repeat:no-repeat;
+	background-position: 10px 5px;
+	font-size: 12pt;
+}
+
+a#headhome {
+	position: absolute;
+	top: 5px;
+	left: 10px;
+	width: 150px;
+	height: 55px;
+}
+
+#headlinks {
+	position: absolute;
+	bottom: 18px;
+	right: 20px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	color: #333;
+	font-weight:bold;
+}
+#headlinks a {
+	text-decoration: none;
+	color: #333;
+}
+#headlinks a:hover {
+	color: #000;
+}
+#headlinks a img {
+	vertical-align: middle;
+}
+
+#headlinkimg {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+a.headlink {
+	color: #fff;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+a.headlink:hover {
+ text-decoration:underline;
+}
+
+#headstate {
+	position: absolute;
+	top: 50px;
+	right: 50px;
+	width: 60%;
+	height: 40px;
+	margin: 0;
+	padding: 0;
+	border: 1px;
+	background-color: #fff;
+	color: #000;
+	font-weight:bold;
+	font-size: 20px;
+	-moz-border-radius:8px;
+}
+
+
+#content {
+	background-color: #fff;
+	margin: 10px 20px;
+	position: relative;
+	padding: 10px 20px;
+	border: 1px solid #ddd;
+}
+
+#contentWrapper {
+	position: relative;
+}
+
+#debugConsole {
+	background-color: #fff;
+	color: #00f;
+	font-family: monospace;
+	font-size: smaller;
+	margin: 10px 20px;
+	position: relative;
+	padding: 10px 20px;
+	border: 1px solid #00f;
+}
+#debugConsole h3 {
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	font-weight: bold;
+}
+
+/* Navigation Toolbars */
+#actionMainNav {
+	margin: 10px 0;
+}
+#actionMainNav ul, .actionToolbar ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+#actionMainNav li, .actionToolbar li {
+	display: block;
+	float: left;
+	margin: 0;
+	margin-right: 15px;
+	padding: 0;
+}
+#actionMainNav a, .actionToolbar a {
+	display: block;
+	margin: 0;
+	padding: 3pt 5pt;
+	font-size: 10pt;
+	border: 1px solid #bbb;
+	background-color: #eee;
+	color: #000;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	text-decoration: none;
+}
+#actionMainNav a:hover, .actionToolbar a:hover {
+	background-color: #cae1bd;
+	border-color: #93c27a;
+}
+#actionMainNav img, .actionToolbar img {
+	vertical-align: bottom;
+}
+#actionMainNav li.sub {
+	float: right;
+}
+
+.actionToolbar {
+	margin: 5px 0;
+}
+
+#formError {
+	font-size: 12px;
+	font-weight:bold;
+	color: #FF3300;
+}
+
+#footer {
+	margin: 10px 20px;
+	text-align: right;
+	font-size: 10px;
+	color: #666;
+}
+#footer a, #footer span {
+	color: #666;
+	margin-left: 2em;
+}
+
+p {
+	margin: 0 0 .5em 0;
+	padding: 0;
+}
+div.error,div.warning, div.notice {
+	margin: 10px 0 25px 0;
+	padding: 5px 10px 5px 30px;
+	background-repeat: no-repeat;
+	background-position: 7px 7px;
+	background-image: url(/_media/Icons/exclamation.png);
+	border: 2px solid #c00;
+}
+div.warning {
+	background-image: url(/_media/Icons/error.png);
+	border: 2px solid #fe0;
+}
+div.notice {
+	background-image: url(/_media/Icons/information.png);
+	border: 2px solid #09f;
+}
+div.error ul,div.warning ul, div.notice ul {
+	margin: 0;
+	padding: 0;
+}
+div.error li,div.warning li, div.notice li {
+	margin: 0 0 0 2em;
+	padding: 0;
+}
+
+.small
+{
+	font-size:80%;
+}
+
+.hidden {
+	display: none;
+}
+.sophie_stepcountdown, .sophie_loading {
+	padding: 200px;
+	text-align: center;
+}
+.sophie_stepcountdown #sophie_countdown_timer {
+	margin: 0 auto;
+	font-size: 300%;
+}
+#sophie_timer {
+	margin-right: 20px;
+}
+
+
+
+.formError {
+	font-size: 12px;
+	font-weight:bold;
+	color: #FF3300;
+}
+
+ul.errors {
+	margin: .5em 0;
+	padding: .5em 1em;
+	background-color: #c00;
+	color: #fff;
+}
+ul.errors li {
+	margin-left: 1em;
+}
+
+
+#cheader, .cheader {
+	margin-bottom: 17px;
+}
+
+.cheadline {
+	font-weight:bold;
+	margin-bottom: 17px;
+}
+
+.cheadtext {
+}
+
+#cheadtimer {
+	padding: 2px;
+	position: absolute;
+	right: 25px;
+	top: 10px;
+	font-size: 16px;
+	width: 250px;
+	text-align: center;
+	border: 1px;
+	background-color: #D5D5D5;
+	color: #000000;
+	-moz-border-radius:8px;
+}
+
+#cheadtimertime {
+	font-size: 16px;
+	font-weight:bold;
+}
+
+#caction {
+	margin-bottom: 17px;
+}
+
+.cactionhead {
+	font-weight:bold;
+	margin-bottom: 17px;
+}
+
+.cactiontext {
+}
+
+.questStandardQuestionHeadline {
+	font-weight:bold;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.questAdvanced {
+	margin-bottom: 17px;
+}
+
+.questStandard {
+	margin-bottom: 17px;
+}
+
+.quizResponse {
+	margin-bottom: 17px;
+}
+.quizMessage {
+	margin-bottom: 17px;
+}
+
+.symbic_form_radioList_element_label:after{
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.symbic_form_radioList_label{
+	display: block;
+	margin-left: 2em;
+}
+
+.symbic_form_radioList_input {
+	float: left;
+	width: 1em;
+}
+
+/* improved layout for radio and checkbox lists: */
+div.form-group input[type="radio"], div.form-group input[type="checkbox"] {
+	float: left;
+	clear: both;
+}
+div.form-group label.symbic_form_radioList_label {
+	float: left;
+}
+div.form-group label.symbic_form_radioList_label:after {
+	content: ".";
+	display: block;
+	clear: both;
+	height: 0;
+	visibility: hidden;
+}
+ul.errors {
+	clear: both;
+}

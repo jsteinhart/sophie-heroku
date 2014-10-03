@@ -1,0 +1,15 @@
+<?php
+$module = 'expadmin';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+$this->headTitle('Edit Session', 'PREPEND');
+$this->headTitle($this->session['name'], 'PREPEND');
+
+$this->form->setLegend('Edit Session ' . $this->session['name']);
+echo $this->form;
+
+$this->jsOnLoad()->appendScript('
+	jQuery(\'#ownerId\').select2({ width: \'resolve\' });
+	jQuery(\'#userAccess\').select2({ width: \'resolve\' });
+	jQuery(\'#usergroupAccess\').select2({ width: \'resolve\' });
+');

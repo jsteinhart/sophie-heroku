@@ -1,0 +1,12 @@
+<?php
+if (!isset($this->reports) || sizeof($this->reports) == 0)
+{
+	echo '<div class="alert alert-info">No reports defined for the treatment.</div>';
+}
+
+echo '<ul>';
+foreach ($this->reports as $report)
+{
+	echo '<li><a href="' . $this->url(array('action' => 'treatmentshow', 'reportId' => $this->escape($report['id'])), 'default') . '" target="_blank">' . $this->escape($report['name']) . '</a></li>';
+}
+echo '</ul>';

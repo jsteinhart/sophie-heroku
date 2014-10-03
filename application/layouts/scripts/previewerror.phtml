@@ -1,0 +1,87 @@
+<?php
+echo $this->doctype();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script>
+	var appBase = '<?php
+	$appBase = $this->url(array('module' => ''),null,true);
+	if (substr($appBase, -1) != '/')
+	{
+		$appBase .= '/';
+	}
+	echo addslashes($appBase);
+	?>';
+</script>
+<?php
+	echo $this->headTitle();
+	echo $this->headMeta();
+
+	$this->headLink()->appendStylesheet('/_styles/sophie/frontend.css');
+
+	echo $this->headLink();
+	echo $this->headStyle();
+	echo $this->headScript();
+
+	$loggedIn = true;
+?>
+</head>
+
+<body class="claro">
+
+	<div id="main">
+
+		<div id="header">
+			<div id="headline">
+			</div>
+
+			<div id="headlinks">
+				<?php if ($loggedIn): ?>
+					<div id="sophie_timer_warning"></div>
+					<div id="sophie_timer"></div>
+				<?php else: ?>
+					<?php echo '<a href="' . $this->url(array('module'=>'expfront'), 'default', true) . '"><img src="/_media/Icons/key.png" alt="Login to Experiment" title="Login to Experiment"> Login to Experiment</a>'; ?>
+				<?php endif; ?>
+			</div>
+
+			<?php echo $this->placeholder('headContent'); ?>
+
+		</div>
+
+		<div id="content">
+			<?php echo $this->layout()->content; ?>
+		</div>
+
+		<div id="footer">
+			<?php
+				if (!$loggedIn)
+				{
+					$config = Zend_Registry::get('config');
+					if (isset($config['systemConfig']['sophie']['expfront']['showBackendLink']) && $config['systemConfig']['sophie']['expfront']['showBackendLink'] == 1)
+					{
+						echo '<a href="' . $this->url(array(), 'login', true) . '">Backend</a>';
+					}
+					if (isset($config['systemConfig']['sophie']['expfront']['showLicenseLink']) && $config['systemConfig']['sophie']['expfront']['showLicenseLink'] == 1)
+					{
+						echo '<a href="' . $this->url(array('module'=>'sfwsystem', 'controller'=>'license', 'action'=>'index'), 'default', true) . '">License</a>';
+					}
+				}
+			?>
+			<span>Copyright &copy; <?php echo date("Y"); ?></span>
+		</div>
+
+	</div>
+
+	<?php
+	$debugConsole = $this->placeholder('debugConsole');
+	if ($debugConsole != '')
+	{
+		echo '<div id="debugConsole">';
+		echo '<h3>Debug Console</h3>';
+		echo nl2br($this->escape($debugConsole));
+		echo '</div>';
+	}
+	?>
+	<?php echo $this->inlineScript(); ?>
+</body>
+</html>

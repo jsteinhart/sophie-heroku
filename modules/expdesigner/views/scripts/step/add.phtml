@@ -1,0 +1,49 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('Add Step', 'PREPEND');
+
+$this->dojo()->enable();
+$this->dojo()->requireModule('dijit.layout.BorderContainer');
+$this->dojo()->requireModule('dijit.layout.ContentPane');
+$this->dojo()->requireModule('dojo.data.ItemFileReadStore');
+$this->dojo()->requireModule('dijit.Tree');
+$this->dojo()->requireModule('dojo.parser');
+
+$onload  = 'function() {';
+// resize height:
+$onload .= "  var minHeight = dojo.style('addStepMain', 'height');\n";
+$onload .= "  resizeDijitHeight('addStepMain', 65, minHeight);\n";
+$onload .= "  addOnResize(function() { resizeDijitHeight('addStepMain', 65, minHeight); } );\n";
+$onload .= "}\n";
+$this->dojo()->addOnLoad($onload);
+
+?>
+<h1>Add Step</h1>
+
+Select a Steptype
+
+<div dojoType="dijit.layout.ContentPane" style="height: 400px;" id="addStepMain">
+
+	<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%;">
+
+		<div dojoType="dijit.layout.ContentPane" region="leading" style="width: 300px;" splitter="1">
+
+			<div dojoType="dojo.data.ItemFileReadStore" jsId="steptypeStore" url="<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'steptype', 'action'=>'tree'), 'default', true); ?>"></div>
+			<div dojoType="dijit.tree.ForestStoreModel" jsId="steptypeModel" store="steptypeStore" query="{type:'steptypeCategory'}" rootId="steptypeRoot" rootLabel="Steptypes" childrenAttrs="children"></div>
+
+			<div dojoType="dijit.Tree" id="steptypeTree" model="steptypeModel" openOnClick="true" showRoot="false">
+			    <script type="dojo/method" event="onClick" args="item">
+			    	dijit.byId('steptypeInfoPane').set('href', '<?php echo $this->url(array('module'=>'expdesigner', 'controller'=>'step', 'action'=>'add2', 'stepgroupId'=>$this->stepgroup['id'])); ?>/steptypeId/' + steptypeStore.getValue(item, "systemName"));
+				</script>
+			</div>
+
+	    </div>
+
+		<div id="steptypeInfoPane" dojoType="dijit.layout.ContentPane" region="center">
+	    </div>
+	</div>
+
+</div>

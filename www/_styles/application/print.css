@@ -1,0 +1,8 @@
+@media print {
+	#header, #actionMainNav, .actionToolbar {
+		display: none;
+	}
+	#content {
+		border: none;
+	}
+}

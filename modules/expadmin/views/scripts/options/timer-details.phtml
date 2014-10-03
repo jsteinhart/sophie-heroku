@@ -1,0 +1,135 @@
+<?php
+$timerContextLabels = array();
+$timerContextLabels['E'] = 'Everyone';
+$timerContextLabels['G'] = 'Group';
+$timerContextLabels['P'] = 'Participant';
+
+$timerStartLabels = array();
+$timerStartLabels['sync-context'] = 'Automatically on Sync';
+$timerStartLabels['admin'] = 'By Admin';
+
+if ($this->timerContext == 'E')
+{
+	echo $this->button('Start Timer for Everyone', 'expadmin.stepTimerStart(\'' . $this->step['id'] . '\', \'' . $this->stepgroupLoop . '\', \'' . $this->timerContext . '\')');
+?>
+<fieldset>
+	<legend>Timer Information</legend>
+	<table class="table table-hover">
+		<tr>
+			<td>Start time</td>
+			<td><span id="timerStartTime_E"><?php echo empty($this->timerStartTime) ? '&ndash;' : date('Y-m-d H:i:s', round($this->timerStartTime / 1000, 0)); ?></span></td>
+		</tr>
+		<tr>
+			<td>Duration</td>
+			<td><span id="timerDuration_E"><?php echo $this->escape($this->timerDuration / 1000); ?> seconds</td>
+		</tr>
+		<tr>
+			<td>State</td>
+			<td><span id="timerState">
+<?php
+if ($this->timerState == 'notstarted')
+{
+	echo 'not started';
+}
+else
+{
+	echo $this->escape($this->timerState);
+}
+
+if ($this->timerState == 'started')
+{
+	echo ' (in ' . $this->timerFormat(round(($this->timerStartTime - $this->timerCountdown - (microtime(true) * 1000)) / 1000, 0)) . ')';
+}
+
+elseif ($this->timerState == 'running')
+{
+	echo ' (for ' . $this->timerFormat(round(($this->timerEndTime - (microtime(true) * 1000)) / 1000, 0)) . ')';
+}
+
+elseif ($this->timerState == 'ended')
+{
+	$seconds = round(((microtime(true) * 1000) - $this->timerEndTime) / 1000, 0);
+	if ($seconds >= 60 * 60)
+	{
+		echo ' (more than 1 hour)';
+	}
+	else
+	{
+		echo ' (since ' . $this->timerFormat($seconds) . ')';
+	}
+}
+
+elseif  ($this->timerState == 'countdown')
+{
+	echo ' (for ' . $this->timerFormat(round(($this->timerStartTime - (microtime(true) * 1000)) / 1000, 0)). ')';
+}
+
+?></span></td>
+		</tr>
+	</table>
+</fieldset>
+<?php
+}
+else
+{
+	echo $this->button('Start all', 'expadmin.stepTimerStart(\'' . $this->step['id'] . '\', \'' . $this->stepgroupLoop . '\', \'' . $this->timerContext . '\', \'*\')');
+
+	echo '<table class="table table-striped table-hover">';
+	echo '<thead>';
+	echo '<tr>';
+		echo '<th>' . $timerContextLabels[$this->timerContext] .'</th>';
+		echo '<th>State</th>';
+		echo '<th>Options</th>';
+	echo '</tr>';
+	echo '</thead>';
+
+	echo '<tbody>';
+	foreach ($this->contextLabels as $contextLabel)
+	{
+		echo '<tr>';
+			echo '<td>' . $contextLabel . '</td>';
+			echo '<td>';
+			if ($this->timerState[$contextLabel] == 'notstarted')
+			{
+				echo 'not started';
+			}
+			else
+			{
+				echo $this->escape($this->timerState[$contextLabel]);
+			}
+
+			if ($this->timerState[$contextLabel] == 'started')
+			{
+				echo ' (in ' . $this->timerFormat(round(($this->timerStartTime[$contextLabel] - $this->timerCountdown[$contextLabel] - (microtime(true) * 1000)) / 1000, 0)) . ')';
+			}
+
+			elseif ($this->timerState[$contextLabel] == 'running')
+			{
+				echo ' (for ' . $this->timerFormat(round(($this->timerEndTime[$contextLabel] - (microtime(true) * 1000)) / 1000, 0)) . ')';
+			}
+
+			elseif ($this->timerState[$contextLabel] == 'ended')
+			{
+				$seconds = round(((microtime(true) * 1000) - $this->timerEndTime[$contextLabel]) / 1000, 0);
+				if ($seconds >= 60 * 60)
+				{
+					echo ' (more than 1 hour)';
+				}
+				else
+				{
+					echo ' (since ' . $this->timerFormat($seconds) . ')';
+				}
+			}
+
+			elseif  ($this->timerState[$contextLabel] == 'countdown')
+			{
+				echo ' (for ' . $this->timerFormat(round(($this->timerStartTime[$contextLabel] - (microtime(true) * 1000)) / 1000, 0)). ')';
+			}
+
+			echo '</td>';
+			echo '<td>' . $this->button('Start', 'expadmin.stepTimerStart(\'' . $this->step['id'] . '\', \'' . $this->stepgroupLoop . '\', \'' . $this->timerContext . '\', \''. $contextLabel . '\')', null, 'xs') . '</td>';
+		echo '</tr>';
+	}
+	echo '</tbody>';
+	echo '</table>';
+}

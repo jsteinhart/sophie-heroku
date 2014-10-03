@@ -1,0 +1,80 @@
+<?php
+$module = 'expdesigner';
+?>
+<h2>Treatment Log</h2>
+<div class="actionToolbar">
+	<ul>
+		<li><a href="javascript:expdesigner.treatmentClearLog(<?php echo $this->treatment['id']; ?>);"><img src="/_media/Icons/bin_empty.png" border="0" alt="Clear Log"> Clear Log</a></li>
+		<?php if($this->treatment['loggingEnabled'] == 1):  ?>
+		<li><a href="javascript:expdesigner.treatmentDisableLog(<?php echo $this->treatment['id']; ?>);"><img src="/_media/Icons/stop.png" border="0" alt="Disable Log"> Disable Log</a></li>
+		<?php endif; ?>
+		<?php if($this->treatment['loggingEnabled'] == 0):  ?>
+			<li><a href="javascript:expdesigner.treatmentEnableLog(<?php echo $this->treatment['id']; ?>);"><img src="/_media/Icons/tick.png" border="0" alt="Enable Log"> Enable Log</a></li>
+		<?php endif;?>
+
+	</ul>
+</div>
+
+<?php
+if ($this->count == 0)
+{
+	echo $this->alert('No log entries found.');
+	return;
+}
+?>
+
+<br />
+<?php
+$entriesFrom = $this->offset + 1;
+$entriesTo = $entriesFrom + $this->limit - 1;
+$maxPages = ceil($this->count / $this->limit);
+if ($entriesTo > $this->count)
+{
+	$entriesTo = $this->count;
+}
+$paging = "Showing entries " . $entriesFrom . ' - ' . $entriesTo . ' of ' . $this->count . ' entries';
+?>
+
+<div class="btn-group" style="margin-bottom: 10px;">
+	<button class="btn btn-default"<?php if ($this->page <= 1) echo ' disabled="disabled"'; ?> onClick="dijit.byId('treatmentLogTab').attr('href', '<?php echo $this->url(array('page'=>1)); ?>');">first page</button>
+	<button class="btn btn-default"<?php if ($this->page <= 1) echo ' disabled="disabled"'; ?> onClick="dijit.byId('treatmentLogTab').attr('href', '<?php echo $this->url(array('page'=>$this->page - 1)); ?>');">previous page</button>
+	<button class="btn btn-default"<?php if ($this->page >= $maxPages) echo ' disabled="disabled"'; ?> onClick="dijit.byId('treatmentLogTab').attr('href', '<?php echo $this->url(array('page'=>$this->page + 1)); ?>');">next page</button>
+	<button class="btn btn-default"<?php if ($this->page >= $maxPages) echo ' disabled="disabled"'; ?> onClick="dijit.byId('treatmentLogTab').attr('href', '<?php echo $this->url(array('page'=>($maxPages))); ?>');">last page</button>
+</div>
+
+<div class="table-responsive">
+<table class="table table-striped table-hover log">
+<tr>
+	<th>No.</th>
+		<th>Type</th>
+		<th>Message</th>
+	<th>Time</th>
+</tr>
+<?php
+$i = $entriesFrom;
+
+foreach ($this->logs as $log)
+{
+	echo '<tr>';
+		echo '<td>';
+			echo $i;
+		echo '</td>';
+		echo '<td>';
+			echo $log['type'];
+		echo '</td>';
+		echo '<td>';
+			echo '<pre>' . $this->escape($log['content']) . '</pre>';
+		echo '</td>';
+		echo '<td>';
+			echo date('Y-m-d H:i:s', ceil($log['microtime']));
+		echo '</td>';
+	echo '</tr>';
+	$i++;
+}
+?>
+</table>
+</div>
+
+<div>
+<?php  echo $paging; ?>
+</div>

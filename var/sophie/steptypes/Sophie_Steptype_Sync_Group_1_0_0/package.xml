@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+	<name>Sync Group</name>
+	<version>1.0.0</version>
+	<description></description>
+	<author>SoPHIE Team</author>
+	<authorEmail>achim.hendriks@uos.de</authorEmail>
+	<website>sophie.uos.de/steptype/sophie_steptype_sync_group_1_0_0</website>
+	<isAbstract>false</isAbstract>
+	<category>Sync</category>
+ 	<tags>
+		<tag>html</tag>
+	</tags>
+</package>

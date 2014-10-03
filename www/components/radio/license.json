@@ -1,0 +1,13 @@
+{
+    "name": "Radio",
+    "version": {
+        "2": "0.2.0"
+    },
+    "homepage": "http://radio.uxder.com",
+    "authors": [
+        "Scott Murphy"
+    ],
+    "license": [
+        "MIT"
+    ]
+}

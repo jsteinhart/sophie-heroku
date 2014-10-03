@@ -1,0 +1,48 @@
+"Session";"Stepgroup Label";"Stepgroup Loop";"Group";"Participant"<?php if (isset($this->participantCodes)) { echo ';"Participant Code"'; } ?>;"Name";"Value"<?php
+
+echo "\n";
+
+foreach ( $this->variables as $variable )
+{
+	if (isset($variable['name']))
+	{
+
+		echo '"' . $variable['sessionId'] . '"';
+		echo ';"' . addslashes($variable['stepgroupLabel']) . '"';
+		echo ';"' . $variable['stepgroupLoop'] . '"';
+		echo ';"' . addslashes($variable['groupLabel']) . '"';
+		echo ';"' . addslashes($variable['participantLabel']) . '"';
+		if (isset($this->participantCodes))
+		{
+			echo ';"';
+			if ($variable['participantLabel'] != '')
+			{
+				echo addslashes($this->participantCodes[$variable['participantLabel']]);
+			}
+			echo '"';
+		}
+		echo ';"' . addslashes($variable['name']) . '"';
+
+		if ( isset($variable['value']) )
+		{
+			echo ';';
+			if (! is_int($variable['value']) && ! is_float($variable['value']))
+			{
+				echo '"';
+			}
+
+			if (is_object($variable['value']) || is_array($variable['value']))
+			{
+				$variable['value'] = serialize($variable['value']);
+			}
+			echo addslashes($variable['value']);
+
+			if (! is_int($variable['value']) && ! is_float($variable['value']))
+			{
+				echo '"';
+			}
+		}
+
+		echo "\n";
+	}
+}

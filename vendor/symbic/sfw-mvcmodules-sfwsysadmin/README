@@ -1,0 +1,19 @@
+Howto add the module to a project:
+
+1. install by adding the module to the projects composer file
+
+...
+	"require": {
+	...
+		"symbic/sfw-mvcmodules-sfwsysadmin": "*",
+	...
+	}
+...
+
+2. register the module with the frontcontroller within the application config
+
+	<controllerdirectory>
+		...
+		<sfwsysadmin><zf:const zf:name="VENDOR_PATH"/>/symbic/sfw-mvcmodules-sfwsysadmin/modules/sfwsysadmin/controllers</sfwsysadmin>
+		...
+	</controllerdirectory>

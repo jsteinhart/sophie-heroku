@@ -1,0 +1,50 @@
+<?php
+$module = 'sfwsysadmin';
+$this->headTitle('Browse Log File – ' . $this->logFileData['name'], 'PREPEND');
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+?>
+<h1>Browse Log File &ndash; <?php echo $this->logFileData['name']; ?></h1>
+
+<?php
+if (sizeof($this->logFileLines) === 0)
+{
+	echo $this->alert('Log File is empty', 'info');
+	return;
+}
+?>
+
+<div id="actionMainNav">
+	<ul>
+		<li class="sub"><?php echo $this->button('<img src="/_media/Icons/bin.png" border="0" title="Clear Logfile"> Clear Logfile', 'sfwsysadmin.logFiletruncate(\'' . $this->logFileId . '\', 1)'); ?></li>
+		<li class="sub"><?php echo $this->button('<img src="/_media/Icons/arrow_refresh.png" border="0" title="Refresh view"> Refresh view', 'window.location.reload()'); ?></li>
+	</ul>
+</div>
+
+<div class="table-responsive">
+<table class="table table-striped table-hover">
+<?php
+foreach ($this->logFileLines as $logFileLine)
+{
+	if (empty($logFileLine))
+	{
+		continue;
+	}
+
+	$logFileLine = explode(' ', $logFileLine, 4);
+	$logFileLine2 = explode(': ', $logFileLine[3], 2);
+
+	echo '<tr>';
+	echo '<td>' . $this->escape(substr($logFileLine[0], 1)) . '</td>';
+	echo '<td>' . $this->escape(substr($logFileLine[1], 0, -1)) . '</td>';
+	echo '<td>' . $this->escape(substr($logFileLine[2], 0, -1)) . '</td>';
+	echo '<td>' . $this->escape($logFileLine2[0]) . '</td>';
+	echo '</tr>';
+	
+	echo '<tr>';
+	echo '<td colspan="4">' . $this->escape($logFileLine2[1]) . '</td>';
+	echo '</tr>';
+}
+?>
+<table>
+</div>

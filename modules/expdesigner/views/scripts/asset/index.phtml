@@ -1,0 +1,115 @@
+<?php
+$module = 'expdesigner';
+?>
+<div class="actionToolbar">
+	<ul>
+		<li><?php echo $this->buttonLink('<img src="/_media/Icons/picture_add.png" border="0" alt="Add Asset"> Add Asset', $this->url(array(
+				'module' => 'expdesigner',
+				'controller' => 'asset',
+				'action' => 'add',
+				'treatmentId' => $this->treatmentId
+			), 'default', true), null, 'xs'); ?></li>
+	</ul>
+</div>
+
+<?php
+if (count($this->assets) == 0)
+{
+	echo $this->alert('No assets found for this treatment.');
+	return;
+}
+?>
+
+<div class="table-responsive">
+<table id="treatmentAssetList" class="table table-striped table-hover">
+<thead>
+	<tr>
+		<th scope="col">Label</th>
+		<th scope="col">Preview</th>
+		<th scope="col">Options</th>
+	</tr>
+</thead>
+<tbody>
+<?php
+foreach ($this->assets as $asset)
+{
+	echo '<tr data-pk="' . $asset->id . '">';
+	echo '<td>' . $this->escape($asset->label) . '</td>';
+	echo '<td>';
+
+	if (stripos($asset->contentType, 'image/') === 0)
+	{
+		$metadata = Zend_Json::decode($asset->metadata);
+
+		if (!isset($metadata[0]) || !isset($metadata[1]) || !isset($metadata[2]))
+		{
+			echo 'No Preview available';
+		}
+		else
+		{
+			if($metadata[0] > 200 || $metadata[1] > 200)
+			{
+				$format = $metadata[0] > $metadata[1]? 'width = "200px"': ' height = "200px"';
+			}
+			else
+			{
+				$format = $metadata[2];
+			}
+
+			$showAssetUrl = $this->url(array (
+				'module' => 'expdesigner',
+				'controller' => 'asset',
+				'action' => 'show',
+				'assetId' => $asset->id
+			));
+			echo '<img src="' . $showAssetUrl . '" ' . $format .' />';
+		}
+	}
+	elseif (stripos($asset->contentType, 'audio/') === 0)
+	{
+		echo 'No Preview available';
+	}
+	elseif (stripos($asset->contentType, 'video/') === 0)
+	{
+		echo 'No Preview available';
+	}
+	elseif ($asset->contentType == 'application/pdf')
+	{
+		echo 'No Preview available';
+	}
+	else
+	{
+		echo 'No Preview available';
+	}
+
+	echo '</td><td>';
+		echo $this->buttonLink('<img src="/_media/Icons/picture_edit.png" border="0" title="Edit Asset"> Edit Asset', $this->url(array(
+				'module' => $module,
+				'controller' => 'asset',
+				'action' => 'edit',
+				'assetId' => $asset->id
+			), 'default', true), null, 'xs');
+		echo ' ';
+		echo $this->buttonLink('<img src="/_media/Icons/picture_save.png" border="0" title="Download Asset"> Download Asset', $this->url(array(
+				'module' => $module,
+				'controller' => 'asset',
+				'action' => 'download',
+				'assetId' => $asset->id
+			), 'default', true), null, 'xs');
+		echo ' ';
+		echo $this->buttonLink('<img src="/_media/Icons/picture_delete.png" border="0" title="Delete Asset"> Delete Asset', $this->url(array(
+				'module' => $module,
+				'controller' => 'asset',
+				'action' => 'delete',
+				'assetId' => $asset->id
+			), 'default', true), null, 'xs');
+	echo '</td></tr>';
+}
+?>
+	</tbody>
+</table>
+</div>
+
+<?php
+$this->inlineScript()->appendScript('expdesigner.initTreatmentAssetList();');
+echo $this->inlineScript();

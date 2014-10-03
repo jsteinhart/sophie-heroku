@@ -1,0 +1,132 @@
+<?php
+$phpExcel = new PHPExcel();
+PHPExcel_Shared_File::setUseUploadTempDirectory(true);
+$phpExcel->getProperties()->setTitle("Variable List");
+$excelSheet = $phpExcel->getActiveSheet();
+
+$leadNames = array (
+	'Session',
+	'Stepgroup Label',
+	'Stepgroup Loop',
+	'Group',
+	'Participant',
+);
+
+if (isset($this->participantCodes))
+{
+	$leadNames[] = 'Participant Code';
+}
+
+$headNames = array_merge($leadNames, $this->varNames);
+
+$colIndex = 1;
+$rowIndex = 1;
+
+// Add Header Row
+foreach ($headNames as $value)
+{
+	$colIndex2 = $colIndex - 1;
+	for ($colIndexAlpha = ""; $colIndex2 >= 0; $colIndex2 = intval($colIndex2 / 26) - 1)
+	{
+		$colIndexAlpha = chr($colIndex2 % 26 + 0x41) . $colIndexAlpha;
+	}
+
+//	echo $colIndex . ':' . $rowIndex . "<br />\n";
+//	echo $colIndexAlpha . $rowIndex . ':' . $value . "<br />\n";
+
+	$excelSheet->setCellValue($colIndexAlpha . $rowIndex, $value);
+	$colIndex++;
+}
+
+// Loop Rows
+
+$leadFields = array (
+	'sessionId',
+	'stepgroupLabel',
+	'stepgroupLoop',
+	'groupLabel',
+	'participantLabel',
+);
+if (isset($this->participantCodes))
+{
+	$leadFields[] = 'participantCode';
+}
+
+$fields = array_merge($leadFields, $this->varNames);
+
+foreach ($this->variableRows as $variable)
+{
+	$colIndex = 1;
+	$rowIndex++;
+
+	foreach ($fields as $varName)
+	{
+		//echo $colIndex . ':'. $rowIndex . ' - ' . $varName . "<br />\n";
+
+		if ($varName == 'participantCode')
+		{
+			if ($variable['participantLabel'] != '')
+			{
+				$variable[$varName] = $this->participantCodes[$variable['participantLabel']];
+			}
+		}
+
+		if (isset ($variable[$varName]))
+		{
+			$colIndex2 = $colIndex - 1;
+			for ($colIndexAlpha = ""; $colIndex2 >= 0; $colIndex2 = intval($colIndex2 / 26) - 1)
+			{
+				$colIndexAlpha = chr($colIndex2 % 26 + 0x41) . $colIndexAlpha;
+			}
+
+			if (is_object($variable[$varName]) || is_array($variable[$varName]))
+			{
+				$variable[$varName] = serialize($variable[$varName]);
+			}
+
+			//echo $colIndexAlpha . $rowIndex . ':' . $variable[$varName] . "<br />\n";
+
+			$excelSheet->setCellValue($colIndexAlpha . $rowIndex, $variable[$varName]);
+		}
+		$colIndex++;
+	}
+}
+
+if (isset($this->aggregateRows))
+{
+	foreach ($this->aggregateRows as $aggregateRow => $aggregateRowValues)
+	{
+		$rowIndex++;
+
+		$excelSheet->setCellValue('A' . $rowIndex, $aggregateRow);
+
+		$colIndex = 6;
+		if (isset($this->participantCodes))
+		{
+			$colIndex++;
+		}
+
+		foreach ($this->varNames as $varName)
+		{
+			if (isset ($aggregateRowValues[$varName]))
+			{
+				$colIndex2 = $colIndex - 1;
+				for ($colIndexAlpha = ""; $colIndex2 >= 0; $colIndex2 = intval($colIndex2 / 26) - 1)
+				{
+					$colIndexAlpha = chr($colIndex2 % 26 + 0x41) . $colIndexAlpha;
+				}
+
+				if (is_object($aggregateRowValues[$varName]) || is_array($aggregateRowValues[$varName]))
+				{
+					$aggregateRowValues[$varName] = serialize($aggregateRowValues[$varName]);
+				}
+
+				$excelSheet->setCellValue($colIndexAlpha . $rowIndex, $aggregateRowValues[$varName]);
+			}
+			$colIndex++;
+		}
+	}
+}
+
+$excelWriter = PHPExcel_IOFactory :: createWriter($phpExcel, 'Excel2007');
+$excelWriter->save('php://output');

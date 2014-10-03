@@ -1,0 +1,17 @@
+#SetEnv APPLICATION_ENV production|development
+#SetEnv APPLICATION_CACHE_BACKEND memcache|file|noop
+#SetEnv APPLICATION_SESSION_HANDLER memcache|file
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+
+	RewriteRule ^index\.html$ app.php [nocase,last]
+
+	RewriteCond %{REQUEST_FILENAME} -s 
+	RewriteRule ^.*$ - [nocase,last]
+
+	# activate for mod_status
+	# RewriteCond %{REQUEST_URI} !=/server-status
+	
+	RewriteRule ^.*$ app.php [nocase,last]
+</IfModule>

@@ -1,0 +1,51 @@
+<?php
+$module = 'sysadmin';
+$this->headTitle('System Administration', 'PREPEND');
+$this->headTitle('SoPHIE Steptypes', 'PREPEND');
+$this->headTitle('Refresh', 'PREPEND');
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+?>
+<h1>Refresh SoPHIE Steptypes</h1>
+
+<div>
+Registered Steptype Paths are:
+<ul>
+<?php
+foreach ($this->basepaths as $basepath)
+{
+	echo '<li>';
+	if (!file_exists($basepath) || !is_dir($basepath))
+	{
+	  echo '<b>None existing:</b> ';
+	}
+	echo $this->escape($basepath);
+	echo '</li>';
+}
+?>
+<li>System Default: <?php echo $this->escape($this->defaultBasepath); ?></li>
+</ul>
+</div>
+
+
+<?php echo $this->form; ?>
+
+<?php if (isset($this->results)): ?>
+
+	<hr />
+
+	<table>
+		<tr><th>Messages</th></tr>
+		<?php
+		foreach ($this->results as $result)
+		{
+			echo '<tr>';
+			echo '<td><pre>';
+			echo $this->escape(print_r($result, 1));
+			echo '</pre></td>';
+			echo '</tr>';
+		}
+		?>
+	</table>
+
+<?php endif; ?>

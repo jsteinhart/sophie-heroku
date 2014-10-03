@@ -1,0 +1,59 @@
+<?php
+$module = 'sfwsysadmin';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+
+$this->headTitle('System Administration', 'PREPEND');
+$this->headTitle('Users', 'PREPEND');
+?>
+<h2>User Management</h2>
+
+<div id="actionMainNav">
+	<ul>
+		<li><a href="<?php echo $this->url(array('action'=>'add')); ?>"><img src="/_media/Icons/user_add.png" border="0" alt="Add user" title="Add user"> Add user</a></li>
+		<li><a href="<?php echo $this->url(array('action'=>'message')); ?>"><img src="/_media/Icons/email.png" border="0" alt="Send message" title="Send message"> Send message</a></li>
+	</ul>
+</div>
+
+<div class="table-responsive">
+<table id="userList" class="table table-striped table-hover">
+<thead>
+	<tr>
+		<th>Login</th>
+		<th>Name</th>
+		<th>E-Mail</th>
+		<th>Role</th>
+		<th>Last Login</th>
+		<th>Active</th>
+		<th>Options</th>
+	</tr>
+</thead>
+<tbody>
+<?php foreach ($this->result as $usr): ?>
+	<tr id="userListRow<?php echo $usr['id']?>">
+		<td><?php echo $this->escape($usr['login']); ?></td>
+		<td><?php echo $this->escape($usr['name']); ?></td>
+		<td><?php echo $this->escape($usr['email']); ?></td>
+		<td><?php echo $this->escape($usr['role']); ?></td>
+		<td><?php echo $this->escape($usr['lastLogin']); ?></td>
+
+	<?php if (isset($usr['active'])): ?>
+		<td align="center" id="userListActiveCol<?php echo $usr['id']?>"><?php
+			$active = $this->escape($usr['active']);
+			if ($active == 1) {
+				echo '<a href="javascript:sfwsysadmin.userSetactive(' . $usr['id'] . ', 0)"><img src="/_media/Icons/bullet_green.png" alt="Deactivate User" title="Deactivate User" border="0"></a>';
+			}
+			else
+			{
+				echo '<a href="javascript:sfwsysadmin.userSetactive(' . $usr['id'] . ', 1)"><img src="/_media/Icons/bullet_red.png" alt="Activate User" title="Activate User"  border="0"></a>';
+			}
+			?>
+		</td>
+	<?php endif; ?>
+
+		<td><?php echo '<button class="btn btn-default btn-xs" onclick="window.location.href=\'' . $this->url(array ('action' => 'edit', 'userId' => $usr['id'])) . '\'"><img src="/_media/Icons/user_edit.png" border="0" alt="Edit user" title="Edit user"></button>'; ?>
+		<button class="btn btn-default btn-xs" onclick="sfwsysadmin.userDelete(<?php echo $usr['id']; ?>)"><img src="/_media/Icons/user_delete.png" border="0" alt="Edit step" title="Delete user"></button></td>
+    </tr>
+<?php endforeach; ?>
+</table>
+</div>

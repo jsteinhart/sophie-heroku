@@ -1,0 +1,96 @@
+<?php
+$module = 'expdesigner';
+$this->headLink()->appendStylesheet($this->sfwModuleAssetUrl('module.css', $module));
+$this->inlineScript()->appendFile($this->sfwModuleAssetUrl('module.js', $module));
+$this->headTitle('Experiments', 'PREPEND');
+?>
+<h1>Experiments</h1>
+
+<div id="actionMainNav">
+	<ul>
+		<li><?php
+		echo '<a href="' . $this->url(array (
+			'module' => $module,
+			'controller' => 'experiment',
+			'action' => 'add',
+		), 'default', true) . '"><img src="/_media/Icons/application_add.png" border="0" alt="Add Experiment" title="Add Experiment"> Add Experiment</a>';
+		?></li>
+		<?php if ($this->adminRight): ?>
+		<li class="sub"><?php
+		$title = ($this->adminMode) ? 'Disable Admin Mode' : 'Enable Admin Mode';
+		$icon = ($this->adminMode) ? '/_media/Icons.inactive/key.png' : '/_media/Icons/key.png';
+		echo '<a href="' . $this->url(array (
+			'adminMode' => ($this->adminMode) ? 0 : 1,
+		), 'default') . '"><img src="' . $icon . '" border="0" alt="' . $title . '" title="' . $title . '"> ' . $title . '</a>';
+		?></li>
+		<?php endif; ?>
+		<?php /*
+		<li class="sub"><?php
+		echo '<a href="' . $this->url(array (
+			'module' => $module,
+			'controller' => 'experiment',
+			'action' => 'import',
+		), 'default', true) . '"><img src="/_media/Icons/folder_add.png" border="0" alt="Import Experiment" title="Import Experiment"> Import Experiment</a>';
+		?></li>
+		*/ ?>
+	</ul>
+</div>
+
+<?php
+if (sizeof($this->experiments) == 0)
+{
+	$this->alert('<strong>No experiment found.</strong>
+<p>Please click the corresponding button above to add an experiment.</p>');
+	return;
+}
+
+/*
+<div class="dataTableSearch">
+<form role="form">
+	<div class="input-group">
+		<input type="text" class="form-control">
+		<span>Search</span>
+	</div>
+</form>
+</div> */
+?>
+
+<div class="table-responsive">
+<table id="experimentList" class="table table-striped table-hover">
+<thead>
+	<tr>
+		<th scope="col">Name</th>
+		<th scope="col">Owner</th>
+		<th scope="col">Treatments</th>
+		<th scope="col">Options</th>
+	</tr>
+</thead>
+<tbody>
+<?php
+foreach ($this->experiments as $experiment)
+{
+	echo '<tr data-pk="' . $experiment['id'].'">';
+		echo '<td>' . $this->escape($experiment['name']) . '</td>';
+		echo '<td>' . $this->escape($experiment['ownerName']) . '</td>';
+		echo '<td>' . $this->escape($experiment['treatment_count']) . '</td>';
+		echo '<td>';
+			echo $this->buttonLink('Select', $this->url(array('module' => 'expdesigner', 'controller' => 'treatment', 'action' => 'index', 'experimentId' => $experiment['id']), 'default', 'true'), null, 'xs');
+			echo ' ';
+			echo '<button class="btn btn-default btn-xs expdesignerDeleteExperiment">Delete</button>';
+		echo '</td>';
+	echo '</tr>';
+}
+?>
+</tbody>
+</table>
+</div>
+
+<?php
+$this->jsOnLoad()->appendScript('
+	expdesigner.initExperimentList();
+	/*// add pagination buttons and onclick:
+	var oTable = $(\'#experimentList\').dataTable();
+	oTable.fnPageChange(\'next\');
+	var oTable = $(\'#experimentList\').dataTable();
+	oTable.fnPageChange(\'previous\');*/
+');
