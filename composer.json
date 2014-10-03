@@ -7,8 +7,6 @@
     ],
     "require": {
         "ext-gd": "*",
-        "silex/silex": "~1.1",
-        "monolog/monolog": "~1.7",
         "symfony/process": "2.5.*@dev",
         "symbic/sfw-lib": "~0.0.1",
         "symbic/sfw-mvcmodules-sfwinstaller": "~0.0.1",
